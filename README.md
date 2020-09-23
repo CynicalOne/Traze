@@ -4,7 +4,7 @@ A COVID-19 Contact Tracing Application
 
 ## The Team
 
-Julio
+Julio - https://github.com/juliotraze
 
 Justin
 
