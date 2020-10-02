@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:traze/traze_about_covid.dart';
+import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_screening.dart';
 
@@ -50,8 +51,14 @@ class Home extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => AboutCovid()));
             }),
-            CustomListTile(Icons.account_circle, 'Make an Appointment', () {}),
-            CustomListTile(Icons.wifi, 'Heatmap', () {}),
+            CustomListTile(Icons.account_circle, 'Make an Appointment', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (contect) => Appointment()));
+            }),
+            CustomListTile(Icons.wifi, 'Heatmap', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Home()));
+            }),
             CustomListTile(Icons.account_box, 'Self Screening', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SelfScreening()));
