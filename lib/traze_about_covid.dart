@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_screening.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 
 class AboutCovid extends StatelessWidget {
   @override
@@ -18,9 +21,9 @@ class AboutCovid extends StatelessWidget {
             DrawerHeader(
                 decoration: BoxDecoration(
                     gradient: LinearGradient(colors: <Color>[
-                  Colors.deepOrangeAccent,
-                  Colors.orangeAccent,
-                ])),
+                      Colors.deepOrangeAccent,
+                      Colors.orangeAccent,
+                    ])),
                 child: Container(
                   child: Column(
                     children: <Widget>[
@@ -66,6 +69,87 @@ class AboutCovid extends StatelessWidget {
     );
   }
 }
+
+/*
+Future<Album> fetchAlbum() async {
+  final response =
+  await http.get('https://api.covidtracking.com/v1/us/current.json');
+  final jsonresponse = json.decode(response.body);
+  //Map<String, dynamic> user = jsonDecode(response.body);
+
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return Album.fromJson(jsonresponse);
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load album');
+  }
+}
+
+class Album {
+  final int userId;
+  final int id;
+  final String title;
+
+  Album({this.userId, this.id, this.title});
+
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+      userId: json['userId'],
+      id: json['id'],
+      title: json['title'],
+    );
+  }
+}
+
+class AboutCovid extends StatefulWidget {
+  AboutCovid({Key key}) : super(key: key);
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<AboutCovid> {
+  Future<Album> futureAlbum;
+
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = fetchAlbum();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Fetch Data Example',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Fetch Data Example'),
+        ),
+        body: Center(
+          child: FutureBuilder<Album>(
+            future: futureAlbum,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data.title);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+
+              // By default, show a loading spinner.
+              return CircularProgressIndicator();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}*/
 
 class CustomListTile extends StatelessWidget {
   IconData icon;
