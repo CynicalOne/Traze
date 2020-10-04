@@ -1,17 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:traze/traze_about_covid.dart';
-import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_login.dart';
-import 'package:traze/traze_screening.dart';
 
-class Home extends StatelessWidget {
+import 'package:traze/quiz_pages/quiz_page.dart';
+
+import '../traze_about_covid.dart';
+import '../traze_appointment.dart';
+import '../traze_home.dart';
+
+class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      body: new Material(
+        color: Colors.orangeAccent,
+        child: new InkWell(
+          onTap: () => Navigator.of(context).push(new MaterialPageRoute(
+              builder: (BuildContext context) => new QuizPage())),
+          child: new Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text(
+                'Start your self-screening',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 45.0,
+                    fontWeight: FontWeight.bold),
+              ),
+              new Text(
+                'Tap to Start!',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
-        title: Text('Heat Map'),
+        title: Text('Self Screening'),
         backgroundColor: Colors.deepOrangeAccent,
       ),
       drawer: Drawer(
