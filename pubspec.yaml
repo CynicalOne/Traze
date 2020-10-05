@@ -19,9 +19,11 @@ version: 1.0.0+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.10.0"
 
 dependencies:
-  bluetooth: ^0.1.0
+  flutter_reactive_ble: ^2.5.1
+  provider: ^4.0.4
   flutter:
     sdk: flutter
 
