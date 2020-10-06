@@ -10,7 +10,7 @@ class Appointment extends StatelessWidget {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text('Make an Appointment'),
+        title: Text('About Covid'),
         backgroundColor: Colors.deepOrangeAccent,
       ),
       drawer: Drawer(

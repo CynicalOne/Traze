@@ -8,7 +8,7 @@ Julio - https://github.com/juliotraze
 
 Justin
 
-Kian - [https://github.com/shyguyking]
+Kian
 
 Neal - [https://github.com/CynicalOne]
 
