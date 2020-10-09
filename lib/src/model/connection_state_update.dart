@@ -1,4 +1,4 @@
-import 'package:flutter_reactive_ble/src/model/generic_failure.dart';
+import 'package:traze/src/model/generic_failure.dart';
 import 'package:functional_data/functional_data.dart';
 import 'package:meta/meta.dart';
 

@@ -1,4 +1,4 @@
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:traze/flutter_reactive_ble.dart';
 import 'package:traze/ble/reactive_state.dart';
 
 class BleStatusMonitor implements ReactiveState<BleStatus> {

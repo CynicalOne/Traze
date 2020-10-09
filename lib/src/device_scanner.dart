@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:flutter_reactive_ble/src/plugin_controller.dart';
-import 'package:flutter_reactive_ble/src/rx_ext/repeater.dart';
-import 'package:flutter_reactive_ble/src/rx_ext/serial_disposable.dart';
+import 'package:traze/flutter_reactive_ble.dart';
+import 'package:traze/src/plugin_controller.dart';
+import 'package:traze/src/rx_ext/repeater.dart';
+import 'package:traze/src/rx_ext/serial_disposable.dart';
 import 'package:meta/meta.dart';
 import 'package:pedantic/pedantic.dart';
 

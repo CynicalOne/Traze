@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-//import 'package:flutter_reactive_ble_example/src/ble/ble_scanner.dart';
-import 'package:provider/provider.dart';
+import 'package:traze/flutter_reactive_ble.dart';
 import 'package:traze/ble/ble_scanner.dart';
+import 'package:provider/provider.dart';
 
-import 'package:flutter/widgets.dart';
 import 'package:traze/src/widgets.dart';
 import 'device_detail_screen.dart';
 

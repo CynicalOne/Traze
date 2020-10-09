@@ -1,12 +1,12 @@
 import 'package:collection/collection.dart';
 // ignore: implementation_imports
-import 'package:flutter_reactive_ble/src/device_scanner.dart';
+import 'package:traze/src/device_scanner.dart';
 // ignore: implementation_imports
-import 'package:flutter_reactive_ble/src/model/connection_state_update.dart';
+import 'package:traze/src/model/connection_state_update.dart';
 // ignore: implementation_imports
-import 'package:flutter_reactive_ble/src/plugin_controller.dart';
+import 'package:traze/src/plugin_controller.dart';
 // ignore: implementation_imports
-import 'package:flutter_reactive_ble/src/rx_ext/repeater.dart';
+import 'package:traze/src/rx_ext/repeater.dart';
 import 'package:meta/meta.dart';
 
 import 'discovered_devices_registry.dart';

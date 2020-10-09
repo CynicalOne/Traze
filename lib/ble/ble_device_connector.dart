@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:traze/flutter_reactive_ble.dart';
 import 'package:traze/ble/reactive_state.dart';
 
 class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
@@ -20,8 +20,8 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
       await _connection.cancel();
     }
     _connection = _ble.connectToDevice(id: deviceId).listen(
-      _deviceConnectionController.add,
-    );
+          _deviceConnectionController.add,
+        );
   }
 
   Future<void> disconnect(String deviceId) async {
@@ -46,7 +46,7 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
   Future<void> discoverServices(String deviceId) async {
     await _ble.discoverServices(deviceId).then(
           (value) => print('Services discovered: $value'),
-    );
+        );
   }
 
   Future<void> dispose() async {

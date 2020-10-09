@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_appointment.dart';
+import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_screening.dart';
 
@@ -64,7 +65,10 @@ class Home extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LandingPage()));
             }),
-            CustomListTile(Icons.lock, 'Your Contact Status', () {}),
+            CustomListTile(Icons.lock, 'Your Contact Status', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Bluetooth()));
+            }),
           ],
         ),
       ),

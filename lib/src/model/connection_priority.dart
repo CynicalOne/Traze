@@ -1,5 +1,5 @@
-import 'package:flutter_reactive_ble/src/model/generic_failure.dart';
-import 'package:flutter_reactive_ble/src/model/result.dart';
+import 'package:traze/src/model/generic_failure.dart';
+import 'package:traze/src/model/result.dart';
 
 /// The priority that can be requested to update the connection parameter.
 enum ConnectionPriority {

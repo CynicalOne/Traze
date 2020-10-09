@@ -1,4 +1,4 @@
-import 'package:flutter_reactive_ble/src/model/log_level.dart';
+import 'package:traze/src/model/log_level.dart';
 
 class DebugLogger {
   DebugLogger(

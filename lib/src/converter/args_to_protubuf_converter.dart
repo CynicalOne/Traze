@@ -1,6 +1,6 @@
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:flutter_reactive_ble/src/generated/bledata.pb.dart' as pb;
-import 'package:flutter_reactive_ble/src/model/uuid.dart';
+import 'package:traze/flutter_reactive_ble.dart';
+import 'package:traze/src/generated/bledata.pb.dart' as pb;
+import 'package:traze/src/model/uuid.dart';
 import 'package:meta/meta.dart';
 
 class ArgsToProtobufConverter {

@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:flutter_reactive_ble/src/model/uuid.dart';
+import 'package:traze/flutter_reactive_ble.dart';
+import 'package:traze/src/model/uuid.dart';
 import 'package:functional_data/functional_data.dart';
 import 'package:meta/meta.dart';
 

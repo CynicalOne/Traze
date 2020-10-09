@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+
+import 'package:traze/flutter_reactive_ble.dart';
 import 'package:traze/ble/ble_device_connector.dart';
 import 'package:traze/ble/ble_scanner.dart';
 import 'package:traze/ble/ble_status_monitor.dart';
@@ -7,7 +8,7 @@ import 'package:traze/UI/ble_status_screen.dart';
 import 'package:traze/UI//device_list.dart';
 import 'package:provider/provider.dart';
 import 'package:traze/traze_home.dart';
-import 'package:flutter/material.dart';
+
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_appointment.dart';

@@ -1,6 +1,6 @@
-import 'package:flutter_reactive_ble/src/model/generic_failure.dart';
-import 'package:flutter_reactive_ble/src/model/qualified_characteristic.dart';
-import 'package:flutter_reactive_ble/src/model/result.dart';
+import 'package:traze/src/model/generic_failure.dart';
+import 'package:traze/src/model/qualified_characteristic.dart';
+import 'package:traze/src/model/result.dart';
 import 'package:meta/meta.dart';
 
 /// Value update for specific [QualifiedCharacteristic].

@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:traze/flutter_reactive_ble.dart';
 import 'package:traze/ble/reactive_state.dart';
 import 'package:meta/meta.dart';
 
@@ -7,7 +7,8 @@ class BleScanner implements ReactiveState<BleScannerState> {
   BleScanner(this._ble);
 
   final FlutterReactiveBle _ble;
-  final StreamController<BleScannerState> _stateStreamController = StreamController();
+  final StreamController<BleScannerState> _stateStreamController =
+      StreamController();
 
   final _devices = <DiscoveredDevice>[];
 
@@ -17,9 +18,10 @@ class BleScanner implements ReactiveState<BleScannerState> {
   void startScan(List<Uuid> serviceIds) {
     _devices.clear();
     _subscription?.cancel();
-    _subscription = _ble.scanForDevices(withServices: serviceIds).listen((device) {
+    _subscription =
+        _ble.scanForDevices(withServices: serviceIds).listen((device) {
       final knownDeviceIndex = _devices.indexWhere((d) => d.id == device.id);
-      if(knownDeviceIndex >= 0) {
+      if (knownDeviceIndex >= 0) {
         _devices[knownDeviceIndex] = device;
       } else {
         _devices.add(device);
@@ -38,18 +40,17 @@ class BleScanner implements ReactiveState<BleScannerState> {
     );
   }
 
-  Future<void> stopScan() async{
+  Future<void> stopScan() async {
     await _subscription?.cancel();
     _subscription = null;
     _pushState();
   }
 
-  Future<void> dispose() async{
+  Future<void> dispose() async {
     await _stateStreamController.close();
   }
 
   StreamSubscription _subscription;
-
 }
 
 @immutable

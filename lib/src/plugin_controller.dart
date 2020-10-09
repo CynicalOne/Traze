@@ -1,11 +1,12 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:flutter_reactive_ble/src/converter/args_to_protubuf_converter.dart';
-import 'package:flutter_reactive_ble/src/debug_logger.dart';
-import 'package:flutter_reactive_ble/src/model/uuid.dart';
-import 'package:flutter_reactive_ble/src/model/write_characteristic_info.dart';
+import 'package:traze/flutter_reactive_ble.dart';
+import 'package:traze/src/converter/args_to_protubuf_converter.dart';
+import 'package:traze/src/debug_logger.dart';
+import 'package:traze/src/model/uuid.dart';
+import 'package:traze/src/model/write_characteristic_info.dart';
 import 'package:meta/meta.dart';
 
+import '../flutter_reactive_ble.dart';
 import 'converter/protobuf_converter.dart';
 import 'model/characteristic_value.dart';
 import 'model/clear_gatt_cache_error.dart';
