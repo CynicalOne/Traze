@@ -4,6 +4,7 @@ import 'package:traze/quiz_pages/quiz_page.dart';
 
 import '../traze_about_covid.dart';
 import '../traze_appointment.dart';
+import '../traze_bluetooth.dart';
 import '../traze_home.dart';
 
 class LandingPage extends StatelessWidget {
@@ -92,7 +93,10 @@ class LandingPage extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LandingPage()));
             }),
-            CustomListTile(Icons.lock, 'Your Contact Status', () {}),
+            CustomListTile(Icons.account_box, 'Self Screening', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Bluetooth()));
+            }),
           ],
         ),
       ),
