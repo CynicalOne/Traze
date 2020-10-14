@@ -1,32 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
-import 'package:provider/provider.dart';
+import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/src/ble/ble_device_connector.dart';
 import 'package:traze/src/ble/ble_scanner.dart';
 import 'package:traze/src/ble/ble_status_monitor.dart';
+import 'package:traze/src/ui/ble_status_screen.dart';
+import 'package:traze/src/ui/device_list.dart';
+import 'package:provider/provider.dart';
 import 'package:traze/traze_about_covid.dart';
-import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_appointment.dart';
+import 'package:traze/traze_home.dart';
 
-import 'package:traze/traze_login.dart';
-import 'package:traze/traze_screening.dart';
 const _themeColor = Colors.lightGreen;
+
+final _ble = FlutterReactiveBle();
+final _scanner = BleScanner(_ble);
+final _monitor = BleStatusMonitor(_ble);
+final _connector = BleDeviceConnector(_ble);
+
 class Bluetooth extends StatelessWidget {
-
-
-
-
-  @override
-  WidgetsFlutterBinding.ensureInitialized();
-
-  final _ble = FlutterReactiveBle();
-  final _scanner = BleScanner(_ble);
-  final _monitor = BleStatusMonitor(_ble);
-  final _connector = BleDeviceConnector(_ble);
+  //WidgetsFlutterBinding.ensureInitialized();
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      body:  MultiProvider(
+      appBar: AppBar(
+        title: Text('Heat Map'),
+        backgroundColor: Colors.deepOrangeAccent,
+      ),
+      body: MultiProvider(
         providers: [
           Provider.value(value: _scanner),
           Provider.value(value: _monitor),
@@ -57,10 +58,6 @@ class Bluetooth extends StatelessWidget {
           theme: ThemeData(primarySwatch: _themeColor),
           home: HomeScreen(),
         ),
-      ),
-      appBar: AppBar(
-        title: Text('Heat Map'),
-        backgroundColor: Colors.deepOrangeAccent,
       ),
       drawer: Drawer(
         child: ListView(
@@ -114,13 +111,26 @@ class Bluetooth extends StatelessWidget {
             }),
             CustomListTile(Icons.account_box, 'Self Screening', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LandingPage()));
+                  MaterialPageRoute(builder: (context) => Bluetooth()));
             }),
           ],
         ),
       ),
     );
   }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Consumer<BleStatus>(
+        builder: (_, status, __) {
+          if (status == BleStatus.ready) {
+            return DeviceListScreen();
+          } else {
+            return BleStatusScreen(status: status);
+          }
+        },
+      );
 }
 
 class CustomListTile extends StatelessWidget {
