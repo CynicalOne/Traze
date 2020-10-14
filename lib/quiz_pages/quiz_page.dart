@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '../utils/questions.dart';
 import '../utils/quiz.dart';
-import '../UI/answer_button.dart';
-import '../UI/question_text.dart';
+
+import 'package:traze/src/UI/answer_button.dart';
+import 'package:traze/src/UI/question_text.dart';
 
 import 'package:traze/quiz_pages/score_page.dart';
 
