@@ -18,13 +18,29 @@ final _scanner = BleScanner(_ble);
 final _monitor = BleStatusMonitor(_ble);
 final _connector = BleDeviceConnector(_ble);
 
-class Bluetooth extends StatelessWidget {
-  //WidgetsFlutterBinding.ensureInitialized();
+class Bluetooth extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return BluetoothState();
+  }
+}
+
+class BluetoothState extends State<Bluetooth> {
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         title: Text('Heat Map'),
+        leading: MaterialButton(
+          onPressed: () {
+            Navigator.pop(context, _ble);
+          },
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Colors.deepOrangeAccent,
       ),
       body: MultiProvider(
@@ -57,63 +73,6 @@ class Bluetooth extends StatelessWidget {
           color: _themeColor,
           theme: ThemeData(primarySwatch: _themeColor),
           home: HomeScreen(),
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            DrawerHeader(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: <Color>[
-                  Colors.deepOrangeAccent,
-                  Colors.orangeAccent,
-                ])),
-                child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      Material(
-                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        elevation: 10.0,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'images/Transparent_Waze.png',
-                            width: 80,
-                            height: 80,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Traze',
-                          style: TextStyle(color: Colors.white, fontSize: 20.0),
-                        ),
-                      )
-                    ],
-                  ),
-                )),
-            CustomListTile(Icons.person, 'About Covid', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutCovid()));
-            }),
-            CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Appointment()));
-            }),
-            CustomListTile(Icons.wifi, 'Heatmap', () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
-            }),
-            CustomListTile(Icons.account_box, 'Self Screening', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LandingPage()));
-            }),
-            CustomListTile(Icons.account_box, 'Self Screening', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Bluetooth()));
-            }),
-          ],
         ),
       ),
     );
