@@ -21,7 +21,6 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  bluetooth: ^0.1.0
   flutter:
     sdk: flutter
 
