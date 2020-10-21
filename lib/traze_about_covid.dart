@@ -4,6 +4,7 @@ import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_login.dart';
+import 'package:traze/traze_home.dart';
 import 'package:traze/traze_screening.dart';
 
 class AboutCovid extends StatelessWidget {

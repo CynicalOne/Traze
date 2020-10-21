@@ -4,11 +4,11 @@ A COVID-19 Contact Tracing Application
 
 ## The Team
 
-Julio
+Julio - https://github.com/juliotraze
 
 Justin
 
-Kian
+Kian - [https://github.com/shyguyking]
 
 Neal - [https://github.com/CynicalOne]
 
