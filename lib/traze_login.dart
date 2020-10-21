@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:traze/traze_home.dart';
-import './UI/custom_input_field.dart';
-import 'UI/background_circle.dart';
+
+import 'src/UI/custom_input_field.dart';
+import 'src/UI/background_circle.dart';
 
 class LogIn extends StatelessWidget {
   @override
