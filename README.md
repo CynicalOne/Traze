@@ -6,7 +6,7 @@ A COVID-19 Contact Tracing Application
 
 Julio - https://github.com/juliotraze
 
-Justin
+Justin - [https://github.com/hjk-11]
 
 Kian - [https://github.com/shyguyking]
 
