@@ -24,4 +24,16 @@ class ProximityId {
         "datetime": datetime,
         "proximityid": proximityid,
       };
+
+  String getproxidstring() {
+    return this.proximityid;
+  }
+
+  int getproxidid() {
+    return this.id;
+  }
+
+  int getproxiddatetime() {
+    return this.datetime;
+  }
 }

@@ -6,6 +6,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:traze/Persistence/proximity.dart';
 import 'package:sqflite/sqflite.dart';
 
+// import 'proximity.dart';
+
 class ProximityDatabaseProvider {
   ProximityDatabaseProvider._();
 
@@ -33,7 +35,7 @@ class ProximityDatabaseProvider {
 
   Future<List<ProximityId>> getAllProximityIds() async {
     final db = await database;
-    var res = await db.query("ProxmityId");
+    var res = await db.query("ProximityId");
     List<ProximityId> list = res.map((c) => ProximityId.fromMap(c)).toList();
     return list;
   }
@@ -42,6 +44,24 @@ class ProximityDatabaseProvider {
     final db = await database;
     var res = await db.query("Proximity", where: "id = ?", whereArgs: [id]);
     return res.isNotEmpty ? ProximityId.fromMap(res.first) : null;
+  }
+
+  /* for testing */
+  void testPrintProxIDText(int id) async {
+    final db = await database;
+    var res = await db.query("Proximity", where: "id = ?", whereArgs: [id]);
+    List<ProximityId> idlist = [];
+    if (res.length > 0) {
+      for (int i = 0;  i < res.length; i++) {
+        idlist.add(ProximityId.fromMap(res[i]));
+      }
+      for (int j = 0; j < res.length; j++) {
+        print("the id in the database is: ");
+        print(idlist[j].getproxidstring());
+        print("\n");
+      }
+    }
+    return;
   }
 
   addProximityId(ProximityId pi) async {
@@ -63,4 +83,5 @@ class ProximityDatabaseProvider {
     final db = await database;
     db.delete("ProximityId");
   }
+
 }
