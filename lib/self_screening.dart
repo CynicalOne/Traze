@@ -1,12 +1,10 @@
 class Symptoms {
-  List<Symptom> _symptoms;
+  List<String> _symptoms;
 
   Symptoms.initializeSymptoms() {
-    _symptoms = List<Symptom>();
-
-    _symptoms.add(Symptom(('Fever or chills')));
+    _symptoms = List<String>();
   }
-  List<Symptom> get getSymptoms => _symptoms;
+  List<String> get getString => _symptoms;
 }
 
 class Symptom {

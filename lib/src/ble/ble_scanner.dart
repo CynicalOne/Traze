@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:traze/src/ble/reactive_state.dart';
 import 'package:meta/meta.dart';
-import 'package:traze/self_screening.dart';
 
 class BleScanner implements ReactiveState<BleScannerState> {
   BleScanner(this._ble);
@@ -12,7 +11,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
       StreamController();
 
   final _devices = <DiscoveredDevice>[];
-  final _ourUUID = <Symptom>[];
+  final _ourUUID = <String>[];
 
   @override
   Stream<BleScannerState> get state => _stateStreamController.stream;
@@ -27,9 +26,9 @@ class BleScanner implements ReactiveState<BleScannerState> {
         _devices[knownDeviceIndex] = device;
       } else {
         _devices.add(device);
-        _ourUUID.add(device.id.);
-        print('device uuid');
-        print(device.name);
+        _ourUUID.add(device.id);
+        print('uuid list');
+        print(_ourUUID);
       }
       _pushState();
     });

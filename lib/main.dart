@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_screening.dart';
 
 import 'traze_home.dart';
