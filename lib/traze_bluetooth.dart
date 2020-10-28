@@ -31,7 +31,7 @@ class BluetoothState extends State<Bluetooth> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Heat Map'),
+        title: Text('Scan For Devices'),
         leading: MaterialButton(
           onPressed: () {
             Navigator.pop(context, _ble);

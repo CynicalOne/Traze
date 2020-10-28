@@ -3,7 +3,9 @@ import 'package:traze/traze_about_covid.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_bluetooth.dart';
+import 'package:traze/traze_broadcast.dart';
 import 'package:traze/traze_login.dart';
+import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_screening.dart';
 
 class Home extends StatelessWidget {
@@ -55,20 +57,27 @@ class Home extends StatelessWidget {
             }),
             CustomListTile(Icons.account_circle, 'Make an Appointment', () {
               Navigator.push(context,
-
                   MaterialPageRoute(builder: (context) => Appointment()));
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Home()));
             }),
-            CustomListTile(Icons.account_box, 'Self Screening', () {
+            CustomListTile(Icons.check, 'Self Screening', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LandingPage()));
             }),
-            CustomListTile(Icons.account_box, 'Self Screening', () {
+            CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Bluetooth()));
+            }),
+            CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Broadcast()));
+            }),
+            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PositiveScan()));
             }),
           ],
         ),

@@ -58,6 +58,7 @@ class _DeviceListState extends State<_DeviceList> {
     } else {
       try {
         Uuid.parse(uuidText);
+
         return true;
       } on Exception {
         return false;
@@ -142,6 +143,7 @@ class _DeviceListState extends State<_DeviceList> {
                     .map(
                       (device) => ListTile(
                         title: Text(device.name),
+                        //device.id = uuid
                         subtitle: Text("${device.id}\nRSSI: ${device.rssi}"),
                         leading: const BluetoothIcon(),
                         onTap: () async {

@@ -11,6 +11,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
       StreamController();
 
   final _devices = <DiscoveredDevice>[];
+  final _ourUUID = <String>[];
 
   @override
   Stream<BleScannerState> get state => _stateStreamController.stream;
@@ -25,6 +26,9 @@ class BleScanner implements ReactiveState<BleScannerState> {
         _devices[knownDeviceIndex] = device;
       } else {
         _devices.add(device);
+        _ourUUID.add(device.id);
+        print('uuid list');
+        print(_ourUUID);
       }
       _pushState();
     });
