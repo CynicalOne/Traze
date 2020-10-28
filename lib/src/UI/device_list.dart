@@ -58,6 +58,7 @@ class _DeviceListState extends State<_DeviceList> {
     } else {
       try {
         Uuid.parse(uuidText);
+
         return true;
       } on Exception {
         return false;
