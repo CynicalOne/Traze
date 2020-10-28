@@ -6,6 +6,7 @@ import '../traze_about_covid.dart';
 import '../traze_appointment.dart';
 import '../traze_bluetooth.dart';
 import '../traze_home.dart';
+import '../traze_positive_scan.dart';
 
 class LandingPage extends StatelessWidget {
   @override
@@ -96,6 +97,10 @@ class LandingPage extends StatelessWidget {
             CustomListTile(Icons.account_box, 'Self Screening', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Bluetooth()));
+            }),
+            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PositiveScan()));
             }),
           ],
         ),

@@ -5,6 +5,7 @@ import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_home.dart';
+import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_screening.dart';
 
 class AboutCovid extends StatelessWidget {
@@ -69,6 +70,10 @@ class AboutCovid extends StatelessWidget {
             CustomListTile(Icons.account_box, 'Self Screening', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Bluetooth()));
+            }),
+            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PositiveScan()));
             }),
           ],
         ),
