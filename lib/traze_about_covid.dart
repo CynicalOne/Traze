@@ -59,6 +59,7 @@ class AboutCovid extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Appointment()));
             }),
+
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Home()));

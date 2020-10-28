@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "434131528484",
+    "firebase_url": "https://traze-afefe.firebaseio.com",
+    "project_id": "traze-afefe",
+    "storage_bucket": "traze-afefe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434131528484:android:59ed8099c38ddcc75e21b1",
+        "android_client_info": {
+          "package_name": "com.example.traze"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434131528484-suq37vq2p0nnq6464fjvvp0n3qb1d8tp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyOoHMD8tu_1uCoMMoH-NQVV_ltVBrTOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434131528484-suq37vq2p0nnq6464fjvvp0n3qb1d8tp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
