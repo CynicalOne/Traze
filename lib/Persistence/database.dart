@@ -101,7 +101,8 @@ class ProximityDatabaseProvider {
           .collection("positiveuuids")
           .where("uuid", isEqualTo: localString)
           .get();
-      if (result.exists) {
+      List<DocumentSnapshot> documents = result.docs;
+      if (documents.isEmpty) {
         return Future.value(true);
       }
     }
