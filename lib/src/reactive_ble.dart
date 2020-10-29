@@ -18,7 +18,7 @@ import 'package:flutter_reactive_ble/src/model/uuid.dart';
 import 'package:flutter_reactive_ble/src/plugin_controller.dart';
 import 'package:flutter_reactive_ble/src/rx_ext/repeater.dart';
 import 'package:meta/meta.dart';
-
+import 'package:flutter_reactive_ble/src/model/discovered_service.dart';
 import 'model/discovered_services.dart';
 
 /// [FlutterReactiveBle] is the facade of the library. Its interface allows to
