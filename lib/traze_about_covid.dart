@@ -3,6 +3,7 @@ import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_home.dart';
+import 'package:traze/traze_negative_scan.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_positive_scan.dart';
@@ -72,9 +73,9 @@ class AboutCovid extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Bluetooth()));
             }),
-            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+            CustomListTile(Icons.clear, 'Scan Message', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PositiveScan()));
+                  MaterialPageRoute(builder: (context) => NegativeScan()));
             }),
           ],
         ),

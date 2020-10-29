@@ -5,6 +5,7 @@ import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_positive_scan.dart';
+import 'package:traze/traze_negative_scan.dart';
 import 'package:traze/traze_screening.dart';
 
 class Appointment extends StatelessWidget {
@@ -70,9 +71,9 @@ class Appointment extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Bluetooth()));
             }),
-            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+            CustomListTile(Icons.clear, 'Scan Message', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PositiveScan()));
+                  MaterialPageRoute(builder: (context) => NegativeScan()));
             }),
           ],
         ),

@@ -7,6 +7,7 @@ import '../traze_appointment.dart';
 import '../traze_bluetooth.dart';
 import '../traze_home.dart';
 import '../traze_positive_scan.dart';
+import 'package:traze/traze_broadcast.dart';
 
 class LandingPage extends StatelessWidget {
   @override
@@ -90,15 +91,19 @@ class LandingPage extends StatelessWidget {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Home()));
             }),
-            CustomListTile(Icons.account_box, 'Self Screening', () {
+            CustomListTile(Icons.check, 'Self Screening', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LandingPage()));
             }),
-            CustomListTile(Icons.account_box, 'Self Screening', () {
+            CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Bluetooth()));
             }),
-            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+            CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Broadcast()));
+            }),
+            CustomListTile(Icons.clear, 'Scan Message', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PositiveScan()));
             }),
