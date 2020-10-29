@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:traze/src/ble/reactive_state.dart';
 import 'package:meta/meta.dart';
@@ -8,6 +10,7 @@ import 'package:traze/Persistence/database.dart';
 
 import '../../Persistence/database.dart';
 import '../../Persistence/database.dart';
+import '../../traze_positive_scan.dart';
 
 class BleScanner implements ReactiveState<BleScannerState> {
   BleScanner(this._ble);
@@ -18,10 +21,13 @@ class BleScanner implements ReactiveState<BleScannerState> {
 
   final _devices = <DiscoveredDevice>[];
   final _ourUUID = <String>[];
-  final ProximityDatabaseProvider pdp;
+
+  ProximityDatabaseProvider pdp;
 
   @override
   Stream<BleScannerState> get state => _stateStreamController.stream;
+
+  BuildContext get context => null;
 
   void startScan(List<Uuid> serviceIds) {
     _devices.clear();
@@ -35,9 +41,18 @@ class BleScanner implements ReactiveState<BleScannerState> {
         _devices.add(device);
         _ourUUID.add(device.id);
         // adding _ourUUID into the local database
-        for (var i=0; i < _ourUUID.length; i++) {
-          pdp.addProximityId(new ProximityId(id: 0, datetime: 0, proximityid: _ourUUID[i]));
+        for (var i = 0; i < _ourUUID.length; i++) {
+          pdp.addProximityId(
+              new ProximityId(id: 0, datetime: 0, proximityid: _ourUUID[i]));
         }
+        pdp.foundMatch() == true
+            ? Navigator.push(context,
+                MaterialPageRoute(builder: (context) => PositiveScan()))
+            : Text(
+                'dont navigate',
+                style: new TextStyle(color: Colors.white, fontSize: 20.0),
+                textAlign: TextAlign.center,
+              );
         print('uuid list');
         print(_ourUUID);
       }
@@ -66,10 +81,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
   }
 
   StreamSubscription _subscription;
-
-
 }
-
 
 @immutable
 class BleScannerState {
@@ -80,5 +92,4 @@ class BleScannerState {
 
   final List<DiscoveredDevice> discoveredDevices;
   final bool scanIsInProgress;
-
 }

@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:traze/Persistence/proximity.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:traze/quiz_pages/landing_page.dart';
 
 import 'package:traze/src/ble/ble_scanner.dart';
 
@@ -13,9 +15,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'proximity.dart';
 import 'proximity.dart';
 
-
-
-
 class ProximityDatabaseProvider {
   ProximityDatabaseProvider._();
 
@@ -23,7 +22,6 @@ class ProximityDatabaseProvider {
   Database _database;
 
   final firestoreInstance = FirebaseFirestore.instance;
-
 
   Future<Database> get database async {
     if (_database != null) return _database;
@@ -36,12 +34,12 @@ class ProximityDatabaseProvider {
     String path = join(directory.path, "proximity.db");
     return await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
-          await db.execute("CREATE TABLE ProximityId ("
-              "id integer primary key AUTOINCREMENT,"
-              "datetime integer,"
-              "proximityid TEXT"
-              ")");
-        });
+      await db.execute("CREATE TABLE ProximityId ("
+          "id integer primary key AUTOINCREMENT,"
+          "datetime integer,"
+          "proximityid TEXT"
+          ")");
+    });
   }
 
   Future<List<ProximityId>> getAllProximityIds() async {
@@ -78,9 +76,9 @@ class ProximityDatabaseProvider {
   addProximityId(ProximityId pi) async {
     final db = await database;
     var raw = await db.insert(
-        "ProximityId",
-        pi.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
+      "ProximityId",
+      pi.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
     return raw;
   }
@@ -95,10 +93,9 @@ class ProximityDatabaseProvider {
     db.delete("ProximityId");
   }
 
-
   Future<bool> compareData() async {
     List<ProximityId> encounters = getAllProximityIds() as List;
-    for(var i=0; i < encounters.length; i++) {
+    for (var i = 0; i < encounters.length; i++) {
       var localString = encounters[i].getproxidstring();
       var result = await firestoreInstance
           .collection("positiveuuids")
@@ -133,7 +130,7 @@ class ProximityDatabaseProvider {
   }
    */
 
-    /*
+  /*
     Future<bool> compareData() async {
         var result = await firestoreInstance
             .collection("positiveuuids")
@@ -167,7 +164,5 @@ class ProximityDatabaseProvider {
     });
   }
    */
-
-
 
 }
