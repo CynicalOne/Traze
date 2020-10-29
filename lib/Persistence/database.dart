@@ -6,13 +6,24 @@ import 'package:path_provider/path_provider.dart';
 import 'package:traze/Persistence/proximity.dart';
 import 'package:sqflite/sqflite.dart';
 
-// import 'proximity.dart';
+import 'package:traze/src/ble/ble_scanner.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'proximity.dart';
+import 'proximity.dart';
+
+
+
 
 class ProximityDatabaseProvider {
   ProximityDatabaseProvider._();
 
   static final ProximityDatabaseProvider db = ProximityDatabaseProvider._();
   Database _database;
+
+  final firestoreInstance = FirebaseFirestore.instance;
+
 
   Future<Database> get database async {
     if (_database != null) return _database;
@@ -47,7 +58,7 @@ class ProximityDatabaseProvider {
   }
 
   /* for testing */
-  void testPrintProxIDText(int id) async {
+  /*void testPrintProxIDText(int id) async {
     final db = await database;
     var res = await db.query("Proximity", where: "id = ?", whereArgs: [id]);
     List<ProximityId> idlist = [];
@@ -62,14 +73,14 @@ class ProximityDatabaseProvider {
       }
     }
     return;
-  }
+  }*/
 
   addProximityId(ProximityId pi) async {
     final db = await database;
     var raw = await db.insert(
         "ProximityId",
         pi.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace
+        conflictAlgorithm: ConflictAlgorithm.replace,
     );
     return raw;
   }
@@ -83,5 +94,80 @@ class ProximityDatabaseProvider {
     final db = await database;
     db.delete("ProximityId");
   }
+
+
+  Future<bool> compareData() async {
+    List<ProximityId> encounters = getAllProximityIds() as List;
+    for(var i=0; i < encounters.length; i++) {
+      var localString = encounters[i].getproxidstring();
+      var result = await firestoreInstance
+          .collection("positiveuuids")
+          .where("uuid", isEqualTo: localString)
+          .get();
+      if (result.exists) {
+        return Future.value(true);
+      }
+    }
+    return Future.value(false);
+  }
+
+  bool foundMatch() {
+    bool foundMatch = compareData() as bool;
+    return foundMatch;
+  }
+
+  /*
+  bool compareData2() {
+    List<ProximityId> encounters = getAllProximityIds() as List;
+    for(var i=0; i < encounters.length; i++) {
+      var localString = encounters[i].getproxidstring();
+      var docRef = firestoreInstance.collection("positiveuuids").where(
+          "uuid", isEqualTo: localString);
+      docRef.get().then((querySnapshot) {
+        if (querySnapshot.exists) {
+          return true;
+        }
+      });
+    }
+    return false;
+  }
+   */
+
+    /*
+    Future<bool> compareData() async {
+        var result = await firestoreInstance
+            .collection("positiveuuids")
+            .where("uuid", isEqualTo: "34:35:CC:14:06:31")
+            .get();
+        if (result.exists) {
+          return Future.value(true);
+        } else {
+          return Future.value(false);
+        }
+      }
+     */
+
+  /*
+  bool compareData() {
+    firestoreInstance.collection("positiveuuids").where("uuid", isEqualTo: "34:35:CC:14:06:31").get().then((querySnapshot) {
+      querySnapshot.exists ?
+    });
+  }
+ */
+
+  /*
+  bool compareData() {
+    var docRef = firestoreInstance.collection("positiveuuids").where("uuid", isEqualTo: "34:35:CC:14:06:31");
+    docRef.get().then((querySnapshot){
+      if (querySnapshot.exists) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+   */
+
+
 
 }
