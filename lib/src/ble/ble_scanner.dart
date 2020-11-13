@@ -37,6 +37,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
       final knownDeviceIndex = _devices.indexWhere((d) => d.id == device.id);
       if (knownDeviceIndex >= 0) {
         _devices[knownDeviceIndex] = device;
+        print('julio');
       } else {
         _devices.add(device);
         _ourUUID.add(device.id);

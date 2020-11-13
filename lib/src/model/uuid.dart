@@ -11,7 +11,8 @@ class Uuid {
 
   factory Uuid.parse(String string) {
     final data = Uint8List(16);
-
+    print('printing data');
+    print(Uuid);
     var byteOffset = 0;
     for (var substringStart = 0; substringStart < string.length;) {
       if (string[substringStart] == "-") {

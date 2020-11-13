@@ -2,18 +2,23 @@ import 'dart:async';
 
 import 'package:traze/beacon_broadcast.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/UUID/uuid.dart';
+import 'package:traze/UUID/uuid_util.dart';
 
 class Broadcast extends StatefulWidget {
   @override
   _BroadcastState createState() => _BroadcastState();
 }
 
+//var uuid = Uuid();
+
 class _BroadcastState extends State<Broadcast> {
-  static const UUID = '39ED98FF-2900-441A-802F-9C398FC199D2';
+  // Generate a v4 (random) id
+  static var UUID = Uuid().v5(Uuid.NAMESPACE_URL, 'traze signal');
   static const MAJOR_ID = 1;
   static const MINOR_ID = 100;
   static const TRANSMISSION_POWER = -59;
-  static const IDENTIFIER = 'com.example.myDeviceRegion';
+  static const IDENTIFIER = 'traze signal';
   static const LAYOUT = BeaconBroadcast.ALTBEACON_LAYOUT;
   static const MANUFACTURER_ID = 0x0118;
 
