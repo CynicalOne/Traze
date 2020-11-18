@@ -1,20 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:traze/quiz_pages/landing_page.dart';
+import 'package:traze/thank_you_page.dart';
 import 'package:traze/traze_about_covid.dart';
+import 'package:traze/quiz_pages/landing_page.dart';
+import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_bluetooth.dart';
+import 'package:traze/traze_broadcast.dart';
 import 'package:traze/traze_home.dart';
-import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_screening.dart';
+import 'src/UI/custom_input_field.dart';
 
-class Appointment extends StatelessWidget {
+class TestID extends StatelessWidget {
+  TextEditingController _uuidController;
+
+  bool _isValidUuidInput() {
+    final uuidText = _uuidController.text;
+    if (uuidText.isEmpty) {
+      return true;
+    } else {
+      try {
+        return true;
+      } on Exception {
+        return false;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      backgroundColor: Colors.orangeAccent,
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            Center(
+              child: Container(
+                width: 400,
+                height: 400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Material(
+                      elevation: 10.0,
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'images/Transparent_Waze.png',
+                          width: 90,
+                          height: 90,
+                        ),
+                      ),
+                    ),
+                    CustomInputField(
+                        Icon(Icons.assignment, color: Colors.white),
+                        'Enter your Test ID'),
+                    Container(
+                      width: 150,
+                      child: RaisedButton(
+                        //link to other page when pressed
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ThankYou()));
+                        },
+                        color: Colors.orange,
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                        child: Text(
+                          'Enter',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            'By clicking Submit you agree that the information displayed above is correct to the best of your knowledge ',
+                            style: TextStyle(fontSize: 12.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
-        title: Text('About Covid'),
+        title: Text('Test ID'),
         backgroundColor: Colors.deepOrangeAccent,
       ),
       drawer: Drawer(
@@ -63,13 +146,17 @@ class Appointment extends StatelessWidget {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Home()));
             }),
-            CustomListTile(Icons.account_box, 'Self Screening', () {
+            CustomListTile(Icons.check, 'Self Screening', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LandingPage()));
             }),
-            CustomListTile(Icons.account_box, 'Self Screening', () {
+            CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Bluetooth()));
+            }),
+            CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Broadcast()));
             }),
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,

@@ -3,6 +3,7 @@ import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_home.dart';
+import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_positive_scan.dart';
@@ -59,7 +60,6 @@ class AboutCovid extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Appointment()));
             }),
-
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Home()));
@@ -75,6 +75,10 @@ class AboutCovid extends StatelessWidget {
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PositiveScan()));
+            }),
+            CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => TestID()));
             }),
           ],
         ),

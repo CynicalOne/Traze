@@ -94,9 +94,11 @@ class _DeviceDetail extends StatelessWidget {
                       child: RaisedButton(
                         onPressed: () {
                           // Do something
-                          //`connect(device.id);
-                          discoverServices(device.id);
+                          connect(device.id);
+                          //discoverServices(device.id);
                           print("what i print is bellow");
+                          print(device.id);
+                          print(device.serviceData.values.toString().isEmpty);
                           //var _list = device.serviceData.values.toList();
                           //var _list2 = device.serviceData.entries.toList();
                           var _list3 = DiscoveredService$.characteristicIds;
