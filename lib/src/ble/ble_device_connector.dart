@@ -17,11 +17,16 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
 
   Future<void> connect(String deviceId) async {
     if (_connection != null) {
+      print('right after if statement');
+      print(_connection);
       await _connection.cancel();
     }
     _connection = _ble.connectToDevice(id: deviceId).listen(
           _deviceConnectionController.add,
         );
+    print('ble_device_connector "printing list here "');
+    //var _list = _ble.characteristicValueStream.toList();
+    //var _list = DiscoveredService$.characteristicIds.get;
   }
 
   Future<void> disconnect(String deviceId) async {
@@ -51,5 +56,6 @@ class BleDeviceConnector extends ReactiveState<ConnectionStateUpdate> {
 
   Future<void> dispose() async {
     await _deviceConnectionController.close();
+    print('after dispose');
   }
 }

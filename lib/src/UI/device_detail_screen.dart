@@ -1,8 +1,10 @@
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:sqflite/utils/utils.dart';
 import 'package:traze/src/ble/ble_device_connector.dart';
 import 'package:provider/provider.dart';
-import 'package:traze/src/ble/ble_device_connector.dart';
+import 'package:traze/src/model/uuid.dart';
 
 class DeviceDetailScreen extends StatelessWidget {
   final DiscoveredDevice device;
@@ -58,6 +60,7 @@ class _DeviceDetail extends StatelessWidget {
   Widget build(BuildContext context) => WillPopScope(
         onWillPop: () async {
           disconnect(device.id);
+
           return true;
         },
         child: Scaffold(
@@ -89,9 +92,27 @@ class _DeviceDetail extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: RaisedButton(
-                        onPressed: !_deviceConnected()
-                            ? () => connect(device.id)
-                            : null,
+                        onPressed: () {
+                          // Do something
+                          connect(device.id);
+                          //discoverServices(device.id);
+                          print("what i print is bellow");
+                          print(device.id);
+                          print(device.serviceData.values.toString().isEmpty);
+                          //var _list = device.serviceData.values.toList();
+                          //var _list2 = device.serviceData.entries.toList();
+                          var _list3 = DiscoveredService$.characteristicIds;
+                          var _list4 = DiscoveredService$.serviceId.get;
+                          //  .toString();
+
+                          print(_list4);
+
+                          print("what i print is above");
+                        },
+                        //onPressed: !_deviceConnected()
+                        //  ? () => connect(device.id);
+                        //print(device.serviceData.toString())
+                        //: null,
                         child: const Text("Connect"),
                       ),
                     ),
@@ -105,12 +126,12 @@ class _DeviceDetail extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(6.0),
                       child: RaisedButton(
                         onPressed: _deviceConnected()
                             ? () => discoverServices(device.id)
                             : null,
-                        child: const Text("Discover Services"),
+                        child: const Text("Services"),
                       ),
                     ),
                   ],

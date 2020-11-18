@@ -69,6 +69,7 @@ class _DeviceListState extends State<_DeviceList> {
   void _startScanning() {
     final text = _uuidController.text;
     widget.startScan(text.isEmpty ? [] : [Uuid.parse(_uuidController.text)]);
+    print('widget key');
   }
 
   @override
@@ -99,6 +100,7 @@ class _DeviceListState extends State<_DeviceList> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      //we need to connect to the device as well
                       RaisedButton(
                         child: const Text('Scan'),
                         onPressed: !widget.scannerState.scanIsInProgress &&
@@ -145,7 +147,11 @@ class _DeviceListState extends State<_DeviceList> {
                         title: Text(device.name),
                         //device.id = uuid
                         subtitle: Text("${device.id}\nRSSI: ${device.rssi}"),
+
+                        //if rssi is certain distance then connect
+
                         leading: const BluetoothIcon(),
+
                         onTap: () async {
                           widget.stopScan();
                           await Navigator.push<void>(

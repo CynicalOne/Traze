@@ -6,6 +6,7 @@ import '../traze_about_covid.dart';
 import '../traze_appointment.dart';
 import '../traze_bluetooth.dart';
 import '../traze_home.dart';
+import '../traze_input_test.dart';
 import '../traze_positive_scan.dart';
 
 class LandingPage extends StatelessWidget {
@@ -101,6 +102,10 @@ class LandingPage extends StatelessWidget {
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PositiveScan()));
+            }),
+            CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => TestID()));
             }),
           ],
         ),

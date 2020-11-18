@@ -40,11 +40,14 @@ class BleScanner implements ReactiveState<BleScannerState> {
       } else {
         _devices.add(device);
         _ourUUID.add(device.id);
+        print('uuid list');
+        print(_ourUUID);
         // adding _ourUUID into the local database
         for (var i = 0; i < _ourUUID.length; i++) {
           pdp.addProximityId(
               new ProximityId(id: 0, datetime: 0, proximityid: _ourUUID[i]));
         }
+
         pdp.foundMatch() == true
             ? Navigator.push(context,
                 MaterialPageRoute(builder: (context) => PositiveScan()))
@@ -53,8 +56,6 @@ class BleScanner implements ReactiveState<BleScannerState> {
                 style: new TextStyle(color: Colors.white, fontSize: 20.0),
                 textAlign: TextAlign.center,
               );
-        print('uuid list');
-        print(_ourUUID);
       }
       _pushState();
     });
