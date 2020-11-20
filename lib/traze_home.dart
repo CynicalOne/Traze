@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_appointment.dart';
@@ -10,10 +11,21 @@ import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_screening.dart';
 
 class Home extends StatelessWidget {
+  final CameraPosition _initialPosition =
+      CameraPosition(target: LatLng(24.903623, 67.198367));
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+      body: GoogleMap(
+        initialCameraPosition: _initialPosition,
+        mapType: MapType.normal,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.zoom_out),
+      ),
       appBar: AppBar(
         title: Text('Heat Map'),
         backgroundColor: Colors.deepOrangeAccent,
