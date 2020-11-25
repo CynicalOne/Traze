@@ -13,6 +13,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB9Jngmf2y6rWG8Zs_cD1S3qFrpnbciv-o" />
 
+        <meta-data android:name="com.here.sdk.access_key_id" android:value="PZqVWtq96MAVjn9D7Be2"/>
+        <meta-data android:name="com.here.sdk.access_key_secret" android:value="PZqVWtq96MAVjn9D7Be2"/>
+
 
         <activity
             android:name=".MainActivity"
