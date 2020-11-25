@@ -7,12 +7,70 @@ import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_screening.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Appointment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+        backgroundColor: Colors.orangeAccent,
+        body: Container(
+        child: Stack(
+          children: <Widget>[
+            Center(
+              child: Container(
+                width: 400,
+                height: 400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Material(
+                      elevation: 10.0,
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'images/Transparent_Waze.png',
+                          width: 90,
+                          height: 90,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            'If you have experienced any symptoms and have taken our self screening quiz, or have come into contact with someone who has tested positive for covid, please make an appointment at the link below.',
+                            style: TextStyle(fontSize: 16.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: 250,
+                      child: RaisedButton(
+                        //link to appointment url when pressed
+                        onPressed: _launchURL,
+                        color: Colors.orange,
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                        child: Text(
+                          'schedule appointment',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text('About Covid'),
         backgroundColor: Colors.deepOrangeAccent,
@@ -81,7 +139,7 @@ class Appointment extends StatelessWidget {
             }),
           ],
         ),
-      ),
+      )
     );
   }
 }
@@ -130,5 +188,14 @@ class CustomListTile extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+_launchURL() async {
+  const url = 'https://www.hhs.gov/coronavirus/community-based-testing-sites/index.html';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }
