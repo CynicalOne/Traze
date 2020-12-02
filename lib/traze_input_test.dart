@@ -84,7 +84,7 @@ class TestID extends StatelessWidget {
                         Flexible(
                           child: Text(
                             'By clicking Submit you agree that the information displayed above is correct to the best of your knowledge ',
-                            style: TextStyle(fontSize: 12.0),
+                            style: TextStyle(fontSize: 15.0),
                           ),
                         ),
                       ],
