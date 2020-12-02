@@ -11,9 +11,9 @@ import 'package:traze/traze_home.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 
-void main() => runApp(Home());
+void main() => runApp(MyApp());
 
-class Home extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
