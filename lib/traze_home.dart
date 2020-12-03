@@ -7,9 +7,8 @@ import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_broadcast.dart';
-import 'package:traze/traze_home.dart';
 import 'package:traze/traze_input_test.dart';
-import 'package:traze/traze_positive_scan.dart';
+import 'package:traze/traze_negative_scan.dart';
 
 void main() => runApp(Home());
 
@@ -120,9 +119,9 @@ class MapSampleState extends State<MapSample> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Broadcast()));
             }),
-            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+            CustomListTile(Icons.clear, 'Scan Results', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PositiveScan()));
+                  MaterialPageRoute(builder: (context) => NegativeScan()));
             }),
             CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
               Navigator.push(

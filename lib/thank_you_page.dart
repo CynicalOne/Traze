@@ -28,7 +28,7 @@ class _GreetingState extends State<ThankYou> {
             style: new TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontSize: 50.0,
+              fontSize: 45.0,
             ),
           ),
         ],

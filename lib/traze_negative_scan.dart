@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:traze/traze_appointment.dart';
+import 'package:traze/traze_about_covid.dart';
 
-class PositiveScan extends StatelessWidget {
+class NegativeScan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Material(
-      color: Colors.red,
+      color: Colors.green,
       child: new Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           new Text(
-            'You have been in contact with somebody who has tested positive for Covid 19. Push the button below to make an appointment to get tested.',
+            'You have not been in contact with anyone who has tested positive for Covid 19. Press the button to learn more about Covid-19.',
             textAlign: TextAlign.center,
             style: new TextStyle(
               color: Colors.white,
@@ -24,7 +24,7 @@ class PositiveScan extends StatelessWidget {
             iconSize: 50.0,
             onPressed: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Appointment()));
+                  MaterialPageRoute(builder: (context) => AboutCovid()));
             },
           )
         ],

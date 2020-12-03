@@ -158,7 +158,7 @@ class TestID extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Broadcast()));
             }),
-            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+            CustomListTile(Icons.clear, 'Scan Results', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PositiveScan()));
             }),
