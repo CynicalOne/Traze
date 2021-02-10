@@ -4,12 +4,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:traze/Scan/flutter_blue.dart';
+import 'package:traze/src/model/discovered_services.dart';
+import 'package:traze/src/ble/ble_scanner.dart';
 
 class ScanResultTile extends StatelessWidget {
   const ScanResultTile({Key key, this.result, this.onTap}) : super(key: key);
 
   final ScanResult result;
   final VoidCallback onTap;
+
+  get fixedLengthList => null;
+
+  get _ourUUID => null;
 
   Widget _buildTitle(BuildContext context) {
     if (result.device.name.length > 0) {
@@ -67,10 +73,27 @@ class ScanResultTile extends StatelessWidget {
       return null;
     }
     List<String> res = [];
+
     data.forEach((id, bytes) {
       res.add(
           '${id.toRadixString(16).toUpperCase()}: ${getNiceHexArray(bytes)}');
     });
+
+    //julio put this here
+    List<String> fixedLengthList = new List(20);
+    print(res.last);
+    print(result.advertisementData.serviceUuids);
+    print(result.advertisementData.serviceUuids.join(', ').toUpperCase());
+    print(data);
+    print(DiscoveredService$.serviceId.get.toString());
+
+    if (result.advertisementData.serviceUuids.isNotEmpty) {
+      print(result.advertisementData.serviceUuids.join(', ').toUpperCase());
+    } else {
+      print("No UUID");
+    }
+    print("OUR UUID");
+    print(_ourUUID.toString());
     return res.join(', ');
   }
 
@@ -113,8 +136,20 @@ class ScanResultTile extends StatelessWidget {
             (result.advertisementData.serviceUuids.isNotEmpty)
                 ? result.advertisementData.serviceUuids.join(', ').toUpperCase()
                 : 'N/A'),
+
         _buildAdvRow(context, 'Service Data',
             getNiceServiceData(result.advertisementData.serviceData) ?? 'N/A'),
+        //--------This is where we have to save the uuids to the list------
+        //--------This is where we have to save the uuids to the list------
+        //--------This is where we have to save the uuids to the list------
+        _buildAdvRow(
+            context,
+            'my ids im saving',
+            (result.advertisementData.serviceUuids.isNotEmpty)
+                ? _ourUUID.add(result.advertisementData.serviceUuids
+                    .join(', ')
+                    .toUpperCase())
+                : 'N/A'),
       ],
     );
   }

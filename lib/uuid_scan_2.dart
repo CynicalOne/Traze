@@ -96,6 +96,7 @@ class FindDevicesScreen extends StatelessWidget {
                                                 DeviceScreen(device: d))),
                                   );
                                 }
+
                                 return Text(snapshot.data.toString());
                               },
                             ),
@@ -154,6 +155,7 @@ class DeviceScreen extends StatelessWidget {
 
   List<int> _getRandomBytes() {
     final math = Random();
+    print('---------UUID---------------');
     return [
       math.nextInt(255),
       math.nextInt(255),
@@ -209,6 +211,7 @@ class DeviceScreen extends StatelessWidget {
             builder: (c, snapshot) {
               VoidCallback onPressed;
               String text;
+
               switch (snapshot.data) {
                 case BluetoothDeviceState.connected:
                   onPressed = () => device.disconnect();
