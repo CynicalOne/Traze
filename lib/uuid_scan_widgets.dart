@@ -94,12 +94,13 @@ class ScanResultTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //julios line
+    List<String> newList = ['hello', 'world'];
     (result.advertisementData.serviceUuids.isNotEmpty)
-        ? _ourUUID.add(result.advertisementData.serviceUuids.toString())
+        ? newList.add(result.advertisementData.serviceUuids.toString())
         : 'no data';
 
     print('UUID LIST');
-    print(_ourUUID);
+    print(newList);
     print('UUID we should be saving');
     print(result.advertisementData.serviceUuids.toString());
     return ExpansionTile(
