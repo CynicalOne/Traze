@@ -93,6 +93,11 @@ class ScanResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //julios line
+    (result.advertisementData.serviceUuids.isNotEmpty)
+        ? _ourUUID.add(result.toString())
+        : _ourUUID.add('NA');
+    print(_ourUUID);
     return ExpansionTile(
       title: _buildTitle(context),
       leading: Text(result.rssi.toString()),
@@ -103,10 +108,6 @@ class ScanResultTile extends StatelessWidget {
         onPressed: (result.advertisementData.connectable) ? onTap : null,
       ),
       children: <Widget>[
-        //julios line
-        (result.advertisementData.serviceUuids.isNotEmpty)
-            ? _ourUUID.add(result.toString())
-            : _ourUUID.add('NA'),
         _buildAdvRow(
             context, 'Complete Local Name', result.advertisementData.localName),
         _buildAdvRow(context, 'Tx Power Level',
