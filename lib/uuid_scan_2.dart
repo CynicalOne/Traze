@@ -115,6 +115,7 @@ class FindDevicesScreen extends StatelessWidget {
                           onTap: () => Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
                             r.device.connect();
+
                             return DeviceScreen(device: r.device);
                           })),
                         ),
@@ -148,6 +149,21 @@ class FindDevicesScreen extends StatelessWidget {
   }
 }
 
+class PlaceholderContent extends StatelessWidget {
+  PlaceholderContent({
+    this.uuid,
+    this.message,
+  });
+  final String uuid;
+  final String message;
+  List<String> juliosList;
+  @override
+  Widget build(BuildContext context) {
+    juliosList.add(uuid);
+    print(juliosList);
+  }
+}
+
 class DeviceScreen extends StatelessWidget {
   const DeviceScreen({Key key, this.device}) : super(key: key);
 
@@ -155,7 +171,6 @@ class DeviceScreen extends StatelessWidget {
 
   List<int> _getRandomBytes() {
     final math = Random();
-    print('---------UUID---------------');
     return [
       math.nextInt(255),
       math.nextInt(255),

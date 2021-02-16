@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:traze/Scan/flutter_blue.dart';
 import 'package:traze/src/model/discovered_services.dart';
+import 'package:traze/uuid_scan_2.dart';
 
 class ScanResultTile extends StatelessWidget {
   const ScanResultTile({Key key, this.result, this.onTap}) : super(key: key);
@@ -12,8 +13,6 @@ class ScanResultTile extends StatelessWidget {
   final ScanResult result;
   final VoidCallback onTap;
 
-  //line 15 works with the get not with final
-  get _ourUUID => <String>[];
   //final _ourUUID = <String>[];
   Widget _buildTitle(BuildContext context) {
     if (result.device.name.length > 0) {
@@ -93,18 +92,11 @@ class ScanResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //julios line
-    List<String> newList = ['hello', 'world'];
-    if (result.advertisementData.serviceUuids.isNotEmpty) {
-      newList.add(result.advertisementData.serviceUuids.toString());
-    }
-    print(newList);
-    newList.add('Julio');
-    print('UUID LIST');
-    print(newList);
+    //juliosList
+    PlaceholderContent(
+      uuid: result.advertisementData.serviceUuids.toString(),
+    );
 
-    print('UUID we should be saving');
-    print(result.advertisementData.serviceUuids.toString());
     return ExpansionTile(
       title: _buildTitle(context),
       leading: Text(result.rssi.toString()),
@@ -316,5 +308,16 @@ class AdapterStateTile extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class myClass extends StatelessWidget {
+  myClass(add);
+
+  @override
+  Widget build(BuildContext context) {
+    List<String> newList3 = ['my list', '3'];
+
+    print(newList3);
   }
 }
