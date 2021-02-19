@@ -7,8 +7,10 @@ import 'package:traze/Scan/flutter_blue.dart';
 import 'package:traze/src/model/discovered_services.dart';
 import 'package:traze/uuid_scan_2.dart';
 
+import 'uuid_scan_2.dart';
+
 class ScanResultTile extends StatelessWidget {
-  const ScanResultTile({Key key, this.result, this.onTap}) : super(key: key);
+  ScanResultTile({Key key, this.result, this.onTap}) : super(key: key);
 
   final ScanResult result;
   final VoidCallback onTap;
@@ -92,11 +94,6 @@ class ScanResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //juliosList
-    PlaceholderContent(
-      uuid: result.advertisementData.serviceUuids.toString(),
-    );
-
     return ExpansionTile(
       title: _buildTitle(context),
       leading: Text(result.rssi.toString()),

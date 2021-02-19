@@ -61,6 +61,23 @@ class BluetoothOffScreen extends StatelessWidget {
 }
 
 class FindDevicesScreen extends StatelessWidget {
+  final List<String> names = <String>[
+    'Aby',
+    'Aish',
+    'Ayan',
+    'Ben',
+    'Bob',
+    'Charlie',
+    'Cook',
+    'Carline'
+  ];
+  TextEditingController nameController = TextEditingController();
+
+  addItemToList(String uuid) {
+    names.insert(0, uuid);
+    print(names);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +132,11 @@ class FindDevicesScreen extends StatelessWidget {
                           onTap: () => Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
                             r.device.connect();
-
+                            print('device is here');
+                            print(r.advertisementData.serviceUuids.toString());
+                            addItemToList(
+                                r.advertisementData.serviceUuids.toString());
+                            print(names);
                             return DeviceScreen(device: r.device);
                           })),
                         ),
@@ -146,21 +167,6 @@ class FindDevicesScreen extends StatelessWidget {
         },
       ),
     );
-  }
-}
-
-class PlaceholderContent extends StatelessWidget {
-  PlaceholderContent({
-    this.uuid,
-    this.message,
-  });
-  final String uuid;
-  final String message;
-  List<String> juliosList;
-  @override
-  Widget build(BuildContext context) {
-    juliosList.add(uuid);
-    print(juliosList);
   }
 }
 
