@@ -10,6 +10,9 @@ import 'package:traze/traze_broadcast.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
+import 'package:traze/uuid_scan_2.dart';
+
+import 'beacon_broadcast_2.dart';
 
 void main() => runApp(Home());
 
@@ -114,11 +117,11 @@ class MapSampleState extends State<MapSample> {
             }),
             CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Bluetooth()));
+                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
             }),
             CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Broadcast()));
+                  MaterialPageRoute(builder: (context) => BroadcastTwo()));
             }),
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,
