@@ -66,7 +66,8 @@ class LogIn extends StatelessWidget {
                         width: 160,
                         child: RaisedButton(
                           //link to other page when pressed
-                          onPressed: () {},
+                          onPressed: () {
+                          },
                           color: Colors.white12,
                           textColor: Colors.white,
                           shape: RoundedRectangleBorder(

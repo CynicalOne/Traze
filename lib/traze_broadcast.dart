@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:traze/Persistence/database.dart';
 import 'package:traze/beacon_broadcast.dart';
 import 'package:flutter/material.dart';
 import 'package:traze/UUID/uuid.dart';
@@ -91,7 +92,16 @@ class _BroadcastState extends State<Broadcast> {
                 ),
                 Center(
                   child: RaisedButton(
-                    onPressed: () {
+                    onPressed: () async{
+                      int insertedId = await ProximityDatabaseProvider.instance.insert({
+                        ProximityDatabaseProvider.columnName: 'bobithan',
+                      });
+                      print('the inserted id is $insertedId');
+                      List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll();
+                      print(queryRows);
+                      int rowsEffected = await ProximityDatabaseProvider.instance.delete(4);
+                      print('the number of rows effected: $rowsEffected');
+                      print(queryRows);
                       beaconBroadcast.stop();
                     },
                     child: Text('STOP'),

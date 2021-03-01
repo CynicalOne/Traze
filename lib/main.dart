@@ -5,6 +5,7 @@ import 'package:traze/traze_screening.dart';
 
 import 'traze_login.dart';
 
+
 void main() {
   runApp(MaterialApp(title: 'Login App', home: LogIn())); //MaterialApp
 
