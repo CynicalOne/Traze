@@ -8,6 +8,8 @@ import '../traze_bluetooth.dart';
 import '../traze_home.dart';
 import '../traze_input_test.dart';
 import '../traze_positive_scan.dart';
+import 'package:traze/uuid_scan_2.dart';
+import 'package:traze/beacon_broadcast_2.dart';
 
 class LandingPage extends StatelessWidget {
   @override
@@ -64,8 +66,8 @@ class LandingPage extends StatelessWidget {
                           padding: EdgeInsets.all(8.0),
                           child: Image.asset(
                             'images/Transparent_Waze.png',
-                            width: 80,
-                            height: 80,
+                            width: 70,
+                            height: 70,
                           ),
                         ),
                       ),
@@ -91,13 +93,17 @@ class LandingPage extends StatelessWidget {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Home()));
             }),
-            CustomListTile(Icons.account_box, 'Self Screening', () {
+            CustomListTile(Icons.check, 'Self Screening', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LandingPage()));
             }),
-            CustomListTile(Icons.account_box, 'Self Screening', () {
+            CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Bluetooth()));
+                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
+            }),
+            CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BroadcastTwo()));
             }),
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,

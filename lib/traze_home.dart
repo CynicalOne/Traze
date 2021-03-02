@@ -11,8 +11,7 @@ import 'package:traze/traze_home.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/uuid_scan_2.dart';
-
-import 'beacon_broadcast_2.dart';
+import 'package:traze/beacon_broadcast_2.dart';
 
 void main() => runApp(Home());
 
@@ -84,8 +83,8 @@ class MapSampleState extends State<MapSample> {
                           padding: EdgeInsets.all(8.0),
                           child: Image.asset(
                             'images/Transparent_Waze.png',
-                            width: 80,
-                            height: 80,
+                            width: 70,
+                            height: 70,
                           ),
                         ),
                       ),
