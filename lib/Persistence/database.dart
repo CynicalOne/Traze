@@ -8,9 +8,10 @@ import 'package:sqflite/sqflite.dart';
 
 class ProximityDatabaseProvider {
 
-  static final _dbName = 'proximity.db';
+  static final _dbName = 'uuids.db';
   static final _dbVersion = 1;
   static final _tableName = 'proximityTable';
+  static final _table2Name = 'myPastUuidsTable';
 
   static final columnId = '_id';
   static final columnName = 'uuids';
@@ -31,34 +32,62 @@ class ProximityDatabaseProvider {
     return await openDatabase(path, version: _dbVersion, onCreate: _onCreate);
   }
 
-  Future _onCreate(Database db, int version){
-    db.execute(
-      '''
+  Future _onCreate(Database db, int version) async{
+    await db.execute(
+          '''
       CREATE TABLE $_tableName(
+      $columnId INTEGER PRIMARY KEY,
+      $columnName TEXT NOT NULL)
+      '''
+      );
+    db.execute(
+        '''
+      CREATE TABLE $_table2Name(
       $columnId INTEGER PRIMARY KEY,
       $columnName TEXT NOT NULL)
       '''
     );
   }
 
-  Future<int> insert(Map<String, dynamic> row) async{
-    Database db = await instance.database;
-    return await db.insert(_tableName, row);
+  Future<int> insert(int table, Map<String, dynamic> row) async{
+    if (table == 1) { // encounters table
+      Database db = await instance.database;
+      return await db.insert(_tableName, row);
+    } else { // past uuids table
+      Database db = await instance.database;
+      return await db.insert(_table2Name, row);
+    }
   }
 
-  Future<List<Map<String, dynamic>>> queryAll() async {
-    Database db = await instance.database;
-    return await db.query(_tableName);
+  Future<List<Map<String, dynamic>>> queryAll(int table) async {
+      if (table == 1) { // encounters table
+        Database db = await instance.database;
+        return await db.query(_tableName);
+      } else { // past uuids table
+        Database db = await instance.database;
+        return await db.query(_table2Name);
+      }
   }
 
-  Future<int> update (Map<String, dynamic> row) async{
-    Database db = await instance.database;
-    int id = row[columnId];
-    return await db.update(_tableName, row, where: '$columnId = ?', whereArgs: [id]);
+  Future<int> update (int table, Map<String, dynamic> row) async{
+    if (table == 1) { // encounters table
+      Database db = await instance.database;
+      int id = row[columnId];
+      return await db.update(_tableName, row, where: '$columnId = ?', whereArgs: [id]);
+    } else { // past uuids table
+      Database db = await instance.database;
+      int id = row[columnId];
+      return await db.update(_table2Name, row, where: '$columnId = ?', whereArgs: [id]);
+    }
   }
 
-  Future<int> delete(int id) async{
-    Database db = await instance.database;
-    return await db.delete(_tableName, where: '$columnId = ?', whereArgs: [id]);
+  Future<int> delete(int table, int id) async{
+    if (table == 1) { // encounters table
+      Database db = await instance.database;
+      return await db.delete(_tableName, where: '$columnId = ?', whereArgs: [id]);
+    } else {
+      Database db = await instance.database;
+      return await db.delete(_table2Name, where: '$columnId = ?', whereArgs: [id]);
+    }
   }
 }
