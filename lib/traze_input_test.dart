@@ -10,6 +10,8 @@ import 'package:traze/traze_login.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_screening.dart';
 import 'src/UI/custom_input_field.dart';
+import 'package:traze/uuid_scan_2.dart';
+import 'package:traze/beacon_broadcast_2.dart';
 
 class TestID extends StatelessWidget {
   TextEditingController _uuidController;
@@ -119,8 +121,8 @@ class TestID extends StatelessWidget {
                           padding: EdgeInsets.all(8.0),
                           child: Image.asset(
                             'images/Transparent_Waze.png',
-                            width: 80,
-                            height: 80,
+                            width: 70,
+                            height: 70,
                           ),
                         ),
                       ),
@@ -152,11 +154,11 @@ class TestID extends StatelessWidget {
             }),
             CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Bluetooth()));
+                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
             }),
             CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Broadcast()));
+                  MaterialPageRoute(builder: (context) => BroadcastTwo()));
             }),
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,
