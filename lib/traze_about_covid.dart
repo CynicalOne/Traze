@@ -10,6 +10,8 @@ import 'package:traze/widgets/counter.dart';
 import 'package:traze/widgets/my_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:traze/uuid_scan_2.dart';
+import 'beacon_broadcast_2.dart';
 
 void main() => runApp(AboutCovid());
 
@@ -280,11 +282,11 @@ class _HomeScreenState extends State<HomeScreen> {
             }),
             CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Bluetooth()));
+                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
             }),
             CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Broadcast()));
+                  MaterialPageRoute(builder: (context) => BroadcastTwo()));
             }),
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,
