@@ -35,7 +35,7 @@ dependencies:
   flutter_svg: ^0.18.1
   url_launcher: ^5.7.5
   rxdart: ^0.24.0
-
+  cron: ^0.2.4
   flutter_blue: ^0.7.3
 
   # The following adds the Cupertino Icons font to your application.
