@@ -134,23 +134,17 @@ class _MyAppState extends State<BeaconScan> {
                 child: RaisedButton(
                   onPressed: () async {
                     initPlatformState();
-                    Duration oneSec = const Duration(seconds: 10);
+                    Duration start = const Duration(seconds: 10);
                     new Timer.periodic(
-                        oneSec, (Timer t) => BeaconsPlugin.startMonitoring);
+                        start, (Timer t) => BeaconsPlugin.stopMonitoring);
+                    setState(() {
+                      isRunning = false;
+                    });
+
+                    await BeaconsPlugin.startMonitoring;
+
                     setState(() {
                       isRunning = true;
-
-                      Timer(Duration(seconds: 20), () {
-                        print("Yeah, this line is printed every 10 seconds");
-
-                        if (Platform.isAndroid) {
-                          BeaconsPlugin.stopMonitoring;
-
-                          setState(() {
-                            isRunning = false;
-                          });
-                        }
-                      });
                     });
                   },
                   child: Text('Commence Contact Tracing',
