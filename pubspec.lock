@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.3"
+  beacons_plugin:
+    dependency: "direct main"
+    description:
+      name: beacons_plugin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.20"
   boolean_selector:
     dependency: transitive
     description:

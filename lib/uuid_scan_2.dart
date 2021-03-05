@@ -72,7 +72,7 @@ class FindDevicesScreen extends StatelessWidget {
     'Carline'
   ];
   TextEditingController nameController = TextEditingController();
-  Duration oneSec = Duration(seconds: 10);
+  Duration oneSec = Duration(seconds: 100);
 
   addItemToList(String uuid) {
     names.insert(0, uuid);

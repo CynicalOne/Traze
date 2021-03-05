@@ -13,7 +13,7 @@ class _MyAppState extends State<BroadcastTwo> {
   static const int majorId = 1;
   static const int minorId = 100;
   static const int transmissionPower = -59;
-  static const String identifier = 'com.example.myDeviceRegion';
+  static const String identifier = 'Positive';
   static const AdvertiseMode advertiseMode = AdvertiseMode.lowPower;
   static const String layout = BeaconBroadcast.ALTBEACON_LAYOUT;
   static const int manufacturerId = 0x0118;
