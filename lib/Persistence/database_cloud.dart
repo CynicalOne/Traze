@@ -4,26 +4,31 @@ import 'package:firebase_core/firebase_core.dart';
 
 class FirestoreDatabaseService {
 
+  // collection reference
   final CollectionReference positiveUuidCollection = Firestore.instance.collection('positiveuuids');
 
   // making it a singleton class
   FirestoreDatabaseService._privateConstructor();
   static final FirestoreDatabaseService instance = FirestoreDatabaseService._privateConstructor();
 
-  Future addRecord(int _id, String uuid) async {
+  Future addRecord(String uuid) async {
     return await positiveUuidCollection.add({
-      'id': _id,
       'uuid': uuid,
       'datetime_testedPositive': Timestamp.now(),
     });
   }
 
-    Future addPositiveUuids() async {
-      List<int> myRecentUuids_id = await ProximityDatabaseProvider.instance.queryMyRecentUuids_id();
-      List<String> myRecentUuids_uuid = await ProximityDatabaseProvider.instance.queryMyRecentUuids_uuid();
-      for (var i = 0; i < myRecentUuids_id.length; i++){
-        addRecord(myRecentUuids_id[i], myRecentUuids_uuid[i]);
-      }
+/*
+  Query testingFirestoreQuery()  {
+  return positiveUuidCollection.where('datetime_testedPositive', isLessThanOrEqualTo: Timestamp.now()-Timestamp.fromMillisecondsSinceEpoch(2592000000));
+  }
+*/
+
+  Future addPositiveUuids() async {
+    List<String> myRecentUuids = await ProximityDatabaseProvider.instance.queryMyRecentUuids();
+    for (var i = 0; i < myRecentUuids.length; i++){
+      addRecord(myRecentUuids[i]);
+    }
   }
 
 

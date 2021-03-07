@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:beacon_broadcast/beacon_broadcast.dart';
 import 'package:flutter/material.dart';
 
-//for testing, will delete package
+//for testing, will delete packages
 import 'package:traze/Persistence/database.dart';
 import 'package:traze/Persistence/database_cloud.dart';
 
@@ -94,13 +94,15 @@ class _MyAppState extends State<BroadcastTwo> {
                 Center(
                   child: RaisedButton(
                     onPressed: () async {
-                      // for testing, will delete
+                      // for testing databases, will delete
 
                       // sqlite
+                      /*
                       int insertedId = await ProximityDatabaseProvider.instance.insert(1, {
                         ProximityDatabaseProvider.columnName: 'meep',
                       });
                       print('the inserted id (encounters) is $insertedId');
+                       */
 
                       /*
                       List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
@@ -115,10 +117,12 @@ class _MyAppState extends State<BroadcastTwo> {
 
                        */
 
+                      /*
                       int insertedId2 = await ProximityDatabaseProvider.instance.insert(2, {
                         ProximityDatabaseProvider.columnName: 'cash money',
                       });
                       print('the inserted id (past uuids) is $insertedId2');
+                       */
                       /*
                       List<Map<String, dynamic>> queryRows2 = await ProximityDatabaseProvider.instance.queryAll(2);
                       print(queryRows2);
@@ -134,6 +138,7 @@ class _MyAppState extends State<BroadcastTwo> {
                       print('number of rows affected by updating id 1 (encounters) is $nrowsEffected');
                       */
 
+                      /*
                       List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
                       print('\n');
                       print('encounters: ');
@@ -143,6 +148,7 @@ class _MyAppState extends State<BroadcastTwo> {
                       print('past uuids: ');
                       print(queryRows);
                       print('\n');
+                       */
 
                       /*
                       List<Map<String, dynamic>> recentUuids_id = await ProximityDatabaseProvider.instance.queryMyRecentUuids_id();
@@ -153,16 +159,16 @@ class _MyAppState extends State<BroadcastTwo> {
                       print(recentUuids_uuid);
                        */
 
-                      List<int> recentUuids_id = await ProximityDatabaseProvider.instance.queryMyRecentUuids_id();
-                      print('these are my recent uuids : _id');
-                      print(recentUuids_id);
-                      List<String> recentUuids_uuid = await ProximityDatabaseProvider.instance.queryMyRecentUuids_uuid();
-                      print('these are my recent uuids :uuid');
+                      /*
+                      List<String> recentUuids_uuid = await ProximityDatabaseProvider.instance.queryMyRecentUuids();
+                      print('these are my recent uuids:');
                       print(recentUuids_uuid);
+                       */
 
                       // firestore
                       //FirestoreDatabaseService.instance.addRecord(0, 'yeeeeehaw');
-                      FirestoreDatabaseService.instance.addPositiveUuids();
+                      //FirestoreDatabaseService.instance.addPositiveUuids();
+                      //FirestoreDatabaseService.instance.testingFirestoreQuery();
 
                       // end of testing
 
