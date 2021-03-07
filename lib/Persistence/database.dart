@@ -10,12 +10,14 @@ class ProximityDatabaseProvider {
 
   static final _dbName = 'uuids.db';
   static final _dbVersion = 1;
-  static final _tableName = 'proximityTable';
+  static final _tableName = 'encountersTable';
   static final _table2Name = 'myPastUuidsTable';
 
   static final columnId = '_id';
-  static final columnName = 'uuids';
+  static final columnName = 'uuid';
+  static final columnDate = 'datetime_inserted';
 
+  // making it a singleton class
   ProximityDatabaseProvider._privateConstructor();
   static final ProximityDatabaseProvider instance = ProximityDatabaseProvider._privateConstructor();
 
@@ -32,19 +34,22 @@ class ProximityDatabaseProvider {
     return await openDatabase(path, version: _dbVersion, onCreate: _onCreate);
   }
 
+  // creates the database with the encountersTable and the myPastUuidsTable
   Future _onCreate(Database db, int version) async{
     await db.execute(
           '''
       CREATE TABLE $_tableName(
       $columnId INTEGER PRIMARY KEY,
-      $columnName TEXT NOT NULL)
+      $columnName TEXT NOT NULL,
+      $columnDate INTEGER DEFAULT (cast(strftime('%s', 'now') as int)))
       '''
       );
     db.execute(
         '''
       CREATE TABLE $_table2Name(
       $columnId INTEGER PRIMARY KEY,
-      $columnName TEXT NOT NULL)
+      $columnName TEXT NOT NULL,
+      $columnDate INTEGER DEFAULT (cast(strftime('%s', 'now') as int)))
       '''
     );
   }
@@ -68,6 +73,75 @@ class ProximityDatabaseProvider {
         return await db.query(_table2Name);
       }
   }
+
+  // returns _id of the items that were inserted into myPastUuidsTable within the past 30 days
+  Future<List<int>> queryMyRecentUuids_id() async {
+    Database db = await instance.database;
+    List<int> _results = [];
+    List<Map<String, dynamic>> queryIds = await db.rawQuery(
+        '''
+      SELECT _id
+      FROM myPastUuidsTable
+      WHERE datetime_inserted
+      BETWEEN (cast(strftime('%s', 'now', '-30 days') as int)) AND (cast(strftime('%s', 'now') as int))
+      '''
+    );
+      for (var _id in queryIds) {
+        for (var value in _id.values) {
+          if (value != null)
+            _results.add(value);
+        }
+      }
+    return _results;
+  }
+
+  // returns uuid of the items that were inserted into myPastUuidsTable within the past 30 days
+  Future<List<String>> queryMyRecentUuids_uuid() async {
+    Database db = await instance.database;
+    List<String> _results = [];
+    List<Map<String, dynamic>> queryUuids = await db.rawQuery(
+        '''
+      SELECT uuid
+      FROM myPastUuidsTable
+      WHERE datetime_inserted
+      BETWEEN (cast(strftime('%s', 'now', '-30 days') as int)) AND (cast(strftime('%s', 'now') as int))
+      '''
+    );
+      for (var uuid in queryUuids) {
+        for (var value in uuid.values) {
+          _results.add(value);
+        }
+      }
+    return _results;
+  }
+
+  /*
+  // returns _id of the items that were inserted into myPastUuidsTable within the past 30 days
+  Future<List<Map<String, dynamic>>> queryMyRecentUuids_id() async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+      '''
+      SELECT _id
+      FROM myPastUuidsTable
+      WHERE datetime_inserted 
+      BETWEEN (cast(strftime('%s', 'now', '-30 days') as int)) AND (cast(strftime('%s', 'now') as int))
+      '''
+    );
+  }
+
+  // returns uuid of the items that were inserted into myPastUuidsTable within the past 30 days
+  Future<List<Map<String, dynamic>>> queryMyRecentUuids_uuid() async {
+    Database db = await instance.database;
+    return await db.rawQuery(
+        '''
+      SELECT uuid
+      FROM myPastUuidsTable
+      WHERE datetime_inserted 
+      BETWEEN (cast(strftime('%s', 'now', '-30 days') as int)) AND (cast(strftime('%s', 'now') as int))
+      '''
+    );
+  }
+   */
 
   Future<int> update (int table, Map<String, dynamic> row) async{
     if (table == 1) { // encounters table

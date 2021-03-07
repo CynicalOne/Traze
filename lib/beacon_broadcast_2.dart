@@ -3,6 +3,10 @@ import 'dart:async';
 import 'package:beacon_broadcast/beacon_broadcast.dart';
 import 'package:flutter/material.dart';
 
+//for testing, will delete package
+import 'package:traze/Persistence/database.dart';
+import 'package:traze/Persistence/database_cloud.dart';
+
 class BroadcastTwo extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -89,7 +93,79 @@ class _MyAppState extends State<BroadcastTwo> {
                 ),
                 Center(
                   child: RaisedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      // for testing, will delete
+
+                      // sqlite
+                      int insertedId = await ProximityDatabaseProvider.instance.insert(1, {
+                        ProximityDatabaseProvider.columnName: 'meep',
+                      });
+                      print('the inserted id (encounters) is $insertedId');
+
+                      /*
+                      List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
+                      print('encounters table: \n');
+                      print(queryRows);
+                      print('\n');
+
+                      int rowsEffected1 = await ProximityDatabaseProvider.instance.delete(1, 1);
+                      print('the number of rows effected by deleting id 5 (encounters): $rowsEffected1');
+                      queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
+                      print(queryRows);
+
+                       */
+
+                      int insertedId2 = await ProximityDatabaseProvider.instance.insert(2, {
+                        ProximityDatabaseProvider.columnName: 'cash money',
+                      });
+                      print('the inserted id (past uuids) is $insertedId2');
+                      /*
+                      List<Map<String, dynamic>> queryRows2 = await ProximityDatabaseProvider.instance.queryAll(2);
+                      print(queryRows2);
+                      int rowsEffected = await ProximityDatabaseProvider.instance.delete(2, 20);
+                      print('the number of rows effected by deleting id 2 (past uuids): $rowsEffected');
+                      queryRows = await ProximityDatabaseProvider.instance.queryAll(2);
+                      print(queryRows);
+
+                      int nrowsEffected = await ProximityDatabaseProvider.instance.update(1,{
+                        ProximityDatabaseProvider.columnId: 1,
+                        ProximityDatabaseProvider.columnName: 'wap',
+                      });
+                      print('number of rows affected by updating id 1 (encounters) is $nrowsEffected');
+                      */
+
+                      List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
+                      print('\n');
+                      print('encounters: ');
+                      print(queryRows);
+                      print('\n');
+                      queryRows = await ProximityDatabaseProvider.instance.queryAll(2);
+                      print('past uuids: ');
+                      print(queryRows);
+                      print('\n');
+
+                      /*
+                      List<Map<String, dynamic>> recentUuids_id = await ProximityDatabaseProvider.instance.queryMyRecentUuids_id();
+                      print('these are my recent uuids : _id');
+                      print(recentUuids_id);
+                      List<Map<String, dynamic>> recentUuids_uuid = await ProximityDatabaseProvider.instance.queryMyRecentUuids_uuid();
+                      print('these are my recent uuids :uuid');
+                      print(recentUuids_uuid);
+                       */
+
+                      List<int> recentUuids_id = await ProximityDatabaseProvider.instance.queryMyRecentUuids_id();
+                      print('these are my recent uuids : _id');
+                      print(recentUuids_id);
+                      List<String> recentUuids_uuid = await ProximityDatabaseProvider.instance.queryMyRecentUuids_uuid();
+                      print('these are my recent uuids :uuid');
+                      print(recentUuids_uuid);
+
+                      // firestore
+                      //FirestoreDatabaseService.instance.addRecord(0, 'yeeeeehaw');
+                      FirestoreDatabaseService.instance.addPositiveUuids();
+
+                      // end of testing
+
                       beaconBroadcast.stop();
                     },
                     child: Text('STOP'),

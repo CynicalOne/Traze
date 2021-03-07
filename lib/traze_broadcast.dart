@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:traze/Persistence/database.dart';
 import 'package:traze/beacon_broadcast.dart';
 import 'package:flutter/material.dart';
 import 'package:traze/UUID/uuid.dart';
@@ -92,43 +91,7 @@ class _BroadcastState extends State<Broadcast> {
                 ),
                 Center(
                   child: RaisedButton(
-                    onPressed: () async{
-                      int insertedId = await ProximityDatabaseProvider.instance.insert(1, {
-                        ProximityDatabaseProvider.columnName: 'leedle leedle leedle lee',
-                      });
-                      print('the inserted id (encounters) is $insertedId');
-                      List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
-                      print(queryRows);
-                      int rowsEffected1 = await ProximityDatabaseProvider.instance.delete(1, 5);
-                      print('the number of rows effected (encounters): $rowsEffected1');
-                      queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
-                      print(queryRows);
-
-                      int insertedId2 = await ProximityDatabaseProvider.instance.insert(2, {
-                        ProximityDatabaseProvider.columnName: 'ratthew',
-                      });
-                      print('the inserted id (past uuids) is $insertedId2');
-                      int insertedId3 = await ProximityDatabaseProvider.instance.insert(2, {
-                        ProximityDatabaseProvider.columnName: 'ludacris cross apple sauce',
-                      });
-                      print('the inserted id (past uuids) is $insertedId3');
-                      List<Map<String, dynamic>> queryRows2 = await ProximityDatabaseProvider.instance.queryAll(2);
-                      print(queryRows2);
-                      int rowsEffected = await ProximityDatabaseProvider.instance.delete(2, 2);
-                      print('the number of rows effected (past uuids): $rowsEffected');
-                      queryRows = await ProximityDatabaseProvider.instance.queryAll(2);
-                      print(queryRows);
-
-                      int nrowsEffected = await ProximityDatabaseProvider.instance.update(1,{
-                        ProximityDatabaseProvider.columnId: 1,
-                        ProximityDatabaseProvider.columnName: 'wap',
-                      });
-                      print('number of rows affected by updated $nrowsEffected');
-                      queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
-                      print(queryRows);
-                      queryRows = await ProximityDatabaseProvider.instance.queryAll(2);
-                      print(queryRows);
-
+                    onPressed: () {
 
                       beaconBroadcast.stop();
                     },
