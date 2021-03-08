@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io' show Platform;
+import 'dart:io' show Platform, sleep;
 
 import 'package:beacons_plugin/beacons_plugin.dart';
 import 'package:flutter/material.dart';
@@ -134,17 +134,21 @@ class _MyAppState extends State<BeaconScan> {
                 child: RaisedButton(
                   onPressed: () async {
                     initPlatformState();
-                    Duration start = const Duration(seconds: 10);
-                    new Timer.periodic(
-                        start, (Timer t) => BeaconsPlugin.stopMonitoring);
+                    Duration start = const Duration(seconds: 2);
                     setState(() {
-                      isRunning = false;
+                      isRunning = true;
                     });
 
                     await BeaconsPlugin.startMonitoring;
 
+                    print('before ten seconds');
+                    sleep(new Duration(seconds: 5));
+                    print(
+                        _beaconResult); // This will be printed 10 seconds later.
+
+                    BeaconsPlugin.stopMonitoring;
                     setState(() {
-                      isRunning = true;
+                      isRunning = false;
                     });
                   },
                   child: Text('Commence Contact Tracing',

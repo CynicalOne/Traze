@@ -8,7 +8,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:traze/Scan/flutter_blue.dart';
 import 'package:traze/uuid_scan_widgets.dart';
-import 'package:cron/cron.dart';
 
 class FlutterBlueApp extends StatelessWidget {
   Widget build(BuildContext context) {
