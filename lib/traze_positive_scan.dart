@@ -14,7 +14,7 @@ class PositiveScan extends StatelessWidget {
     return new Material(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Heat Map'),
+          title: Text('Contact Status'),
           backgroundColor: Colors.deepOrangeAccent,
         ),
         drawer: Drawer(
@@ -87,6 +87,7 @@ class PositiveScan extends StatelessWidget {
             ],
           ),
         ),
+        backgroundColor: Colors.red,
         body: Center(
           child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -98,6 +99,7 @@ class PositiveScan extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 25.0,
+                  backgroundColor: Colors.red,
                 ),
               ),
               new IconButton(
