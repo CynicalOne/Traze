@@ -150,6 +150,8 @@ class _MyAppState extends State<BeaconScan> {
                     setState(() {
                       isRunning = false;
                     });
+
+                    //here the uuid should be saved wherever we want
                   },
                   child: Text('Commence Contact Tracing',
                       style: TextStyle(fontSize: 20)),
