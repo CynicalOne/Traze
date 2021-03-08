@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:traze/quiz_pages/landing_page.dart';
+import 'package:traze/traze_about_covid.dart';
+import 'package:traze/traze_appointment.dart';
+import 'package:traze/traze_home.dart';
+import 'package:traze/traze_input_test.dart';
+
+import 'beacon_broadcast_2.dart';
+import 'beacon_broadcast_scan.dart';
 
 class PositiveScan extends StatelessWidget {
   @override
