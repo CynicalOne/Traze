@@ -23,7 +23,7 @@ class _GreetingState extends State<ThankYou> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           new Text(
-            'Thank You For Submitting,Stay Safe,Wear A Mask',
+            'Thank You For Submitting. Stay safe, please continue to wear a mask',
             textAlign: TextAlign.center,
             style: new TextStyle(
               color: Colors.white,

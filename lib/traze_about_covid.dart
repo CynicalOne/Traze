@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:traze/uuid_scan_2.dart';
 import 'beacon_broadcast_2.dart';
+import 'beacon_broadcast_scan.dart';
 
 void main() => runApp(AboutCovid());
 
@@ -129,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               style: kTitleTextstyle,
                             ),
                             TextSpan(
-                              text: "Newest update March 28",
+                              text: "Newest update March 8",
                               style: TextStyle(
                                 color: kTextLightColor,
                               ),
@@ -280,15 +281,11 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LandingPage()));
             }),
-            CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
+            CustomListTile(Icons.bluetooth, 'Contact Tracing Mode', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
+                  MaterialPageRoute(builder: (context) => BeaconScan()));
             }),
-            CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BroadcastTwo()));
-            }),
-            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+            CustomListTile(Icons.clear, 'Contact Tracing Results', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PositiveScan()));
             }),

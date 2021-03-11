@@ -11,6 +11,7 @@ import 'package:traze/traze_screening.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:traze/uuid_scan_2.dart';
 import 'beacon_broadcast_2.dart';
+import 'beacon_broadcast_scan.dart';
 
 class Appointment extends StatelessWidget {
   @override
@@ -128,15 +129,11 @@ class Appointment extends StatelessWidget {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LandingPage()));
             }),
-            CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
+            CustomListTile(Icons.bluetooth, 'Contact Tracing Mode', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
+                  MaterialPageRoute(builder: (context) => BeaconScan()));
             }),
-            CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BroadcastTwo()));
-            }),
-            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+            CustomListTile(Icons.clear, 'Contact Tracing Results', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PositiveScan()));
             }),
