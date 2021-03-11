@@ -26,6 +26,7 @@ class _MyAppState extends State<BeaconScan> {
   String _beaconResult = 'Not Scanned Yet.';
   int _nrMessaggesReceived = 0;
   var isRunning = false;
+  bool isStopped = false; //global
 
   final StreamController<String> beaconEventsController =
       StreamController<String>.broadcast();
@@ -36,12 +37,6 @@ class _MyAppState extends State<BeaconScan> {
     initPlatformState();
   }
 
-  @override
-  void dispose() {
-    beaconEventsController.close();
-    super.dispose();
-  }
-
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     if (Platform.isAndroid) {
@@ -49,17 +44,28 @@ class _MyAppState extends State<BeaconScan> {
       await BeaconsPlugin.setDisclosureDialogMessage(
           title: "Need Location Permission",
           message: "This app collects location data to work with beacons.");
-
-      //Only in case, you want the dialog to be shown again. By Default, dialog will never be shown if permissions are granted.
-      //await BeaconsPlugin.clearDisclosureDialogShowFlag(false);
     }
+    //Send 'true' to run in background
+    await BeaconsPlugin.runInBackground(true);
 
     BeaconsPlugin.listenToBeacons(beaconEventsController);
 
-    await BeaconsPlugin.addRegion(
-        "BeaconType1", "909c3cf9-fc5c-4841-b695-380958a51a5a");
-    await BeaconsPlugin.addRegion(
-        "BeaconType2", "6a84c716-0f2a-1ce9-f210-6a63bd873dd9");
+    const time = const Duration(seconds: 10);
+    new Timer.periodic(
+        time, (Timer t) async => await BeaconsPlugin.startMonitoring);
+    setState(() {
+      isRunning = true;
+    });
+
+    print('Stop Scannage');
+    const time2 = const Duration(seconds: 20);
+    new Timer.periodic(
+        time2, (Timer t) async => await BeaconsPlugin.stopMonitoring);
+    setState(() {
+      isRunning = false;
+    });
+
+    print(_beaconResult);
 
     beaconEventsController.stream.listen(
         (data) {
@@ -76,27 +82,6 @@ class _MyAppState extends State<BeaconScan> {
         onError: (error) {
           print("Error: $error");
         });
-
-    //Send 'true' to run in background
-    await BeaconsPlugin.runInBackground(true);
-
-    if (Platform.isAndroid) {
-      BeaconsPlugin.channel.setMethodCallHandler((call) async {
-        if (call.method == 'scannerReady') {
-          await BeaconsPlugin.startMonitoring;
-          setState(() {
-            isRunning = true;
-          });
-        }
-      });
-    } else if (Platform.isIOS) {
-      await BeaconsPlugin.startMonitoring;
-      setState(() {
-        isRunning = true;
-      });
-    }
-
-    if (!mounted) return;
   }
 
   @override
@@ -104,7 +89,7 @@ class _MyAppState extends State<BeaconScan> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Heat Map'),
+          title: Text('Contact Tracing'),
           backgroundColor: Colors.deepOrangeAccent,
         ),
         drawer: Drawer(
@@ -194,13 +179,11 @@ class _MyAppState extends State<BeaconScan> {
                 visible: isRunning,
                 child: RaisedButton(
                   onPressed: () async {
-                    if (Platform.isAndroid) {
-                      await BeaconsPlugin.stopMonitoring;
+                    BeaconsPlugin.stopMonitoring;
 
-                      setState(() {
-                        isRunning = false;
-                      });
-                    }
+                    setState(() {
+                      isRunning = false;
+                    });
                   },
                   child: Text('Stop Scanning', style: TextStyle(fontSize: 20)),
                 ),
@@ -213,26 +196,12 @@ class _MyAppState extends State<BeaconScan> {
                 child: RaisedButton(
                   onPressed: () async {
                     initPlatformState();
-                    Duration start = const Duration(seconds: 2);
-                    setState(() {
-                      isRunning = true;
-                    });
-
-                    await BeaconsPlugin.startMonitoring;
-
-                    print('before ten seconds');
-                    sleep(new Duration(seconds: 5));
-                    print(
-                        _beaconResult); // This will be printed 10 seconds later.
-
-                    BeaconsPlugin.stopMonitoring;
                     setState(() {
                       isRunning = false;
                     });
-
-                    //here the uuid should be saved wherever we want
+                    BeaconsPlugin.stopMonitoring;
                   },
-                  child: Text('Commence Contact Tracing',
+                  child: Text('Stop Contact Tracing',
                       style: TextStyle(fontSize: 20)),
                 ),
               )
@@ -241,6 +210,11 @@ class _MyAppState extends State<BeaconScan> {
         ),
       ),
     );
+  }
+
+  void dispose() {
+    beaconEventsController.close();
+    super.dispose();
   }
 }
 
