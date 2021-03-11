@@ -10,17 +10,6 @@ class FirestoreDatabaseService {
   FirestoreDatabaseService._privateConstructor();
   static final FirestoreDatabaseService instance = FirestoreDatabaseService._privateConstructor();
 
-  Future addRecord(String uuid) async {
-    return await positiveUuidCollection.add({
-      'uuid': uuid,
-      'datetime_reportedPositive': Timestamp.now(),
-    });
-  }
-
-  deleteRecord(String doc_id) {
-    positiveUuidCollection.doc(doc_id).delete();
-  }
-
   // adds my recent uuids to the positive uuid cloud database
   Future addPositiveUuids() async {
     List<String> myRecentUuids = await ProximityDatabaseProvider.instance.queryMyRecentUuids();
@@ -43,6 +32,26 @@ class FirestoreDatabaseService {
       deleteRecord(doc.id);
     });
     print('end of old uuid deletion');
+  }
+
+  Future addRecord(String uuid) async {
+    return await positiveUuidCollection.add({
+      'uuid': uuid,
+      'datetime_reportedPositive': Timestamp.now(),
+    });
+  }
+
+  deleteRecord(String doc_id) {
+    positiveUuidCollection.doc(doc_id).delete();
+  }
+
+  Future<List<QueryDocumentSnapshot>> queryPositiveUuid(String uuid) async{
+    QuerySnapshot snapshot =
+    await positiveUuidCollection
+        .where("uuid", isEqualTo: uuid)
+        .get();
+    return snapshot.docs;
+
   }
 
 }

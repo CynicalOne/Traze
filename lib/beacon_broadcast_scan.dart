@@ -3,6 +3,8 @@ import 'dart:io' show Platform, sleep;
 
 import 'package:beacons_plugin/beacons_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/Persistence/database_cloud.dart';
+import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
@@ -11,6 +13,10 @@ import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 
 import 'beacon_broadcast_2.dart';
+
+import 'package:traze/uuid_scan_2.dart';
+import 'package:traze/Persistence/database.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,6 +88,18 @@ class _MyAppState extends State<BeaconScan> {
         onError: (error) {
           print("Error: $error");
         });
+
+    // makes daily checks for old uuids and deletes old uuids from the positive uuid database
+    const daily = Duration(days:1);
+    new Timer.periodic(
+        daily, (Timer t) async => await FirestoreDatabaseService.instance.deleteOldPositiveUuids());
+
+    // FIX THIS BECAUSE I NEED TO STORE THE BOOL RESULT SOMEWHERE, CAN'T LEAVE IT LIKE THIS I THINK
+    const daily2 = Duration(days:1);
+    new Timer.periodic(
+      daily2, (Timer t) async => await DatabaseComparison.instance.foundMatch());
+    )
+
   }
 
   @override
@@ -200,6 +218,19 @@ class _MyAppState extends State<BeaconScan> {
                       isRunning = false;
                     });
                     BeaconsPlugin.stopMonitoring;
+                    // get names list, iterate and add each uuid to encounters database
+                    FindDevicesScreen d = new FindDevicesScreen();
+                    // needs to be tested
+                    for (var name in d.names) {
+                      ProximityDatabaseProvider.instance.insert(1,
+                          {
+                            ProximityDatabaseProvider.columnName: name,
+                          });
+                    }
+                    List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
+                    print('encounters table: \n');
+                    print(queryRows);
+                    print('\n');
                   },
                   child: Text('Stop Contact Tracing',
                       style: TextStyle(fontSize: 20)),

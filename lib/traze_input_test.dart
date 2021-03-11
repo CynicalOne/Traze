@@ -13,6 +13,9 @@ import 'src/UI/custom_input_field.dart';
 import 'package:traze/uuid_scan_2.dart';
 import 'package:traze/beacon_broadcast_2.dart';
 
+import 'package:traze/Persistence/database_cloud.dart';
+
+
 class TestID extends StatelessWidget {
   TextEditingController _uuidController;
 
@@ -63,11 +66,12 @@ class TestID extends StatelessWidget {
                       width: 150,
                       child: RaisedButton(
                         //link to other page when pressed
-                        onPressed: () {
+                        onPressed: () async {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ThankYou()));
+                          FirestoreDatabaseService.instance.addPositiveUuids(); // add uuids to positive uuid cloud database
                         },
                         color: Colors.orange,
                         textColor: Colors.white,

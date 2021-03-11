@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:beacon_broadcast/beacon_broadcast.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/Persistence/database.dart';
+import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 
 import 'dart:math';
@@ -185,6 +187,22 @@ class _MyAppState extends State<BroadcastTwo> {
                 Center(
                   child: RaisedButton(
                     onPressed: () async {
+                      // testing database
+                      List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
+                      print('encounters table: \n');
+                      print(queryRows);
+                      print('\n');
+
+                      print('here are my duplicates');
+                      List<String> duplicates = await ProximityDatabaseProvider.instance.queryDuplicateEncounters();
+                      for (var duplicate in duplicates){
+                        print(duplicate);
+                      }
+
+                      bool isMatch = await DatabaseComparison.instance.foundMatch();
+                      print('possible exposure to covid: $isMatch');
+
+                      // end of database testing
                       beaconBroadcast.stop();
                     },
                     child: Text('STOP Broadcast'),

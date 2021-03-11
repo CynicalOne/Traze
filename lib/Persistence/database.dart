@@ -87,13 +87,33 @@ class ProximityDatabaseProvider {
       BETWEEN (cast(strftime('%s', 'now', '-30 days') as int)) AND (cast(strftime('%s', 'now') as int))
       '''
     );
-      for (var uuid in queryUuids) {
-        for (var value in uuid.values) {
+      for (var map in queryUuids) {
+        for (var value in map.values) {
           _results.add(value);
         }
       }
     return _results;
   }
+
+  Future<List<String>> queryDuplicateEncounters() async {
+    Database db = await instance.database;
+    List<String> _results = [];
+    List<Map<String, dynamic>> queryUuids = await db.rawQuery(
+        '''
+      SELECT uuid
+      FROM encountersTable
+      GROUP BY uuid
+      HAVING COUNT(*) > 1
+      '''
+    );
+    for (var map in queryUuids) {
+      for (var value in map.values) {
+        _results.add(value);
+      }
+    }
+    return _results;
+  }
+
 
   Future<int> update (int table, Map<String, dynamic> row) async{
     if (table == 1) { // encounters table
