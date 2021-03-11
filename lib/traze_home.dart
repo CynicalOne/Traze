@@ -13,6 +13,8 @@ import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/uuid_scan_2.dart';
 import 'package:traze/beacon_broadcast_2.dart';
 
+import 'beacon_broadcast_scan.dart';
+
 void main() => runApp(Home());
 
 class Home extends StatelessWidget {
@@ -116,7 +118,7 @@ class MapSampleState extends State<MapSample> {
             }),
             CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
+                  MaterialPageRoute(builder: (context) => BeaconScan()));
             }),
             CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
               Navigator.push(context,
