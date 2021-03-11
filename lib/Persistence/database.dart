@@ -10,6 +10,7 @@ class ProximityDatabaseProvider {
 
   static final _dbName = 'uuids.db';
   static final _dbVersion = 1;
+
   static final _tableName = 'encountersTable';
   static final _table2Name = 'myPastUuidsTable';
 
@@ -34,7 +35,7 @@ class ProximityDatabaseProvider {
     return await openDatabase(path, version: _dbVersion, onCreate: _onCreate);
   }
 
-  // creates the database with the encountersTable and the myPastUuidsTable
+  // creates the local database with the encountersTable and the myPastUuidsTable
   Future _onCreate(Database db, int version) async{
     await db.execute(
           '''
@@ -115,4 +116,6 @@ class ProximityDatabaseProvider {
       return await db.delete(_table2Name, where: '$columnId = ?', whereArgs: [id]);
     }
   }
+
+
 }
