@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.3"
+  beacons_plugin:
+    dependency: "direct main"
+    description:
+      name: beacons_plugin
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.20"
   boolean_selector:
     dependency: transitive
     description:
@@ -113,6 +120,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.14.2"
+  cron:
+    dependency: "direct main"
+    description:
+      name: cron
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.4"
   crypto:
     dependency: "direct main"
     description:
@@ -665,6 +679,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.1+3"
+  uuid:
+    dependency: "direct main"
+    description:
+      name: uuid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.2"
   vector_math:
     dependency: transitive
     description:

@@ -10,7 +10,6 @@ import 'package:traze/Scan/flutter_blue.dart';
 import 'package:traze/uuid_scan_widgets.dart';
 
 class FlutterBlueApp extends StatelessWidget {
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       color: Colors.lightBlue,
@@ -72,6 +71,7 @@ class FindDevicesScreen extends StatelessWidget {
     'Carline'
   ];
   TextEditingController nameController = TextEditingController();
+  Duration oneSec = Duration(seconds: 100);
 
   addItemToList(String uuid) {
     names.insert(0, uuid);
@@ -137,6 +137,7 @@ class FindDevicesScreen extends StatelessWidget {
                             addItemToList(
                                 r.advertisementData.serviceUuids.toString());
                             print(names);
+
                             return DeviceScreen(device: r.device);
                           })),
                         ),
@@ -161,8 +162,10 @@ class FindDevicesScreen extends StatelessWidget {
           } else {
             return FloatingActionButton(
                 child: Icon(Icons.search),
-                onPressed: () => FlutterBlue.instance
-                    .startScan(timeout: Duration(seconds: 4)));
+                onPressed: () => new Timer.periodic(
+                    oneSec,
+                    (Timer t) => FlutterBlue.instance
+                        .startScan(timeout: Duration(seconds: 4))));
           }
         },
       ),

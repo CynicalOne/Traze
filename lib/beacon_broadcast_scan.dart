@@ -1,76 +1,88 @@
 import 'dart:async';
+import 'dart:io' show Platform, sleep;
 
-import 'package:beacon_broadcast/beacon_broadcast.dart';
+import 'package:beacons_plugin/beacons_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-
-import 'dart:math';
-
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 
-import 'beacon_broadcast_scan.dart';
+import 'beacon_broadcast_2.dart';
 
-class BroadcastTwo extends StatefulWidget {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(BeaconScan());
+}
+
+class BeaconScan extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<BroadcastTwo> {
-  final Random _random = Random();
-  static const majorId = 0;
-  static const minorId = 30;
-  static const transmissionPower = -59;
-  static const identifier = 'com.example.myDeviceRegion';
-  //static const AdvertiseMode advertiseMode = AdvertiseMode.lowPower;
-  static const layout = BeaconBroadcast.ALTBEACON_LAYOUT;
-  static const manufacturerId = 0x0118;
-  String generateV4() {
-    // Generate xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx / 8-4-4-4-12.
-    final int special = 8 + _random.nextInt(4);
+class _MyAppState extends State<BeaconScan> {
+  String _beaconResult = 'Not Scanned Yet.';
+  int _nrMessaggesReceived = 0;
+  var isRunning = false;
+  bool isStopped = false; //global
 
-    return '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}-'
-        '${_bitsDigits(16, 4)}-'
-        '4${_bitsDigits(12, 3)}-'
-        '${_printDigits(special, 1)}${_bitsDigits(12, 3)}-'
-        '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}';
-  }
-
-  String _bitsDigits(int bitCount, int digitCount) =>
-      _printDigits(_generateBits(bitCount), digitCount);
-
-  int _generateBits(int bitCount) => _random.nextInt(1 << bitCount);
-
-  String _printDigits(int value, int count) =>
-      value.toRadixString(16).padLeft(count, '0');
+  final StreamController<String> beaconEventsController =
+      StreamController<String>.broadcast();
 
   @override
   void initState() {
     super.initState();
-    beaconBroadcast
-        .checkTransmissionSupported()
-        .then((isTransmissionSupported) {
-      setState(() {
-        _isTransmissionSupported = isTransmissionSupported;
-      });
-    });
-
-    _isAdvertisingSubscription =
-        beaconBroadcast.getAdvertisingStateChange().listen((isAdvertising) {
-      setState(() {
-        _isAdvertising = isAdvertising;
-      });
-    });
+    initPlatformState();
   }
 
-  BeaconBroadcast beaconBroadcast = BeaconBroadcast();
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    if (Platform.isAndroid) {
+      //Prominent disclosure
+      await BeaconsPlugin.setDisclosureDialogMessage(
+          title: "Need Location Permission",
+          message: "This app collects location data to work with beacons.");
+    }
+    //Send 'true' to run in background
+    await BeaconsPlugin.runInBackground(true);
 
-  BeaconStatus _isTransmissionSupported;
-  bool _isAdvertising = false;
-  StreamSubscription<bool> _isAdvertisingSubscription;
+    BeaconsPlugin.listenToBeacons(beaconEventsController);
+
+    const time = const Duration(seconds: 10);
+    new Timer.periodic(
+        time, (Timer t) async => await BeaconsPlugin.startMonitoring);
+    setState(() {
+      isRunning = true;
+    });
+
+    print('Stop Scannage');
+    const time2 = const Duration(seconds: 20);
+    new Timer.periodic(
+        time2, (Timer t) async => await BeaconsPlugin.stopMonitoring);
+    setState(() {
+      isRunning = false;
+    });
+
+    print(_beaconResult);
+
+    beaconEventsController.stream.listen(
+        (data) {
+          if (data.isNotEmpty) {
+            setState(() {
+              _beaconResult = data;
+              _nrMessaggesReceived++;
+            });
+            print("Beacons DataReceived: " + data);
+            print(data);
+          }
+        },
+        onDone: () {},
+        onError: (error) {
+          print("Error: $error");
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,66 +162,59 @@ class _MyAppState extends State<BroadcastTwo> {
             ],
           ),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(height: 16.0),
-                Text('Is beacon broadcasting?',
-                    style: Theme.of(context).textTheme.headline5),
-                Text('$_isAdvertising',
-                    style: Theme.of(context).textTheme.subtitle1),
-                Container(height: 16.0),
-                Center(
-                  child: RaisedButton(
-                    onPressed: () {
-                      beaconBroadcast
-                          .setUUID(generateV4())
-                          .setMajorId(majorId)
-                          .setMinorId(minorId)
-                          .setTransmissionPower(transmissionPower)
-                          //.setIdentifier(identifier)
-                          //.setLayout(layout)
-                          //.setManufacturerId(manufacturerId)
-                          .start();
-                      print(Random().toString());
-                      print(generateV4());
-                    },
-                    child: Text('START NEW Broadcast'),
-                  ),
+        body: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('$_beaconResult'),
+              Padding(
+                padding: EdgeInsets.all(10.0),
+              ),
+              Text('$_nrMessaggesReceived'),
+              SizedBox(
+                height: 20.0,
+              ),
+              Visibility(
+                visible: isRunning,
+                child: RaisedButton(
+                  onPressed: () async {
+                    BeaconsPlugin.stopMonitoring;
+
+                    setState(() {
+                      isRunning = false;
+                    });
+                  },
+                  child: Text('Stop Scanning', style: TextStyle(fontSize: 20)),
                 ),
-                Center(
-                  child: RaisedButton(
-                    onPressed: () {
-                      beaconBroadcast.stop();
-                    },
-                    child: Text('STOP Broadcast'),
-                  ),
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
+              Visibility(
+                visible: !isRunning,
+                child: RaisedButton(
+                  onPressed: () async {
+                    initPlatformState();
+                    setState(() {
+                      isRunning = false;
+                    });
+                    BeaconsPlugin.stopMonitoring;
+                  },
+                  child: Text('Stop Contact Tracing',
+                      style: TextStyle(fontSize: 20)),
                 ),
-                Text('UUID Being Broadcasted:',
-                    style: Theme.of(context).textTheme.headline5),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('UUID: ' + generateV4()),
-                ),
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),
     );
   }
 
-  @override
   void dispose() {
+    beaconEventsController.close();
     super.dispose();
-    if (_isAdvertisingSubscription != null) {
-      _isAdvertisingSubscription.cancel();
-    }
   }
 }
 
