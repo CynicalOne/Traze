@@ -123,16 +123,19 @@ class _MyAppState extends State<BeaconScan> {
       // get names list, iterate and add each uuid to encounters database
       int insertedId = 0;
       for (var name in UUID) {
-        insertedId = await ProximityDatabaseProvider.instance.insert(1, {
-          ProximityDatabaseProvider.columnName: name,
-        });
-        print('inserted id: $insertedId');
+        if (name != "Not Scanned Yet.") {
+          insertedId = await ProximityDatabaseProvider.instance.insert(1, {
+            ProximityDatabaseProvider.columnName: name,
+          });
+          print('inserted id: $insertedId');
+        }
       }
       List<Map<String, dynamic>> queryRows =
           await ProximityDatabaseProvider.instance.queryAll(1);
       print('encounters table: \n');
       print(queryRows);
       print('\n');
+
     });
 
     // get names list, iterate and add each uuid to encounters database
