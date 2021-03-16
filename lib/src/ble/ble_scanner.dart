@@ -43,6 +43,7 @@ class BleScanner implements ReactiveState<BleScannerState> {
         print('uuid list');
         print(_ourUUID);
         // adding _ourUUID into the local database
+        /*
         for (var i = 0; i < _ourUUID.length; i++) {
           pdp.addProximityId(
               new ProximityId(id: 0, datetime: 0, proximityid: _ourUUID[i]));
@@ -56,6 +57,9 @@ class BleScanner implements ReactiveState<BleScannerState> {
                 style: new TextStyle(color: Colors.white, fontSize: 20.0),
                 textAlign: TextAlign.center,
               );
+
+
+        */
       }
       _pushState();
     });
