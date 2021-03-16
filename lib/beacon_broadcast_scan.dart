@@ -13,6 +13,7 @@ import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 
 import 'beacon_broadcast_2.dart';
+import 'package:traze/Persistence/database.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,7 @@ class _MyAppState extends State<BeaconScan> {
   int _nrMessaggesReceived = 0;
   var isRunning = false;
   bool isStopped = false; //global
+  List<String> UUID = [];
 
   final Random _random = Random();
   static const majorId = 0;
@@ -95,16 +97,12 @@ class _MyAppState extends State<BeaconScan> {
         });
       });
     }
+
     //Send 'true' to run in background
-
     await BeaconsPlugin.runInBackground(true);
-
     BeaconsPlugin.listenToBeacons(beaconEventsController);
 
-    const stopScanTime = const Duration(seconds: 20);
-    const time = const Duration(seconds: 30); //.scan every 5 min
-
-    new Timer.periodic(const Duration(seconds: 20), (_) {
+    new Timer.periodic(const Duration(seconds: 20), (_) async {
       print("Starting scan");
       BeaconsPlugin.startMonitoring;
       setState(() {
@@ -119,8 +117,25 @@ class _MyAppState extends State<BeaconScan> {
           isRunning = false;
         });
       });
-      BeaconsPlugin.clearRegions();
+      UUID.add(_beaconResult.toString());
+      print('This is my list');
+      print(UUID);
+      // get names list, iterate and add each uuid to encounters database
+      int insertedId = 0;
+      for (var name in UUID) {
+        insertedId = await ProximityDatabaseProvider.instance.insert(1, {
+          ProximityDatabaseProvider.columnName: name,
+        });
+        print('inserted id: $insertedId');
+      }
+      List<Map<String, dynamic>> queryRows =
+          await ProximityDatabaseProvider.instance.queryAll(1);
+      print('encounters table: \n');
+      print(queryRows);
+      print('\n');
     });
+
+    // get names list, iterate and add each uuid to encounters database
 
     //stop the scan after x seconds. when the next
     //scannage starts then we can compare that id with the previous scanned
