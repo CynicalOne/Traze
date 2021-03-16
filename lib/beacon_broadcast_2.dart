@@ -186,23 +186,7 @@ class _MyAppState extends State<BroadcastTwo> {
                 ),
                 Center(
                   child: RaisedButton(
-                    onPressed: () async {
-                      // testing database
-                      List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
-                      print('encounters table: \n');
-                      print(queryRows);
-                      print('\n');
-
-                      print('here are my duplicates');
-                      List<String> duplicates = await ProximityDatabaseProvider.instance.queryDuplicateEncounters();
-                      for (var duplicate in duplicates){
-                        print(duplicate);
-                      }
-
-                      bool isMatch = await DatabaseComparison.instance.foundMatch();
-                      print('possible exposure to covid: $isMatch');
-
-                      // end of database testing
+                    onPressed: () {
                       beaconBroadcast.stop();
                     },
                     child: Text('STOP Broadcast'),

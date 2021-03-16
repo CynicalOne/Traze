@@ -137,5 +137,15 @@ class ProximityDatabaseProvider {
     }
   }
 
+  Future<int> deleteAll(int table) async{
+    if (table == 1) { // encounters table
+      Database db = await instance.database;
+      return await db.delete(_tableName);
+    } else {
+      Database db = await instance.database;
+      return await db.delete(_table2Name);
+    }
+  }
+
 
 }
