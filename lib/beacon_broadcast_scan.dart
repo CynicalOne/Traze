@@ -11,6 +11,7 @@ import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
+import 'package:traze/traze_status.dart';
 
 import 'beacon_broadcast_2.dart';
 import 'package:traze/Persistence/database.dart';
@@ -27,6 +28,7 @@ class BeaconScan extends StatefulWidget {
 
 class _MyAppState extends State<BeaconScan> {
   String _beaconResult = 'Not Scanned Yet.';
+  List<String> token = [];
   int _nrMessaggesReceived = 0;
   var isRunning = false;
   bool isStopped = false; //global
@@ -118,6 +120,7 @@ class _MyAppState extends State<BeaconScan> {
         });
       });
       UUID.add(_beaconResult.toString());
+
       print('This is my list');
       print(UUID);
       // get names list, iterate and add each uuid to encounters database
@@ -126,6 +129,7 @@ class _MyAppState extends State<BeaconScan> {
         insertedId = await ProximityDatabaseProvider.instance.insert(1, {
           ProximityDatabaseProvider.columnName: name,
         });
+
         print('inserted id: $insertedId');
       }
       List<Map<String, dynamic>> queryRows =
@@ -147,11 +151,15 @@ class _MyAppState extends State<BeaconScan> {
         (data) {
           if (data.isNotEmpty) {
             setState(() {
+              token = data.toString().split(",");
+              String onlyUUIDs = token[1]
+                  .toString()
+                  .substring(12, token[1].toString().length - 1);
+              _beaconResult = onlyUUIDs;
               _beaconResult = data;
               _nrMessaggesReceived++;
             });
-            print("Beacons DataReceived: " + data);
-            print(data);
+            //print("token" + token[1]);
           }
         },
         onDone: () {},
@@ -247,7 +255,7 @@ class _MyAppState extends State<BeaconScan> {
               }),
               CustomListTile(Icons.clear, 'Positive Scan Message', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PositiveScan()));
+                    MaterialPageRoute(builder: (context) => ContactStatus()));
               }),
               CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
                 Navigator.push(

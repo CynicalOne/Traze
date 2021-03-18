@@ -122,7 +122,7 @@ class MapSampleState extends State<MapSample> {
             }),
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PositiveScan()));
+                  MaterialPageRoute(builder: (context) => ContactStatus()));
             }),
             CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
               Navigator.push(
