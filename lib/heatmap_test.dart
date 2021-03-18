@@ -10,6 +10,7 @@ import 'package:traze/traze_broadcast.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
+import 'package:traze/traze_status.dart';
 
 void main() => runApp(MyApp());
 

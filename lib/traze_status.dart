@@ -134,7 +134,7 @@ class ContactStatus extends StatelessWidget {
     if //change condition to whatever makes it posotive
         (Platform.isAndroid) {
       return Colors.red;
-    } else if //chamnge condition to whatever makes it negative
+    } else if //change condition to whatever makes it negative
         (Platform.isIOS) {
       return Colors.blueAccent;
     }

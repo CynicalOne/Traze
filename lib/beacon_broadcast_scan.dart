@@ -131,6 +131,13 @@ class _MyAppState extends State<BeaconScan> {
         });
 
         print('inserted id: $insertedId');
+
+        if (name != "Not Scanned Yet.") {
+          insertedId = await ProximityDatabaseProvider.instance.insert(1, {
+            ProximityDatabaseProvider.columnName: name,
+          });
+          print('inserted id: $insertedId');
+        }
       }
       List<Map<String, dynamic>> queryRows =
           await ProximityDatabaseProvider.instance.queryAll(1);
@@ -170,17 +177,28 @@ class _MyAppState extends State<BeaconScan> {
     print('Starting broadcast');
 
     const time3 = const Duration(seconds: 900); //15 min we change uuid
-    new Timer.periodic(
-        time3,
-        (Timer t) async => await beaconBroadcast
-            .setUUID(generateV4())
-            .setMajorId(majorId)
-            .setMinorId(minorId)
-            .setTransmissionPower(transmissionPower)
-            //.setIdentifier(identifier)
-            //.setLayout(layout)
-            //.setManufacturerId(manufacturerId)
-            .start());
+    new Timer.periodic(time3, (Timer t) async {
+      var uuid = generateV4();
+      await beaconBroadcast
+          .setUUID(uuid)
+          .setMajorId(majorId)
+          .setMinorId(minorId)
+          .setTransmissionPower(transmissionPower)
+          //.setIdentifier(identifier)
+          //.setLayout(layout)
+          //.setManufacturerId(manufacturerId)
+          .start();
+      // add broadcasting uuid to local database of my past broadcasting ids
+      int insertedId2 = await ProximityDatabaseProvider.instance.insert(2, {
+        ProximityDatabaseProvider.columnName: uuid,
+      });
+      print('the inserted id is $insertedId2');
+      List<Map<String, dynamic>> queryRows2 =
+          await ProximityDatabaseProvider.instance.queryAll(2);
+      print('my past broadcasting uuids table: \n');
+      print(queryRows2);
+      print('\n');
+    });
 
     print(Random().toString());
     print(generateV4());
