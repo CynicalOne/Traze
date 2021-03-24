@@ -1,70 +1,61 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
+import 'dart:io' show Platform;
+
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_bluetooth.dart';
-import 'package:traze/traze_broadcast.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_input_test.dart';
-import 'package:traze/traze_positive_scan.dart';
-import 'package:traze/traze_status.dart';
-import 'package:traze/uuid_scan_2.dart';
-import 'package:traze/beacon_broadcast_2.dart';
 
+import 'beacon_broadcast_2.dart';
 import 'beacon_broadcast_scan.dart';
 
-void main() => runApp(Home());
+class ContactStatus extends StatelessWidget {
+  Widget Status() {
+    if //change condition to whatever makes it posotive
+        (Platform.isAndroid) {
+      return Center(
+        child: new Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new Text(
+              'You have been in contact with somebody who has tested positive for Covid 19. Push the button below to make an appointment to get tested.',
+              textAlign: TextAlign.center,
+              style: new TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 25.0,
+              ),
+            ),
+            new IconButton(
+              icon: new Icon(Icons.arrow_right),
+              color: Colors.white,
+              iconSize: 50.0,
+              onPressed: () {},
+            )
+          ],
+        ),
+      );
+    } else if //change condition to whatever makes it negative
+        (Platform.isIOS) {
+      return Container(
+          width: 150.00,
+          padding: EdgeInsets.fromLTRB(40, 40, 40, 40),
+          color: Colors.white,
+          child: Text('You are Negative for covid 19',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 24, color: Colors.white)));
+    }
+  }
 
-class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Google Heatmap Demo',
-      home: MapSample(),
-    );
-  }
-}
-
-class MapSample extends StatefulWidget {
-  @override
-  State<MapSample> createState() => MapSampleState();
-}
-
-class MapSampleState extends State<MapSample> {
-  Completer<GoogleMapController> _controller = Completer();
-  final Set<Heatmap> _heatmaps = {};
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-  LatLng _heatmapLocation = LatLng(37.42796133580664, -122.085749655962);
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
-
-  @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        heatmaps: _heatmaps,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addHeatmap,
-        label: Text('Load Covid 19 Heatmap'),
-        icon: Icon(Icons.add_box),
-      ),
+        home: Scaffold(
+      backgroundColor: color(),
+      body: Center(child: Status()),
       appBar: AppBar(
-        title: Text('Heat Map'),
+        title: Text('Your Contact Status'),
         backgroundColor: Colors.deepOrangeAccent,
       ),
       drawer: Drawer(
@@ -136,34 +127,17 @@ class MapSampleState extends State<MapSample> {
           ],
         ),
       ),
-    );
+    ));
   }
 
-  void _addHeatmap() {
-    setState(() {
-      _heatmaps.add(Heatmap(
-          heatmapId: HeatmapId(_heatmapLocation.toString()),
-          points: _createPoints(_heatmapLocation),
-          radius: 200,
-          visible: true,
-          gradient: HeatmapGradient(
-              colors: <Color>[Colors.green, Colors.red],
-              startPoints: <double>[0.2, 0.8])));
-    });
-  }
-
-  //heatmap generation helper functions
-  List<WeightedLatLng> _createPoints(LatLng location) {
-    final List<WeightedLatLng> points = <WeightedLatLng>[];
-    //Can create multiple points here
-    points.add(_createWeightedLatLng(location.latitude, location.longitude, 1));
-    points.add(
-        _createWeightedLatLng(location.latitude - 1, location.longitude, 1));
-    return points;
-  }
-
-  WeightedLatLng _createWeightedLatLng(double lat, double lng, int weight) {
-    return WeightedLatLng(point: LatLng(lat, lng), intensity: weight);
+  color() {
+    if //change condition to whatever makes it posotive
+        (Platform.isAndroid) {
+      return Colors.red;
+    } else if //change condition to whatever makes it negative
+        (Platform.isIOS) {
+      return Colors.blueAccent;
+    }
   }
 }
 

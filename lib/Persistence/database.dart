@@ -5,7 +5,6 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 class ProximityDatabaseProvider {
 
   static final _dbName = 'uuids.db';
@@ -28,6 +27,7 @@ class ProximityDatabaseProvider {
     _database = await _initiateDatabase();
     return _database;
   }
+
 
   _initiateDatabase() async{
     Directory directory = await getApplicationDocumentsDirectory();
@@ -114,7 +114,6 @@ class ProximityDatabaseProvider {
     return _results;
   }
 
-
   Future<int> update (int table, Map<String, dynamic> row) async{
     if (table == 1) { // encounters table
       Database db = await instance.database;
@@ -146,6 +145,4 @@ class ProximityDatabaseProvider {
       return await db.delete(_table2Name);
     }
   }
-
-
 }

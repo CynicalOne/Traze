@@ -34,11 +34,13 @@ class _MyAppState extends State<BroadcastTwo> {
     // Generate xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx / 8-4-4-4-12.
     final int special = 8 + _random.nextInt(4);
 
-    return '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}-'
+    String uuid = '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}-'
         '${_bitsDigits(16, 4)}-'
         '4${_bitsDigits(12, 3)}-'
         '${_printDigits(special, 1)}${_bitsDigits(12, 3)}-'
         '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}';
+
+    return uuid;
   }
 
   String _bitsDigits(int bitCount, int digitCount) =>
@@ -73,6 +75,28 @@ class _MyAppState extends State<BroadcastTwo> {
   BeaconStatus _isTransmissionSupported;
   bool _isAdvertising = false;
   StreamSubscription<bool> _isAdvertisingSubscription;
+
+  Future<void> initPlatformState() async {
+    const time = const Duration(seconds: 30); //.scan every 5 min
+
+    new Timer.periodic(time, (Timer t) async => generateV4());
+
+    print('Starting broadcast');
+
+    const time3 = const Duration(seconds: 2);
+    const time4 = const Duration(seconds: 15); //15 min we change uuid 900 secs
+    new Timer.periodic(
+        time3,
+        (Timer t) async => await beaconBroadcast
+            .setUUID(generateV4())
+            .setMajorId(majorId)
+            .setMinorId(minorId)
+            .setTransmissionPower(transmissionPower)
+            //.setIdentifier(identifier)
+            //.setLayout(layout)
+            //.setManufacturerId(manufacturerId)
+            .start());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,37 +190,11 @@ class _MyAppState extends State<BroadcastTwo> {
                 Text('$_isAdvertising',
                     style: Theme.of(context).textTheme.subtitle1),
                 Container(height: 16.0),
-                Center(
-                  child: RaisedButton(
-                    onPressed: () {
-                      beaconBroadcast
-                          .setUUID(generateV4())
-                          .setMajorId(majorId)
-                          .setMinorId(minorId)
-                          .setTransmissionPower(transmissionPower)
-                          //.setIdentifier(identifier)
-                          //.setLayout(layout)
-                          //.setManufacturerId(manufacturerId)
-                          .start();
-                      print(Random().toString());
-                      print(generateV4());
-                    },
-                    child: Text('START NEW Broadcast'),
-                  ),
-                ),
-                Center(
-                  child: RaisedButton(
-                    onPressed: () {
-                      beaconBroadcast.stop();
-                    },
-                    child: Text('STOP Broadcast'),
-                  ),
-                ),
                 Text('UUID Being Broadcasted:',
                     style: Theme.of(context).textTheme.headline5),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('UUID: ' + generateV4()),
+                  child: Text('UUID:' + generateV4()),
                 ),
               ],
             ),

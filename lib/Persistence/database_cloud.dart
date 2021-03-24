@@ -3,7 +3,6 @@ import 'package:traze/Persistence/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class FirestoreDatabaseService {
-
   final CollectionReference positiveUuidCollection = Firestore.instance.collection('positiveuuids');
 
   // making it a singleton class

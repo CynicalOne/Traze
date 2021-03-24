@@ -6,6 +6,7 @@ import 'package:traze/traze_broadcast.dart';
 import 'package:traze/traze_home.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
+import 'package:traze/traze_status.dart';
 import 'package:traze/widgets/counter.dart';
 import 'package:traze/widgets/my_header.dart';
 import 'package:flutter/material.dart';
@@ -290,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }),
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PositiveScan()));
+                  MaterialPageRoute(builder: (context) => ContactStatus()));
             }),
             CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
               Navigator.push(
