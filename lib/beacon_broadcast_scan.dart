@@ -5,6 +5,8 @@ import 'package:beacon_broadcast/beacon_broadcast.dart';
 import 'dart:math';
 import 'package:beacons_plugin/beacons_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/Persistence/database_cloud.dart';
+import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
@@ -12,10 +14,12 @@ import 'package:traze/traze_home.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_status.dart';
+import 'package:traze/uuid_scan_2.dart';
 
 import 'beacon_broadcast_2.dart';
 import 'package:traze/Persistence/database.dart';
 
+FindDevicesScreen d = new FindDevicesScreen(); // for uuid names list
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(BeaconScan());
@@ -166,7 +170,7 @@ class _MyAppState extends State<BeaconScan> {
               _beaconResult = data;
               _nrMessaggesReceived++;
             });
-            //print("token" + token[1]);
+            print("token" + token[1]);
           }
         },
         onDone: () {},
@@ -174,8 +178,18 @@ class _MyAppState extends State<BeaconScan> {
           print("Error: $error");
         });
 
-    print('Starting broadcast');
+    const duration1 = const Duration(hours: 12);
+    new Timer.periodic(duration1, (Timer t) async {
+      await FirestoreDatabaseService.instance.deleteOldPositiveUuids();
+    });
 
+    const duration2 = const Duration(hours: 12);
+    bool positive = false;
+    new Timer.periodic(duration2, (Timer t) async {
+      positive = await DatabaseComparison.instance.foundMatch();
+    });
+
+    print('Starting UUID broadcast');
     const time3 = const Duration(seconds: 900); //15 min we change uuid
     new Timer.periodic(time3, (Timer t) async {
       var uuid = generateV4();
