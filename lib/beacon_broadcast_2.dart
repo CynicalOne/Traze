@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:beacon_broadcast/beacon_broadcast.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/Persistence/database.dart';
+import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 
 import 'dart:math';

@@ -19,7 +19,11 @@ import 'package:traze/uuid_scan_2.dart';
 import 'beacon_broadcast_2.dart';
 import 'package:traze/Persistence/database.dart';
 
+import 'package:traze/uuid_scan_2.dart';
+import 'package:traze/Persistence/database.dart';
+
 FindDevicesScreen d = new FindDevicesScreen(); // for uuid names list
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(BeaconScan());
@@ -116,47 +120,27 @@ class _MyAppState extends State<BeaconScan> {
       });
       print('before the regular timer');
 
-      Timer(Duration(seconds: 10), () {
-        print("Yeah, this line is printed after 3 seconds");
-        BeaconsPlugin.stopMonitoring;
-        setState(() {
-          isRunning = false;
-        });
-      });
-      UUID.add(_beaconResult.toString());
-
-      print('This is my list');
-      print(UUID);
+      print('Stop Scannage');
+      const time2 = const Duration(seconds: 20);
+      new Timer.periodic(
+          time2, (Timer t) async => await BeaconsPlugin.stopMonitoring);
       // get names list, iterate and add each uuid to encounters database
       int insertedId = 0;
-      for (var name in UUID) {
+      for (var name in d.names) {
         insertedId = await ProximityDatabaseProvider.instance.insert(1, {
           ProximityDatabaseProvider.columnName: name,
         });
-
         print('inserted id: $insertedId');
-
-        if (name != "Not Scanned Yet.") {
-          insertedId = await ProximityDatabaseProvider.instance.insert(1, {
-            ProximityDatabaseProvider.columnName: name,
-          });
-          print('inserted id: $insertedId');
-        }
       }
       List<Map<String, dynamic>> queryRows =
           await ProximityDatabaseProvider.instance.queryAll(1);
       print('encounters table: \n');
       print(queryRows);
       print('\n');
+      setState(() {
+        isRunning = false;
+      });
     });
-
-    // get names list, iterate and add each uuid to encounters database
-
-    //stop the scan after x seconds. when the next
-    //scannage starts then we can compare that id with the previous scanned
-
-    //_beaconresult is the uuid we scan(along with other device info
-    //we can save it here bec the scanning has stopped at this point
 
     beaconEventsController.stream.listen(
         (data) {
@@ -213,9 +197,6 @@ class _MyAppState extends State<BeaconScan> {
       print(queryRows2);
       print('\n');
     });
-
-    print(Random().toString());
-    print(generateV4());
   }
 
   @override
