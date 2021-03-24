@@ -92,6 +92,7 @@ class _BroadcastState extends State<Broadcast> {
                 Center(
                   child: RaisedButton(
                     onPressed: () {
+
                       beaconBroadcast.stop();
                     },
                     child: Text('STOP'),

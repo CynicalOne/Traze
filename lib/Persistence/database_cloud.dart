@@ -3,20 +3,17 @@ import 'package:traze/Persistence/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class FirestoreDatabaseService {
-  final CollectionReference positiveUuidCollection =
-      Firestore.instance.collection('positiveuuids');
+  final CollectionReference positiveUuidCollection = Firestore.instance.collection('positiveuuids');
 
   // making it a singleton class
   FirestoreDatabaseService._privateConstructor();
-  static final FirestoreDatabaseService instance =
-      FirestoreDatabaseService._privateConstructor();
+  static final FirestoreDatabaseService instance = FirestoreDatabaseService._privateConstructor();
 
   // adds my recent uuids to the positive uuid cloud database
   Future addPositiveUuids() async {
-    List<String> myRecentUuids =
-        await ProximityDatabaseProvider.instance.queryMyRecentUuids();
+    List<String> myRecentUuids = await ProximityDatabaseProvider.instance.queryMyRecentUuids();
     print('adding my recent uuids to myRecentUuids table:');
-    for (var i = 0; i < myRecentUuids.length; i++) {
+    for (var i = 0; i < myRecentUuids.length; i++){
       addRecord(myRecentUuids[i]);
       print(myRecentUuids[i]);
     }
@@ -24,12 +21,12 @@ class FirestoreDatabaseService {
 
   // deletes old uuids from the positive uuid cloud database when user no longer contagious
   Future deleteOldPositiveUuids() async {
-    final QuerySnapshot snapshot = await positiveUuidCollection
-        .where("datetime_reportedPositive",
-            isLessThanOrEqualTo: DateTime.now().subtract(Duration(days: 30)))
+    final QuerySnapshot snapshot =
+    await positiveUuidCollection
+        .where("datetime_reportedPositive", isLessThanOrEqualTo: DateTime.now().subtract(Duration(days:30)))
         .get();
     print('old uuid documents to be deleted from positive uuid database:');
-    snapshot.docs.forEach((DocumentSnapshot doc) {
+    snapshot.docs.forEach((DocumentSnapshot doc){
       print(doc.data());
       deleteRecord(doc.id);
     });
@@ -47,9 +44,13 @@ class FirestoreDatabaseService {
     positiveUuidCollection.doc(doc_id).delete();
   }
 
-  Future<List<QueryDocumentSnapshot>> queryPositiveUuid(String uuid) async {
+  Future<List<QueryDocumentSnapshot>> queryPositiveUuid(String uuid) async{
     QuerySnapshot snapshot =
-        await positiveUuidCollection.where("uuid", isEqualTo: uuid).get();
+    await positiveUuidCollection
+        .where("uuid", isEqualTo: uuid)
+        .get();
     return snapshot.docs;
+
   }
+
 }

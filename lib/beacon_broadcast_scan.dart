@@ -5,6 +5,8 @@ import 'package:beacon_broadcast/beacon_broadcast.dart';
 import 'dart:math';
 import 'package:beacons_plugin/beacons_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/Persistence/database_cloud.dart';
+import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
@@ -15,6 +17,12 @@ import 'package:traze/traze_status.dart';
 
 import 'beacon_broadcast_2.dart';
 import 'package:traze/Persistence/database.dart';
+
+import 'package:traze/uuid_scan_2.dart';
+import 'package:traze/Persistence/database.dart';
+
+FindDevicesScreen d = new FindDevicesScreen(); // for uuid names list
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -112,38 +120,25 @@ class _MyAppState extends State<BeaconScan> {
       });
       print('before the regular timer');
 
-      Timer(Duration(seconds: 10), () {
-        print("Yeah, this line is printed after 3 seconds");
-        BeaconsPlugin.stopMonitoring;
-        setState(() {
-          isRunning = false;
-        });
-      });
-      UUID.add(_beaconResult.toString());
-
-      print('This is my list');
-      print(UUID);
-      // get names list, iterate and add each uuid to encounters database
-      int insertedId = 0;
-      for (var name in UUID) {
-        insertedId = await ProximityDatabaseProvider.instance.insert(1, {
-          ProximityDatabaseProvider.columnName: name,
-        });
-
-        print('inserted id: $insertedId');
-
-        if (name != "Not Scanned Yet.") {
-          insertedId = await ProximityDatabaseProvider.instance.insert(1, {
+    print('Stop Scannage');
+    const time2 = const Duration(seconds: 20);
+    new Timer.periodic(
+        time2, (Timer t) async => await BeaconsPlugin.stopMonitoring);
+    // get names list, iterate and add each uuid to encounters database
+    int insertedId = 0;
+    for (var name in d.names) {
+      insertedId = await ProximityDatabaseProvider.instance.insert(1,
+          {
             ProximityDatabaseProvider.columnName: name,
           });
-          print('inserted id: $insertedId');
-        }
-      }
-      List<Map<String, dynamic>> queryRows =
-          await ProximityDatabaseProvider.instance.queryAll(1);
-      print('encounters table: \n');
-      print(queryRows);
-      print('\n');
+      print('inserted id: $insertedId');
+    }
+    List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
+    print('encounters table: \n');
+    print(queryRows);
+    print('\n');
+    setState(() {
+      isRunning = false;
     });
 
     // get names list, iterate and add each uuid to encounters database
@@ -174,34 +169,19 @@ class _MyAppState extends State<BeaconScan> {
           print("Error: $error");
         });
 
-    print('Starting broadcast');
+    // checks for old uuids and deletes old uuids from the positive uuid database
+    const duration1 = Duration(hours:12);
+    new Timer.periodic(
+        duration1, (Timer t) async => await FirestoreDatabaseService.instance.deleteOldPositiveUuids());
 
-    const time3 = const Duration(seconds: 900); //15 min we change uuid
-    new Timer.periodic(time3, (Timer t) async {
-      var uuid = generateV4();
-      await beaconBroadcast
-          .setUUID(uuid)
-          .setMajorId(majorId)
-          .setMinorId(minorId)
-          .setTransmissionPower(transmissionPower)
-          //.setIdentifier(identifier)
-          //.setLayout(layout)
-          //.setManufacturerId(manufacturerId)
-          .start();
-      // add broadcasting uuid to local database of my past broadcasting ids
-      int insertedId2 = await ProximityDatabaseProvider.instance.insert(2, {
-        ProximityDatabaseProvider.columnName: uuid,
-      });
-      print('the inserted id is $insertedId2');
-      List<Map<String, dynamic>> queryRows2 =
-          await ProximityDatabaseProvider.instance.queryAll(2);
-      print('my past broadcasting uuids table: \n');
-      print(queryRows2);
-      print('\n');
+    // compares encounters database with positive uuid database for matching uuids
+    const duration2 = Duration(hours:12);
+    bool positive = false;
+    new Timer.periodic(
+      duration2, (Timer t) async {
+      positive = await DatabaseComparison.instance.foundMatch();
     });
 
-    print(Random().toString());
-    print(generateV4());
   }
 
   @override
