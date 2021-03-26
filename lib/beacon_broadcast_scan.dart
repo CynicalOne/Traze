@@ -23,8 +23,6 @@ import 'package:traze/uuid_scan_2.dart';
 import 'package:traze/Persistence/database.dart';
 
 
-FindDevicesScreen d = new FindDevicesScreen(); // for uuid names list
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(BeaconScan());
@@ -42,6 +40,7 @@ class _MyAppState extends State<BeaconScan> {
   var isRunning = false;
   bool isStopped = false; //global
   List<String> UUID = [];
+  bool positive = false;
 
   final Random _random = Random();
   static const majorId = 0;
@@ -157,7 +156,6 @@ class _MyAppState extends State<BeaconScan> {
                   .toString()
                   .substring(12, token[1].toString().length - 1);
               _beaconResult = onlyUUIDs;
-              _beaconResult = data;
               _nrMessaggesReceived++;
             });
             print("token" + token[1]);
@@ -174,7 +172,6 @@ class _MyAppState extends State<BeaconScan> {
     });
 
     const duration2 = const Duration(hours: 12);
-    bool positive = false;
     new Timer.periodic(duration2, (Timer t) async {
       positive = await DatabaseComparison.instance.foundMatch();
     });
