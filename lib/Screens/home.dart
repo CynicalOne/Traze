@@ -1,61 +1,87 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:provider/provider.dart';
+import 'package:traze/Screens/auth_bloc.dart';
+import 'package:traze/Screens/login.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'dart:io' show Platform;
 
-import 'package:traze/traze_about_covid.dart';
-import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_heat_map.dart';
-import 'package:traze/traze_input_test.dart';
+import '../beacon_broadcast_2.dart';
+import '../beacon_broadcast_scan.dart';
+import '../traze_about_covid.dart';
+import '../traze_appointment.dart';
+import '../traze_heat_map.dart';
+import '../traze_input_test.dart';
+import '../traze_status.dart';
 
-import 'beacon_broadcast_2.dart';
-import 'beacon_broadcast_scan.dart';
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-class ContactStatus extends StatelessWidget {
-  Widget Status() {
-    if //change condition to whatever makes it positive
-        (Platform.isAndroid) {
-      return Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'You have been in contact with somebody who has tested positive for Covid 19. Push the button below to make an appointment to get tested.',
-              textAlign: TextAlign.center,
-              style: new TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 25.0,
-              ),
-            ),
-            new IconButton(
-              icon: new Icon(Icons.arrow_right),
-              color: Colors.white,
-              iconSize: 50.0,
-              onPressed: () {},
-            )
-          ],
-        ),
-      );
-    } else if //change condition to whatever makes it negative
-        (Platform.isIOS) {
-      return Container(
-          width: 150.00,
-          padding: EdgeInsets.fromLTRB(40, 40, 40, 40),
-          color: Colors.white,
-          child: Text('You are Negative for covid 19',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, color: Colors.white)));
-    }
+class _HomeScreenState extends State<HomeScreen> {
+  StreamSubscription<User> loginStateSubscription;
+
+  @override
+  void initState() {
+    var authBloc = Provider.of<AuthBloc>(context, listen: false);
+    loginStateSubscription = authBloc.currentUser.listen((fbUser) {
+      if (fbUser == null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => GoogleLogin(),
+          ),
+        );
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    loginStateSubscription.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-      backgroundColor: color(),
-      body: Center(child: Status()),
+    final authBloc = Provider.of<AuthBloc>(context);
+
+    return Scaffold(
+      body: Container(
+        child: StreamBuilder<User>(
+            stream: authBloc.currentUser,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) return CircularProgressIndicator();
+
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 20.0),
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(
+                            snapshot.data.photoURL.replaceFirst('s96', 's400')),
+                        radius: 20.0,
+                      ),
+                      Text(
+                        snapshot.data.displayName,
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                      SizedBox(height: 20.0),
+                    ],
+                  ),
+                ),
+              );
+            }),
+      ),
       appBar: AppBar(
-        title: Text('Your Contact Status'),
+        title: Text('Profile'),
         backgroundColor: Colors.deepOrangeAccent,
       ),
       drawer: Drawer(
@@ -124,20 +150,11 @@ class ContactStatus extends StatelessWidget {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => TestID()));
             }),
+            CustomListTile(Icons.person, 'Sign out', () => authBloc.logout()),
           ],
         ),
       ),
-    ));
-  }
-
-  color() {
-    if //change condition to whatever makes it positive
-        (Platform.isAndroid) {
-      return Colors.red;
-    } else if //change condition to whatever makes it negative
-        (Platform.isIOS) {
-      return Colors.blueAccent;
-    }
+    );
   }
 }
 

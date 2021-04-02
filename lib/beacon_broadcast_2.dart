@@ -10,7 +10,7 @@ import 'dart:math';
 
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_home.dart';
+import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 
@@ -150,8 +150,8 @@ class _MyAppState extends State<BroadcastTwo> {
                     MaterialPageRoute(builder: (context) => Appointment()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HeatMap()));
               }),
               CustomListTile(Icons.check, 'Self Screening', () {
                 Navigator.push(context,

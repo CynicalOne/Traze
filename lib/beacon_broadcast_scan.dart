@@ -10,7 +10,7 @@ import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_home.dart';
+import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_status.dart';
@@ -21,7 +21,6 @@ import 'package:traze/Persistence/database.dart';
 
 import 'package:traze/uuid_scan_2.dart';
 import 'package:traze/Persistence/database.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -254,8 +253,8 @@ class _MyAppState extends State<BeaconScan> {
                     MaterialPageRoute(builder: (context) => Appointment()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HeatMap()));
               }),
               CustomListTile(Icons.check, 'Self Screening', () {
                 Navigator.push(context,

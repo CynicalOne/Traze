@@ -7,7 +7,7 @@ import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_broadcast.dart';
-import 'package:traze/traze_home.dart';
+import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_status.dart';
@@ -16,9 +16,7 @@ import 'package:traze/beacon_broadcast_2.dart';
 
 import 'beacon_broadcast_scan.dart';
 
-void main() => runApp(Home());
-
-class Home extends StatelessWidget {
+class HeatMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -111,7 +109,7 @@ class MapSampleState extends State<MapSample> {
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+                  context, MaterialPageRoute(builder: (context) => HeatMap()));
             }),
             CustomListTile(Icons.check, 'Self Screening', () {
               Navigator.push(context,

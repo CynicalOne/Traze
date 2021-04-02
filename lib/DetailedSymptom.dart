@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:traze/self_screening.dart';
-
+/*
 class DetailedSymptom extends StatefulWidget {
   Symptom selectedSymptom;
   DetailedSymptom(this.selectedSymptom);
@@ -65,3 +65,4 @@ class DetailedSymptomState extends State<DetailedSymptom> {
     );
   }
 }
+*/

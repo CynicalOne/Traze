@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:traze/traze_home.dart';
+import 'package:traze/Screens/home.dart';
+import 'package:traze/traze_heat_map.dart';
 
 import 'src/UI/custom_input_field.dart';
 import 'src/UI/background_circle.dart';
@@ -49,7 +50,7 @@ class LogIn extends StatelessWidget {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Home()));
+                                    builder: (context) => HomeScreen()));
                           },
                           color: Colors.orange,
                           textColor: Colors.white,
@@ -66,8 +67,7 @@ class LogIn extends StatelessWidget {
                         width: 160,
                         child: RaisedButton(
                           //link to other page when pressed
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                           color: Colors.white12,
                           textColor: Colors.white,
                           shape: RoundedRectangleBorder(
