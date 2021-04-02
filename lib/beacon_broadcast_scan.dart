@@ -40,7 +40,7 @@ class _MyAppState extends State<BeaconScan> {
   var isRunning = false;
   bool isStopped = false; //global
   List<String> UUID = [];
-  bool positive = false;
+  //static var positive = false;
 
   final Random _random = Random();
   static const majorId = 0;
@@ -173,7 +173,7 @@ class _MyAppState extends State<BeaconScan> {
 
     const duration2 = const Duration(hours: 12);
     new Timer.periodic(duration2, (Timer t) async {
-      positive = await DatabaseComparison.instance.foundMatch();
+      //positive = await DatabaseComparison.instance.foundMatch();
     });
 
     print('Starting UUID broadcast');
