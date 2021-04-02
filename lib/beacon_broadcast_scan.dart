@@ -171,10 +171,11 @@ class _MyAppState extends State<BeaconScan> {
       await FirestoreDatabaseService.instance.deleteOldPositiveUuids();
     });
 
-    const duration2 = const Duration(hours: 12);
+    const duration2 = const Duration(seconds: 2);
     new Timer.periodic(duration2, (Timer t) async {
       //positive = await DatabaseComparison.instance.foundMatch();
     });
+
 
     print('Starting UUID broadcast');
     const time3 = const Duration(seconds: 900); //15 min we change uuid
