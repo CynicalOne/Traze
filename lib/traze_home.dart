@@ -16,8 +16,6 @@ import 'package:traze/beacon_broadcast_2.dart';
 
 import 'beacon_broadcast_scan.dart';
 
-void main() => runApp(Home());
-
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
