@@ -1,32 +1,47 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:traze/Google//services/auth_service.dart';
+import 'package:traze/Google/Screens/login.dart';
+import 'package:traze/Google/Screens/regestration.dart';
+import 'package:flutter/material.dart';
 
-class AuthBloc {
-  final authService = AuthService();
-  final googleSignIn = GoogleSignIn(scopes: ['email']);
+class FirebaseAuthDemo extends StatefulWidget {
+  @override
+  _FirebaseAuthDemoState createState() => _FirebaseAuthDemoState();
+}
 
-  Stream<User> get currentUser => authService.currentUser;
-
-  loginGoogle() async {
-    try {
-      final GoogleSignInAccount googleUser = await googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-          idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
-
-      //firebase sign in
-
-      final result = await authService.signInWithUserCredential(credential);
-
-      print('${result.user.displayName}');
-    } catch (error) {
-      print(error);
-    }
+class _FirebaseAuthDemoState extends State<FirebaseAuthDemo> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Firebase Auth"),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            child: OutlineButton(
+              child: Text("Signin"),
+              onPressed: () => _pushPage(context, SignIn()),
+            ),
+            padding: const EdgeInsets.all(16),
+            alignment: Alignment.center,
+          ),
+          Container(
+            child: OutlineButton(
+              child: Text("Register"),
+              onPressed: () => _pushPage(context, Register()),
+            ),
+            padding: const EdgeInsets.all(16),
+            alignment: Alignment.center,
+          ),
+        ],
+      ),
+    );
   }
 
-  logout() {
-    authService.logOut();
+  void _pushPage(BuildContext context, Widget page) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => page),
+    );
   }
 }
