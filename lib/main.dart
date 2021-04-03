@@ -1,7 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:traze/Google/screens/login.dart';
+
+import 'package:traze/Google/Screens/login.dart';
 
 import 'package:traze/Google/Blocs/auth_bloc.dart';
 

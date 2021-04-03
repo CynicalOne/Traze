@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:traze/traze_home.dart';
+import 'package:traze/traze_heat_map.dart';
 
 class ThankYou extends StatefulWidget {
   @override
@@ -40,7 +40,7 @@ class _GreetingState extends State<ThankYou> {
     Navigator.of(context).pushReplacement(new PageRouteBuilder(
         maintainState: true,
         opaque: true,
-        pageBuilder: (context, _, __) => new Home(),
+        pageBuilder: (context, _, __) => new TrazeMap(),
         transitionDuration: const Duration(seconds: 2),
         transitionsBuilder: (context, anim1, anim2, child) {
           return new FadeTransition(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:provider/provider.dart';
 import 'package:traze/Google/Blocs/auth_bloc.dart';
+import 'package:traze/Google/Screens/profile.dart';
 import 'package:traze/src/UI/background_circle.dart';
 import 'package:traze/src/UI/custom_input_field.dart';
 
@@ -25,7 +26,7 @@ class _LoginState extends State<Login> {
       if (fbUser != null) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => ProfilePage(),
           ),
         );
       }

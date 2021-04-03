@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     var authBloc = Provider.of<AuthBloc>(context, listen: false);
     loginStateSubscription = authBloc.currentUser.listen((fbUser) {
-      if (fbUser == null) {
+      if (fbUser != null) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => Login(),
@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: StreamBuilder<User>(
             stream: authBloc.currentUser,
             builder: (context, snapshot) {
-              if (!snapshot.hasData) return CircularProgressIndicator();
+              //if (!snapshot.hasData) return CircularProgressIndicator();
 
               return Center(
                 child: Padding(
@@ -55,16 +55,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(height: 20.0),
-                      CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            snapshot.data.photoURL.replaceFirst('s96', 's400')),
-                        radius: 20.0,
-                      ),
                       Text(
-                        snapshot.data.displayName,
+                        'Display Name',
+                        // snapshot.data.displayName,
                         style: TextStyle(fontSize: 15.0),
                       ),
-                      SizedBox(height: 20.0),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text('About Covid'),
                     ],
                   ),
                 ),
@@ -109,7 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 )),
-            CustomListTile(Icons.person, 'Sign out', () => authBloc.logout()),
             CustomListTile(Icons.account_circle, 'Make an Appointment', () {}),
             CustomListTile(Icons.wifi, 'Heatmap', () {}),
             CustomListTile(Icons.check, 'Self Screening', () {}),
@@ -118,6 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
             CustomListTile(Icons.clear, 'Positive Scan Message', () {}),
             CustomListTile(
                 Icons.assignment_ind_outlined, 'Your Test ID', () {}),
+            CustomListTile(Icons.person, 'Sign out', () => authBloc.logout()),
           ],
         ),
       ),
