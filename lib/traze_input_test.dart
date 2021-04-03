@@ -75,13 +75,21 @@ class TestID extends StatelessWidget {
                           List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
                           print('encounters table: \n');
                           print(queryRows);
+                          queryRows = await ProximityDatabaseProvider.instance.queryAll(2);
+                          print('mypastuuids table: \n');
+                          print(queryRows);
                           print('\n');
                           print('doing delete all..');
                           int rowsEffected = await ProximityDatabaseProvider.instance.deleteAll(1);
-                          print(rowsEffected);
+                          print('num rowsEffected (encounters): $rowsEffected');
+                          rowsEffected = await ProximityDatabaseProvider.instance.deleteAll(2);
+                          print('num rowsEffected (mypastuuids): $rowsEffected');
                           print('\n');
                           queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
                           print('encounters table: \n');
+                          print(queryRows);
+                          queryRows = await ProximityDatabaseProvider.instance.queryAll(2);
+                          print('mypastuuids table: \n');
                           print(queryRows);
                           print('\n');
 

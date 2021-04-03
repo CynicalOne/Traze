@@ -12,7 +12,7 @@ import 'beacon_broadcast_scan.dart';
 
 class ContactStatus extends StatelessWidget {
   Widget Status() {
-    if //change condition to whatever makes it posotive
+    if //change condition to whatever makes it positive
         (Platform.isAndroid) {
       return Center(
         child: new Column(
@@ -131,7 +131,7 @@ class ContactStatus extends StatelessWidget {
   }
 
   color() {
-    if //change condition to whatever makes it posotive
+    if //change condition to whatever makes it positive
         (Platform.isAndroid) {
       return Colors.red;
     } else if //change condition to whatever makes it negative

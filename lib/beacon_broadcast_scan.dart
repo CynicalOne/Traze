@@ -22,7 +22,6 @@ import 'package:traze/Persistence/database.dart';
 import 'package:traze/uuid_scan_2.dart';
 import 'package:traze/Persistence/database.dart';
 
-FindDevicesScreen d = new FindDevicesScreen(); // for uuid names list
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +40,7 @@ class _MyAppState extends State<BeaconScan> {
   var isRunning = false;
   bool isStopped = false; //global
   List<String> UUID = [];
+  //static var positive = false;
 
   final Random _random = Random();
   static const majorId = 0;
@@ -121,16 +121,21 @@ class _MyAppState extends State<BeaconScan> {
       print('before the regular timer');
 
       print('Stop Scannage');
+      UUID.add(_beaconResult.toString());
+      print('This is my list');
+      print(UUID);
       const time2 = const Duration(seconds: 20);
       new Timer.periodic(
           time2, (Timer t) async => await BeaconsPlugin.stopMonitoring);
-      // get names list, iterate and add each uuid to encounters database
+      // get uuids scanned list, iterate and add each uuid to encounters database
       int insertedId = 0;
-      for (var name in d.names) {
-        insertedId = await ProximityDatabaseProvider.instance.insert(1, {
-          ProximityDatabaseProvider.columnName: name,
-        });
-        print('inserted id: $insertedId');
+      for (var name in UUID) {
+        if (name != "Not Scanned Yet.") {
+          insertedId = await ProximityDatabaseProvider.instance.insert(1, {
+            ProximityDatabaseProvider.columnName: name,
+          });
+          print('inserted id: $insertedId');
+        }
       }
       List<Map<String, dynamic>> queryRows =
           await ProximityDatabaseProvider.instance.queryAll(1);
@@ -151,7 +156,6 @@ class _MyAppState extends State<BeaconScan> {
                   .toString()
                   .substring(12, token[1].toString().length - 1);
               _beaconResult = onlyUUIDs;
-              _beaconResult = data;
               _nrMessaggesReceived++;
             });
             print("token" + token[1]);
@@ -167,11 +171,11 @@ class _MyAppState extends State<BeaconScan> {
       await FirestoreDatabaseService.instance.deleteOldPositiveUuids();
     });
 
-    const duration2 = const Duration(hours: 12);
-    bool positive = false;
+    const duration2 = const Duration(seconds: 2);
     new Timer.periodic(duration2, (Timer t) async {
-      positive = await DatabaseComparison.instance.foundMatch();
+      //positive = await DatabaseComparison.instance.foundMatch();
     });
+
 
     print('Starting UUID broadcast');
     const time3 = const Duration(seconds: 900); //15 min we change uuid
