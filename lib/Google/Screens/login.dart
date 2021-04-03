@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
       if (fbUser != null) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => ProfilePage(),
+            builder: (context) => HomeScreen(),
           ),
         );
       }
