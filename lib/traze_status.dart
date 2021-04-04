@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'dart:io' show Platform;
 
@@ -92,13 +93,13 @@ class ContactStatus extends StatelessWidget {
                     ],
                   ),
                 )),
+            CustomListTile(Icons.account_circle, 'Profile', () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
+            }),
             CustomListTile(Icons.person, 'About Covid', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => AboutCovid()));
-            }),
-            CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Appointment()));
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(

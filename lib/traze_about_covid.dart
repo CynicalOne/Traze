@@ -1,3 +1,4 @@
+import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/constant.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_appointment.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:traze/uuid_scan_2.dart';
 import 'beacon_broadcast_2.dart';
+import 'beacon_broadcast_scan.dart';
 
 void main() => runApp(AboutCovid());
 
@@ -265,13 +267,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 )),
+            CustomListTile(Icons.account_circle, 'Profile', () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
+            }),
             CustomListTile(Icons.person, 'About Covid', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => AboutCovid()));
-            }),
-            CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Appointment()));
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(
@@ -283,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
             }),
             CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
+                  MaterialPageRoute(builder: (context) => BeaconScan()));
             }),
             CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
               Navigator.push(context,

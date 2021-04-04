@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:traze/Google/Screens/home.dart';
+import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/thank_you_page.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
@@ -9,6 +11,7 @@ import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_screening.dart';
+import 'package:traze/traze_status.dart';
 import 'Persistence/database.dart';
 import 'src/UI/custom_input_field.dart';
 import 'package:traze/uuid_scan_2.dart';
@@ -171,13 +174,13 @@ class TestID extends StatelessWidget {
                     ],
                   ),
                 )),
+            CustomListTile(Icons.account_circle, 'Profile', () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
+            }),
             CustomListTile(Icons.person, 'About Covid', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => AboutCovid()));
-            }),
-            CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Appointment()));
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(
@@ -189,7 +192,7 @@ class TestID extends StatelessWidget {
             }),
             CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
+                  MaterialPageRoute(builder: (context) => BeaconScan()));
             }),
             CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
               Navigator.push(context,
@@ -197,7 +200,7 @@ class TestID extends StatelessWidget {
             }),
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PositiveScan()));
+                  MaterialPageRoute(builder: (context) => ContactStatus()));
             }),
             CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
               Navigator.push(

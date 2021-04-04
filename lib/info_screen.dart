@@ -12,6 +12,10 @@ import 'package:traze/widgets/my_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'Google/Screens/home.dart';
+import 'beacon_broadcast_2.dart';
+import 'beacon_broadcast_scan.dart';
+
 class InfoScreen extends StatefulWidget {
   @override
   _InfoScreenState createState() => _InfoScreenState();
@@ -146,13 +150,13 @@ class _InfoScreenState extends State<InfoScreen> {
                     ],
                   ),
                 )),
+            CustomListTile(Icons.account_circle, 'Profile', () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
+            }),
             CustomListTile(Icons.person, 'About Covid', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => AboutCovid()));
-            }),
-            CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Appointment()));
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(
@@ -164,11 +168,11 @@ class _InfoScreenState extends State<InfoScreen> {
             }),
             CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Bluetooth()));
+                  MaterialPageRoute(builder: (context) => BeaconScan()));
             }),
             CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Broadcast()));
+                  MaterialPageRoute(builder: (context) => BroadcastTwo()));
             }),
             CustomListTile(Icons.clear, 'Positive Scan Message', () {
               Navigator.push(context,

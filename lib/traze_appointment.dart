@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:traze/Google/Screens/home.dart';
+import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_bluetooth.dart';
@@ -114,13 +116,13 @@ class Appointment extends StatelessWidget {
                       ],
                     ),
                   )),
+              CustomListTile(Icons.account_circle, 'Profile', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MainPage()));
+              }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AboutCovid()));
-              }),
-              CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Appointment()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
                 Navigator.push(context,
@@ -132,7 +134,7 @@ class Appointment extends StatelessWidget {
               }),
               CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FlutterBlueApp()));
+                    MaterialPageRoute(builder: (context) => BeaconScan()));
               }),
               CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
                 Navigator.push(context,

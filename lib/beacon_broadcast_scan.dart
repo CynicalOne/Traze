@@ -5,6 +5,7 @@ import 'package:beacon_broadcast/beacon_broadcast.dart';
 import 'dart:math';
 import 'package:beacons_plugin/beacons_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/Persistence/database_cloud.dart';
 import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
@@ -244,13 +245,13 @@ class _MyAppState extends State<BeaconScan> {
                       ],
                     ),
                   )),
+              CustomListTile(Icons.account_circle, 'Profile', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MainPage()));
+              }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AboutCovid()));
-              }),
-              CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Appointment()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
                 Navigator.push(context,
