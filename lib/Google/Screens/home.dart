@@ -31,7 +31,7 @@ class _MainPageState extends State<MainPage> {
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(
-          widget.user.displayName,
+          'Profile',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
         ),
         backgroundColor: Colors.deepOrangeAccent,
