@@ -1,16 +1,28 @@
 import 'dart:async';
 import 'dart:io' show Platform, sleep;
 
+import 'package:beacon_broadcast/beacon_broadcast.dart';
+import 'dart:math';
 import 'package:beacons_plugin/beacons_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/Google/Screens/home.dart';
+import 'package:traze/Persistence/database_cloud.dart';
+import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_home.dart';
+import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
+import 'package:traze/traze_status.dart';
+import 'package:traze/uuid_scan_2.dart';
 
+import 'CovidAPI/homepage.dart';
 import 'beacon_broadcast_2.dart';
+import 'package:traze/Persistence/database.dart';
+
+import 'package:traze/uuid_scan_2.dart';
+import 'package:traze/Persistence/database.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,9 +36,39 @@ class BeaconScan extends StatefulWidget {
 
 class _MyAppState extends State<BeaconScan> {
   String _beaconResult = 'Not Scanned Yet.';
+  List<String> token = [];
   int _nrMessaggesReceived = 0;
   var isRunning = false;
   bool isStopped = false; //global
+  List<String> UUID = [];
+  //static var positive = false;
+
+  final Random _random = Random();
+  static const majorId = 0;
+  static const minorId = 30;
+  static const transmissionPower = -59;
+  static const identifier = 'com.example.myDeviceRegion';
+  //static const AdvertiseMode advertiseMode = AdvertiseMode.lowPower;
+  static const layout = BeaconBroadcast.ALTBEACON_LAYOUT;
+  static const manufacturerId = 0x0118;
+  String generateV4() {
+    // Generate xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx / 8-4-4-4-12.
+    final int special = 8 + _random.nextInt(4);
+
+    return '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}-'
+        '${_bitsDigits(16, 4)}-'
+        '4${_bitsDigits(12, 3)}-'
+        '${_printDigits(special, 1)}${_bitsDigits(12, 3)}-'
+        '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}';
+  }
+
+  String _bitsDigits(int bitCount, int digitCount) =>
+      _printDigits(_generateBits(bitCount), digitCount);
+
+  int _generateBits(int bitCount) => _random.nextInt(1 << bitCount);
+
+  String _printDigits(int value, int count) =>
+      value.toRadixString(16).padLeft(count, '0');
 
   final StreamController<String> beaconEventsController =
       StreamController<String>.broadcast();
@@ -37,6 +79,12 @@ class _MyAppState extends State<BeaconScan> {
     initPlatformState();
   }
 
+  BeaconBroadcast beaconBroadcast = BeaconBroadcast();
+
+  BeaconStatus _isTransmissionSupported;
+  bool _isAdvertising = false;
+  StreamSubscription<bool> _isAdvertisingSubscription;
+
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     if (Platform.isAndroid) {
@@ -44,44 +92,115 @@ class _MyAppState extends State<BeaconScan> {
       await BeaconsPlugin.setDisclosureDialogMessage(
           title: "Need Location Permission",
           message: "This app collects location data to work with beacons.");
+
+      beaconBroadcast
+          .checkTransmissionSupported()
+          .then((isTransmissionSupported) {
+        setState(() {
+          _isTransmissionSupported = isTransmissionSupported;
+        });
+      });
+
+      _isAdvertisingSubscription =
+          beaconBroadcast.getAdvertisingStateChange().listen((isAdvertising) {
+        setState(() {
+          _isAdvertising = isAdvertising;
+        });
+      });
     }
+
     //Send 'true' to run in background
     await BeaconsPlugin.runInBackground(true);
-
     BeaconsPlugin.listenToBeacons(beaconEventsController);
 
-    const time = const Duration(seconds: 10);
-    new Timer.periodic(
-        time, (Timer t) async => await BeaconsPlugin.startMonitoring);
-    setState(() {
-      isRunning = true;
-    });
+    new Timer.periodic(const Duration(seconds: 20), (_) async {
+      print("Starting scan");
+      BeaconsPlugin.startMonitoring;
+      setState(() {
+        isRunning = true;
+      });
+      print('before the regular timer');
 
-    print('Stop Scannage');
-    const time2 = const Duration(seconds: 20);
-    new Timer.periodic(
-        time2, (Timer t) async => await BeaconsPlugin.stopMonitoring);
-    setState(() {
-      isRunning = false;
+      print('Stop Scannage');
+      UUID.add(_beaconResult.toString());
+      print('This is my list');
+      print(UUID);
+      const time2 = const Duration(seconds: 20);
+      new Timer.periodic(
+          time2, (Timer t) async => await BeaconsPlugin.stopMonitoring);
+      // get uuids scanned list, iterate and add each uuid to encounters database
+      int insertedId = 0;
+      for (var name in UUID) {
+        if (name != "Not Scanned Yet.") {
+          insertedId = await ProximityDatabaseProvider.instance.insert(1, {
+            ProximityDatabaseProvider.columnName: name,
+          });
+          print('inserted id: $insertedId');
+        }
+      }
+      List<Map<String, dynamic>> queryRows =
+          await ProximityDatabaseProvider.instance.queryAll(1);
+      print('encounters table: \n');
+      print(queryRows);
+      print('\n');
+      setState(() {
+        isRunning = false;
+      });
     });
-
-    print(_beaconResult);
 
     beaconEventsController.stream.listen(
         (data) {
           if (data.isNotEmpty) {
             setState(() {
-              _beaconResult = data;
+              token = data.toString().split(",");
+              String onlyUUIDs = token[1]
+                  .toString()
+                  .substring(12, token[1].toString().length - 1);
+              _beaconResult = onlyUUIDs;
               _nrMessaggesReceived++;
             });
-            print("Beacons DataReceived: " + data);
-            print(data);
+            print("token" + token[1]);
           }
         },
         onDone: () {},
         onError: (error) {
           print("Error: $error");
         });
+
+    const duration1 = const Duration(hours: 12);
+    new Timer.periodic(duration1, (Timer t) async {
+      await FirestoreDatabaseService.instance.deleteOldPositiveUuids();
+    });
+
+    const duration2 = const Duration(seconds: 2);
+    new Timer.periodic(duration2, (Timer t) async {
+      //positive = await DatabaseComparison.instance.foundMatch();
+    });
+
+    print('Starting UUID broadcast');
+    const time3 = const Duration(seconds: 900); //15 min we change uuid
+    new Timer.periodic(time3, (Timer t) async {
+      var uuid = generateV4();
+      await beaconBroadcast
+          .setUUID(uuid)
+          .setMajorId(majorId)
+          .setMinorId(minorId)
+          .setTransmissionPower(transmissionPower)
+          //.setIdentifier(identifier)
+          //.setLayout(layout)
+          //.setManufacturerId(manufacturerId)
+          .start();
+      // add broadcasting uuid to local database of my past broadcasting ids
+      int insertedId2 = await ProximityDatabaseProvider.instance.insert(2, {
+        ProximityDatabaseProvider.columnName: uuid,
+      });
+      print('the inserted id is $insertedId2');
+      List<Map<String, dynamic>> queryRows2 =
+          await ProximityDatabaseProvider.instance.queryAll(2);
+      print('my past broadcasting uuids table: \n');
+      print(queryRows2);
+      print('\n');
+    });
   }
 
   @override
@@ -127,17 +246,17 @@ class _MyAppState extends State<BeaconScan> {
                       ],
                     ),
                   )),
+              CustomListTile(Icons.account_circle, 'Profile', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MainPage()));
+              }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutCovid()));
-              }),
-              CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Appointment()));
+                    MaterialPageRoute(builder: (context) => APIHome()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TrazeMap()));
               }),
               CustomListTile(Icons.check, 'Self Screening', () {
                 Navigator.push(context,
@@ -153,7 +272,7 @@ class _MyAppState extends State<BeaconScan> {
               }),
               CustomListTile(Icons.clear, 'Positive Scan Message', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PositiveScan()));
+                    MaterialPageRoute(builder: (context) => ContactStatus()));
               }),
               CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
                 Navigator.push(
@@ -179,11 +298,13 @@ class _MyAppState extends State<BeaconScan> {
                 visible: isRunning,
                 child: RaisedButton(
                   onPressed: () async {
-                    BeaconsPlugin.stopMonitoring;
+                    if (Platform.isAndroid) {
+                      await BeaconsPlugin.stopMonitoring;
 
-                    setState(() {
-                      isRunning = false;
-                    });
+                      setState(() {
+                        isRunning = false;
+                      });
+                    }
                   },
                   child: Text('Stop Scanning', style: TextStyle(fontSize: 20)),
                 ),
@@ -196,12 +317,13 @@ class _MyAppState extends State<BeaconScan> {
                 child: RaisedButton(
                   onPressed: () async {
                     initPlatformState();
+                    await BeaconsPlugin.startMonitoring;
+
                     setState(() {
-                      isRunning = false;
+                      isRunning = true;
                     });
-                    BeaconsPlugin.stopMonitoring;
                   },
-                  child: Text('Stop Contact Tracing',
+                  child: Text('Start Contact Tracing',
                       style: TextStyle(fontSize: 20)),
                 ),
               )

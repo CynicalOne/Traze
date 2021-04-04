@@ -9,7 +9,7 @@ import 'package:traze/src/ui/device_list.dart';
 import 'package:provider/provider.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_home.dart';
+import 'package:traze/traze_heat_map.dart';
 
 const _themeColor = Colors.lightGreen;
 

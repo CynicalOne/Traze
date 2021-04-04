@@ -1,14 +1,20 @@
+import 'package:traze/Google/Blocs/auth_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:traze/traze_positive_scan.dart';
-import 'package:traze/traze_screening.dart';
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
-import 'traze_login.dart';
-
-void main() {
-  runApp(MaterialApp(title: 'Login App', home: LogIn())); //MaterialApp
-
-  //runApp(MaterialApp(title: 'Drawer App', home: Home(),
-
-  //runApp(MaterialApp(title: 'self screening',home: SelfScreening(),));
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: FirebaseAuthDemo(),
+    );
+  }
 }

@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
 import 'package:traze/Google/Screens/home.dart';
-import 'package:traze/beacon_broadcast_2.dart';
-import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
@@ -14,12 +12,13 @@ import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_status.dart';
+import 'package:traze/uuid_scan_2.dart';
+import 'package:traze/beacon_broadcast_2.dart';
+import 'package:traze/CovidAPI/homepage.dart';
 
-import 'CovidAPI/homepage.dart';
+import 'beacon_broadcast_scan.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
+class TrazeMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -87,8 +86,8 @@ class MapSampleState extends State<MapSample> {
                           padding: EdgeInsets.all(8.0),
                           child: Image.asset(
                             'images/Transparent_Waze.png',
-                            width: 80,
-                            height: 80,
+                            width: 70,
+                            height: 70,
                           ),
                         ),
                       ),

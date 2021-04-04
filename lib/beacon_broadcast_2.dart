@@ -2,16 +2,21 @@ import 'dart:async';
 
 import 'package:beacon_broadcast/beacon_broadcast.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/Google/Screens/home.dart';
+import 'package:traze/Persistence/database.dart';
+import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 
 import 'dart:math';
 
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_home.dart';
+import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
+import 'package:traze/traze_status.dart';
 
+import 'CovidAPI/homepage.dart';
 import 'beacon_broadcast_scan.dart';
 
 class BroadcastTwo extends StatefulWidget {
@@ -32,11 +37,13 @@ class _MyAppState extends State<BroadcastTwo> {
     // Generate xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx / 8-4-4-4-12.
     final int special = 8 + _random.nextInt(4);
 
-    return '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}-'
+    String uuid = '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}-'
         '${_bitsDigits(16, 4)}-'
         '4${_bitsDigits(12, 3)}-'
         '${_printDigits(special, 1)}${_bitsDigits(12, 3)}-'
         '${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}${_bitsDigits(16, 4)}';
+
+    return uuid;
   }
 
   String _bitsDigits(int bitCount, int digitCount) =>
@@ -71,6 +78,28 @@ class _MyAppState extends State<BroadcastTwo> {
   BeaconStatus _isTransmissionSupported;
   bool _isAdvertising = false;
   StreamSubscription<bool> _isAdvertisingSubscription;
+
+  Future<void> initPlatformState() async {
+    const time = const Duration(seconds: 30); //.scan every 5 min
+
+    new Timer.periodic(time, (Timer t) async => generateV4());
+
+    print('Starting broadcast');
+
+    const time3 = const Duration(seconds: 2);
+    const time4 = const Duration(seconds: 15); //15 min we change uuid 900 secs
+    new Timer.periodic(
+        time3,
+        (Timer t) async => await beaconBroadcast
+            .setUUID(generateV4())
+            .setMajorId(majorId)
+            .setMinorId(minorId)
+            .setTransmissionPower(transmissionPower)
+            //.setIdentifier(identifier)
+            //.setLayout(layout)
+            //.setManufacturerId(manufacturerId)
+            .start());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,17 +144,17 @@ class _MyAppState extends State<BroadcastTwo> {
                       ],
                     ),
                   )),
+              CustomListTile(Icons.account_circle, 'Profile', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MainPage()));
+              }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutCovid()));
-              }),
-              CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Appointment()));
+                    MaterialPageRoute(builder: (context) => APIHome()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TrazeMap()));
               }),
               CustomListTile(Icons.check, 'Self Screening', () {
                 Navigator.push(context,
@@ -141,7 +170,7 @@ class _MyAppState extends State<BroadcastTwo> {
               }),
               CustomListTile(Icons.clear, 'Positive Scan Message', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PositiveScan()));
+                    MaterialPageRoute(builder: (context) => ContactStatus()));
               }),
               CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
                 Navigator.push(
@@ -164,37 +193,11 @@ class _MyAppState extends State<BroadcastTwo> {
                 Text('$_isAdvertising',
                     style: Theme.of(context).textTheme.subtitle1),
                 Container(height: 16.0),
-                Center(
-                  child: RaisedButton(
-                    onPressed: () {
-                      beaconBroadcast
-                          .setUUID(generateV4())
-                          .setMajorId(majorId)
-                          .setMinorId(minorId)
-                          .setTransmissionPower(transmissionPower)
-                          //.setIdentifier(identifier)
-                          //.setLayout(layout)
-                          //.setManufacturerId(manufacturerId)
-                          .start();
-                      print(Random().toString());
-                      print(generateV4());
-                    },
-                    child: Text('START NEW Broadcast'),
-                  ),
-                ),
-                Center(
-                  child: RaisedButton(
-                    onPressed: () {
-                      beaconBroadcast.stop();
-                    },
-                    child: Text('STOP Broadcast'),
-                  ),
-                ),
                 Text('UUID Being Broadcasted:',
                     style: Theme.of(context).textTheme.headline5),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('UUID: ' + generateV4()),
+                  child: Text('UUID:' + generateV4()),
                 ),
               ],
             ),
