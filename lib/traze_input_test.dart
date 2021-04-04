@@ -12,6 +12,7 @@ import 'package:traze/traze_login.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_screening.dart';
 import 'package:traze/traze_status.dart';
+import 'CovidAPI/homepage.dart';
 import 'Persistence/database.dart';
 import 'src/UI/custom_input_field.dart';
 import 'package:traze/uuid_scan_2.dart';
@@ -179,8 +180,8 @@ class TestID extends StatelessWidget {
                   context, MaterialPageRoute(builder: (context) => MainPage()));
             }),
             CustomListTile(Icons.person, 'About Covid', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutCovid()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => APIHome()));
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(

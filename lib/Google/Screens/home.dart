@@ -1,3 +1,4 @@
+import 'package:traze/CovidAPI/homepage.dart';
 import 'package:traze/Google/Blocs/auth_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,6 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text(
           'Profile',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
         ),
         backgroundColor: Colors.deepOrangeAccent,
       ),
@@ -75,8 +75,8 @@ class _MainPageState extends State<MainPage> {
                   context, MaterialPageRoute(builder: (context) => MainPage()));
             }),
             CustomListTile(Icons.person, 'About Covid', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutCovid()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => APIHome()));
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(
@@ -140,6 +140,7 @@ class _MainPageState extends State<MainPage> {
                           child: Text(
                             'If you have experienced any symptoms and have taken our self screening quiz, or have come into contact with someone who has tested positive for covid, please make an appointment at the link below.',
                             style: TextStyle(fontSize: 16.0),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ],
@@ -155,7 +156,7 @@ class _MainPageState extends State<MainPage> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10.0))),
                         child: Text(
-                          'schedule appointment',
+                          'Schedule Appointment',
                           style: TextStyle(fontSize: 20),
                         ),
                       ),

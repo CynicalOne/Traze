@@ -12,6 +12,7 @@ import 'package:traze/widgets/my_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'CovidAPI/homepage.dart';
 import 'Google/Screens/home.dart';
 import 'beacon_broadcast_2.dart';
 import 'beacon_broadcast_scan.dart';
@@ -155,8 +156,8 @@ class _InfoScreenState extends State<InfoScreen> {
                   context, MaterialPageRoute(builder: (context) => MainPage()));
             }),
             CustomListTile(Icons.person, 'About Covid', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutCovid()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => APIHome()));
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(

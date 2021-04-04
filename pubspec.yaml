@@ -43,6 +43,10 @@ dependencies:
   uuid: ^2.2.2
   google_sign_in: ^4.5.6
   flutter_signin_button: ^1.1.0
+  shared_preferences: ^0.5.12+4
+  http: ^0.12.2
+  dynamic_theme: ^1.0.1
+  pie_chart: ^4.0.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -98,13 +102,14 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Poppins
+    - family: Circular
       fonts:
-        - asset: assets/fonts/Poppins/Poppins-Regular.ttf
-        - asset: assets/fonts/Poppins/Poppins-Medium.ttf
-          weight: 600
-        - asset: assets/fonts/Poppins/Poppins-Bold.ttf
-          weight: 700
+        - asset: fonts/CircularStd-Medium.ttf
+        - asset: fonts/CircularAir-Light.ttf
+          weight: 100
+        - asset: fonts/CircularStd-Bold.ttf
+          weight: 500
+
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

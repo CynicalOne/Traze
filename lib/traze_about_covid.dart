@@ -13,6 +13,7 @@ import 'package:traze/widgets/my_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:traze/uuid_scan_2.dart';
+import 'CovidAPI/homepage.dart';
 import 'beacon_broadcast_2.dart';
 import 'beacon_broadcast_scan.dart';
 
@@ -272,8 +273,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   context, MaterialPageRoute(builder: (context) => MainPage()));
             }),
             CustomListTile(Icons.person, 'About Covid', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutCovid()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => APIHome()));
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(

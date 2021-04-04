@@ -4,7 +4,10 @@ import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
+import 'package:traze/traze_status.dart';
 
+import 'CovidAPI/homepage.dart';
+import 'Google/Screens/home.dart';
 import 'beacon_broadcast_2.dart';
 import 'beacon_broadcast_scan.dart';
 
@@ -52,13 +55,13 @@ class PositiveScan extends StatelessWidget {
                       ],
                     ),
                   )),
+              CustomListTile(Icons.account_circle, 'Profile', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MainPage()));
+              }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutCovid()));
-              }),
-              CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Appointment()));
+                    MaterialPageRoute(builder: (context) => APIHome()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
                 Navigator.push(context,
@@ -78,7 +81,7 @@ class PositiveScan extends StatelessWidget {
               }),
               CustomListTile(Icons.clear, 'Positive Scan Message', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PositiveScan()));
+                    MaterialPageRoute(builder: (context) => ContactStatus()));
               }),
               CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
                 Navigator.push(

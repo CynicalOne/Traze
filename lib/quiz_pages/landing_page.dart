@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:traze/CovidAPI/homepage.dart';
 import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/beacon_broadcast_scan.dart';
 
@@ -89,8 +90,8 @@ class LandingPage extends StatelessWidget {
                   context, MaterialPageRoute(builder: (context) => MainPage()));
             }),
             CustomListTile(Icons.person, 'About Covid', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutCovid()));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => APIHome()));
             }),
             CustomListTile(Icons.wifi, 'Heatmap', () {
               Navigator.push(

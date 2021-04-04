@@ -13,6 +13,7 @@ import 'package:traze/traze_screening.dart';
 import 'package:traze/traze_status.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:traze/uuid_scan_2.dart';
+import 'CovidAPI/homepage.dart';
 import 'beacon_broadcast_2.dart';
 
 class Appointment extends StatelessWidget {
@@ -122,7 +123,7 @@ class Appointment extends StatelessWidget {
               }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutCovid()));
+                    MaterialPageRoute(builder: (context) => APIHome()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
                 Navigator.push(context,

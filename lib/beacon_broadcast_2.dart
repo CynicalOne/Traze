@@ -16,6 +16,7 @@ import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_status.dart';
 
+import 'CovidAPI/homepage.dart';
 import 'beacon_broadcast_scan.dart';
 
 class BroadcastTwo extends StatefulWidget {
@@ -149,7 +150,7 @@ class _MyAppState extends State<BroadcastTwo> {
               }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutCovid()));
+                    MaterialPageRoute(builder: (context) => APIHome()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
                 Navigator.push(context,

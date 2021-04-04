@@ -17,6 +17,7 @@ import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_status.dart';
 import 'package:traze/uuid_scan_2.dart';
 
+import 'CovidAPI/homepage.dart';
 import 'beacon_broadcast_2.dart';
 import 'package:traze/Persistence/database.dart';
 
@@ -251,7 +252,7 @@ class _MyAppState extends State<BeaconScan> {
               }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutCovid()));
+                    MaterialPageRoute(builder: (context) => APIHome()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
                 Navigator.push(context,
