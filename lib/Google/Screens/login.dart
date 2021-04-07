@@ -2,6 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:traze/Google/Screens/home.dart';
 
+import 'package:traze/beacon_broadcast_scan.dart';
+import 'package:traze/Persistence/database_comparison.dart';
+
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
@@ -67,6 +70,9 @@ class _SignInState extends State<SignIn> {
                   child: OutlineButton(
                     child: Text("Sign In"),
                     onPressed: () async {
+                      print('on login page, positive:');
+                      print(BeaconScan.positive);
+                      BeaconScan.positive = await DatabaseComparison.instance.foundMatch();
                       if (_formKey.currentState.validate()) {
                         _signInWithEmailAndPassword();
                       }

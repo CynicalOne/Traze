@@ -4,6 +4,9 @@ import 'package:traze/traze_heat_map.dart';
 import 'src/UI/custom_input_field.dart';
 import 'src/UI/background_circle.dart';
 
+import 'beacon_broadcast_scan.dart';
+import 'package:traze/Persistence/database_comparison.dart';
+
 class LogIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

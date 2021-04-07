@@ -14,8 +14,10 @@ import 'beacon_broadcast_scan.dart';
 
 class ContactStatus extends StatelessWidget {
   Widget Status() {
+    print('on status page, positive:');
+    print(BeaconScan.positive);
     if //change condition to whatever makes it positive
-        (Platform.isAndroid) {
+        (BeaconScan.positive) {
       return Center(
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -38,15 +40,15 @@ class ContactStatus extends StatelessWidget {
           ],
         ),
       );
-    } else if //change condition to whatever makes it negative
-        (Platform.isIOS) {
+    } else // negative for Covid
+      {
       return Container(
-          width: 150.00,
-          padding: EdgeInsets.fromLTRB(40, 40, 40, 40),
-          color: Colors.white,
-          child: Text('You are Negative for covid 19',
+          color: Colors.blueAccent,
+          child: Text('You are Negative for Covid 19.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, color: Colors.white)));
+              style: TextStyle(fontSize: 25,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold)));
     }
   }
 
@@ -134,10 +136,10 @@ class ContactStatus extends StatelessWidget {
 
   color() {
     if //change condition to whatever makes it positive
-        (Platform.isAndroid) {
+        (BeaconScan.positive) {
       return Colors.red;
-    } else if //change condition to whatever makes it negative
-        (Platform.isIOS) {
+    } else // negative for Covid
+      {
       return Colors.blueAccent;
     }
   }
