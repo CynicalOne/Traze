@@ -1,71 +1,39 @@
-import 'dart:async';
-
+import 'package:traze/CovidAPI/homepage.dart';
+import 'package:traze/Google/Blocs/auth_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
-import 'package:traze/Google/Screens/home.dart';
-import 'package:traze/beacon_broadcast_2.dart';
-import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_about_covid.dart';
-import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_bluetooth.dart';
-import 'package:traze/traze_broadcast.dart';
-import 'package:traze/traze_heat_map.dart';
-import 'package:traze/traze_input_test.dart';
-import 'package:traze/traze_positive_scan.dart';
-import 'package:traze/traze_status.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import 'CovidAPI/homepage.dart';
+import '../../beacon_broadcast_2.dart';
+import '../../beacon_broadcast_scan.dart';
+import '../../traze_about_covid.dart';
+import '../../traze_appointment.dart';
+import '../../traze_heat_map.dart';
+import '../../traze_input_test.dart';
+import '../../traze_status.dart';
 
-void main() => runApp(MyApp());
+class MainPage extends StatefulWidget {
+  final User user;
 
-class MyApp extends StatelessWidget {
+  const MainPage({Key key, this.user}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Google Heatmap Demo',
-      home: MapSample(),
-    );
-  }
+  _MainPageState createState() => _MainPageState();
 }
 
-class MapSample extends StatefulWidget {
-  @override
-  State<MapSample> createState() => MapSampleState();
-}
+class _MainPageState extends State<MainPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-class MapSampleState extends State<MapSample> {
-  Completer<GoogleMapController> _controller = Completer();
-  final Set<Heatmap> _heatmaps = {};
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-  LatLng _heatmapLocation = LatLng(37.42796133580664, -122.085749655962);
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        heatmaps: _heatmaps,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addHeatmap,
-        label: Text('Load Covid 19 Heatmap'),
-        icon: Icon(Icons.add_box),
-      ),
+    return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Heat Map'),
+        title: Text(
+          'Profile',
+        ),
         backgroundColor: Colors.deepOrangeAccent,
       ),
       drawer: Drawer(
@@ -87,8 +55,8 @@ class MapSampleState extends State<MapSample> {
                           padding: EdgeInsets.all(8.0),
                           child: Image.asset(
                             'images/Transparent_Waze.png',
-                            width: 80,
-                            height: 80,
+                            width: 70,
+                            height: 70,
                           ),
                         ),
                       ),
@@ -134,37 +102,77 @@ class MapSampleState extends State<MapSample> {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => TestID()));
             }),
+            CustomListTile(Icons.arrow_forward_ios, 'Sign Out', () {
+              _signOut().whenComplete(() {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => FirebaseAuthDemo()));
+              });
+            }),
+          ],
+        ),
+      ),
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            Center(
+              child: Container(
+                width: 400,
+                height: 400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Material(
+                      elevation: 10.0,
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Image.asset(
+                          'images/Transparent_Waze.png',
+                          width: 90,
+                          height: 90,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            'If you have experienced any symptoms and have taken our self screening quiz, or have come into contact with someone who has tested positive for covid, please make an appointment at the link below.',
+                            style: TextStyle(fontSize: 16.0),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: 250,
+                      child: RaisedButton(
+                        //link to appointment url when pressed
+                        onPressed: _launchURL,
+                        color: Colors.orange,
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                        child: Text(
+                          'Schedule Appointment',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  void _addHeatmap() {
-    setState(() {
-      _heatmaps.add(Heatmap(
-          heatmapId: HeatmapId(_heatmapLocation.toString()),
-          points: _createPoints(_heatmapLocation),
-          radius: 200,
-          visible: true,
-          gradient: HeatmapGradient(
-              colors: <Color>[Colors.green, Colors.red],
-              startPoints: <double>[0.2, 0.8])));
-    });
-  }
-
-  //heatmap generation helper functions
-  List<WeightedLatLng> _createPoints(LatLng location) {
-    final List<WeightedLatLng> points = <WeightedLatLng>[];
-    //Can create multiple points here
-    points.add(_createWeightedLatLng(location.latitude, location.longitude, 1));
-    points.add(
-        _createWeightedLatLng(location.latitude - 1, location.longitude, 1));
-    return points;
-  }
-
-  WeightedLatLng _createWeightedLatLng(double lat, double lng, int weight) {
-    return WeightedLatLng(point: LatLng(lat, lng), intensity: weight);
+  Future _signOut() async {
+    await _auth.signOut();
   }
 }
 
@@ -212,5 +220,15 @@ class CustomListTile extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+_launchURL() async {
+  const url =
+      'https://www.hhs.gov/coronavirus/community-based-testing-sites/index.html';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
   }
 }

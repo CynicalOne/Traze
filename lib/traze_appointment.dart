@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:traze/Google/Screens/home.dart';
+import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_broadcast.dart';
-import 'package:traze/traze_home.dart';
+import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_login.dart';
 import 'package:traze/traze_positive_scan.dart';
@@ -11,6 +13,7 @@ import 'package:traze/traze_screening.dart';
 import 'package:traze/traze_status.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:traze/uuid_scan_2.dart';
+import 'CovidAPI/homepage.dart';
 import 'beacon_broadcast_2.dart';
 
 class Appointment extends StatelessWidget {
@@ -114,17 +117,17 @@ class Appointment extends StatelessWidget {
                       ],
                     ),
                   )),
+              CustomListTile(Icons.account_circle, 'Profile', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MainPage()));
+              }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutCovid()));
-              }),
-              CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Appointment()));
+                    MaterialPageRoute(builder: (context) => APIHome()));
               }),
               CustomListTile(Icons.wifi, 'Heatmap', () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => TrazeMap()));
               }),
               CustomListTile(Icons.check, 'Self Screening', () {
                 Navigator.push(context,
@@ -132,7 +135,7 @@ class Appointment extends StatelessWidget {
               }),
               CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => FlutterBlueApp()));
+                    MaterialPageRoute(builder: (context) => BeaconScan()));
               }),
               CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
                 Navigator.push(context,

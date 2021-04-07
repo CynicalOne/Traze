@@ -1,71 +1,63 @@
-import 'dart:async';
+import 'dart:convert';
 
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
+import 'package:traze/CovidAPI/datasorce.dart';
+import 'package:traze/CovidAPI/pages/countyPage.dart';
+import 'package:traze/CovidAPI/panels/infoPanel.dart';
+import 'package:traze/CovidAPI/panels/mosteffectedcountries.dart';
+import 'package:traze/CovidAPI/panels/worldwidepanel.dart';
+import 'package:http/http.dart' as http;
 import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/beacon_broadcast_2.dart';
 import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'package:traze/traze_about_covid.dart';
-import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_bluetooth.dart';
-import 'package:traze/traze_broadcast.dart';
 import 'package:traze/traze_heat_map.dart';
-import 'package:traze/traze_input_test.dart';
-import 'package:traze/traze_positive_scan.dart';
-import 'package:traze/traze_status.dart';
 
-import 'CovidAPI/homepage.dart';
+import '../traze_input_test.dart';
+import '../traze_status.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
+class APIHome extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Google Heatmap Demo',
-      home: MapSample(),
-    );
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<APIHome> {
+  Map worldData;
+  fetchWorldWideData() async {
+    http.Response response = await http.get('https://corona.lmao.ninja/v2/all');
+    setState(() {
+      worldData = json.decode(response.body);
+    });
   }
-}
 
-class MapSample extends StatefulWidget {
+  List countryData;
+  fetchCountryData() async {
+    http.Response response =
+        await http.get('https://corona.lmao.ninja/v2/countries?sort=cases');
+    setState(() {
+      countryData = json.decode(response.body);
+    });
+  }
+
+  Future fetchData() async {
+    fetchWorldWideData();
+    fetchCountryData();
+    print('fetchData called');
+  }
+
   @override
-  State<MapSample> createState() => MapSampleState();
-}
-
-class MapSampleState extends State<MapSample> {
-  Completer<GoogleMapController> _controller = Completer();
-  final Set<Heatmap> _heatmaps = {};
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
-  LatLng _heatmapLocation = LatLng(37.42796133580664, -122.085749655962);
-  static final CameraPosition _kLake = CameraPosition(
-      bearing: 192.8334901395799,
-      target: LatLng(37.43296265331129, -122.08832357078792),
-      tilt: 59.440717697143555,
-      zoom: 19.151926040649414);
+  void initState() {
+    fetchData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
-        heatmaps: _heatmaps,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addHeatmap,
-        label: Text('Load Covid 19 Heatmap'),
-        icon: Icon(Icons.add_box),
-      ),
+    return Scaffold(
       appBar: AppBar(
-        title: Text('Heat Map'),
+        title: Text('About Covid'),
         backgroundColor: Colors.deepOrangeAccent,
       ),
       drawer: Drawer(
@@ -87,8 +79,8 @@ class MapSampleState extends State<MapSample> {
                           padding: EdgeInsets.all(8.0),
                           child: Image.asset(
                             'images/Transparent_Waze.png',
-                            width: 80,
-                            height: 80,
+                            width: 70,
+                            height: 70,
                           ),
                         ),
                       ),
@@ -137,34 +129,81 @@ class MapSampleState extends State<MapSample> {
           ],
         ),
       ),
+      body: RefreshIndicator(
+        onRefresh: fetchData,
+        child: SingleChildScrollView(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Worldwide',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CountryPage()));
+                    },
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: primaryBlack,
+                            borderRadius: BorderRadius.circular(15)),
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Regional',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            worldData == null
+                ? CircularProgressIndicator()
+                : WorldwidePanel(
+                    worldData: worldData,
+                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                'Most affected Countries',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            countryData == null
+                ? Container()
+                : MostAffectedPanel(
+                    countryData: countryData,
+                  ),
+            InfoPanel(),
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+                child: Text(
+              'WE ARE TOGETHER IN THE FIGHT',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            )),
+            SizedBox(
+              height: 50,
+            )
+          ],
+        )),
+      ),
     );
-  }
-
-  void _addHeatmap() {
-    setState(() {
-      _heatmaps.add(Heatmap(
-          heatmapId: HeatmapId(_heatmapLocation.toString()),
-          points: _createPoints(_heatmapLocation),
-          radius: 200,
-          visible: true,
-          gradient: HeatmapGradient(
-              colors: <Color>[Colors.green, Colors.red],
-              startPoints: <double>[0.2, 0.8])));
-    });
-  }
-
-  //heatmap generation helper functions
-  List<WeightedLatLng> _createPoints(LatLng location) {
-    final List<WeightedLatLng> points = <WeightedLatLng>[];
-    //Can create multiple points here
-    points.add(_createWeightedLatLng(location.latitude, location.longitude, 1));
-    points.add(
-        _createWeightedLatLng(location.latitude - 1, location.longitude, 1));
-    return points;
-  }
-
-  WeightedLatLng _createWeightedLatLng(double lat, double lng, int weight) {
-    return WeightedLatLng(point: LatLng(lat, lng), intensity: weight);
   }
 }
 
