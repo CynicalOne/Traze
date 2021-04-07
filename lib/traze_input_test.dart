@@ -85,10 +85,9 @@ class TestID extends StatelessWidget {
                           print('mypastuuids table: \n');
                           print(queryRows);
                           print('\n');
-                          print('doing delete all..');
-                          int rowsEffected = await ProximityDatabaseProvider
-                              .instance
-                              .deleteAll(1);
+
+                          /*print('doing delete all..');
+                          int rowsEffected = await ProximityDatabaseProvider.instance.deleteAll(1);
                           print('num rowsEffected (encounters): $rowsEffected');
                           rowsEffected = await ProximityDatabaseProvider
                               .instance
@@ -105,8 +104,12 @@ class TestID extends StatelessWidget {
                           print('mypastuuids table: \n');
                           print(queryRows);
                           print('\n');
+                          */
 
-                          //FirestoreDatabaseService.instance.addPositiveUuids(); // add uuids to positive uuid cloud database
+
+                          FirestoreDatabaseService.instance.addPositiveUuids(); // add uuids to positive uuid cloud database
+                          print('done adding positive uuids to firestore');
+
                         },
                         color: Colors.orange,
                         textColor: Colors.white,
