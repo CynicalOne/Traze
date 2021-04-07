@@ -29,7 +29,7 @@ class _FirebaseAuthDemoState extends State<FirebaseAuthDemo> {
               Center(
                 child: Container(
                   width: 500,
-                  height: 700,
+                  height: 900,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -46,12 +46,11 @@ class _FirebaseAuthDemoState extends State<FirebaseAuthDemo> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20.0),
+                      SizedBox(height: 10.0),
                       Text(
                         'TRAZE',
-                        style: TextStyle(fontSize: 20.0),
+                        style: TextStyle(fontSize: 15.0),
                       ),
-                      SizedBox(height: 20.0),
                       withEmailPassword(),
                       SizedBox(height: 20.0),
                       Text('New user?'),
@@ -104,7 +103,7 @@ class _FirebaseAuthDemoState extends State<FirebaseAuthDemo> {
                     return null;
                   },
                 ),
-                SizedBox(height: 10.0),
+                SizedBox(height: 8.0),
                 TextFormField(
                   controller: _passwordController,
                   decoration: const InputDecoration(
