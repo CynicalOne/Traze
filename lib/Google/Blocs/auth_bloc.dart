@@ -111,7 +111,8 @@ class _FirebaseAuthDemoState extends State<FirebaseAuthDemo> {
                       fillColor: Color(0xFFBDBDBD),
                       labelText: 'Password'),
                   validator: (value) {
-                    if (value.isEmpty) return 'Please enter some text';
+                    if (value.isEmpty) return 'Please Enter Some Text';
+
                     return null;
                   },
                   obscureText: true,
@@ -169,9 +170,21 @@ class _FirebaseAuthDemoState extends State<FirebaseAuthDemo> {
         );
       }));
     } catch (e) {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("Failed to sign in with Email & Password"),
-      ));
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Error"),
+          content: Text("Your email or password is incorect"),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
     }
   }
 
