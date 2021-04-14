@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:traze/Google/Screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -88,24 +89,41 @@ class _RegisterState extends State<Register> {
   }
 
   void _registerAccount() async {
-    final User user = (await _auth.createUserWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    ))
-        .user;
+    try {
+      final User user = (await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      ))
+          .user;
 
-    if (user != null) {
-      if (!user.emailVerified) {
-        await user.sendEmailVerification();
+      if (user != null) {
+        if (!user.emailVerified) {
+          await user.sendEmailVerification();
+        }
+        await user.updateProfile(displayName: _displayName.text);
+        final user1 = _auth.currentUser;
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => MainPage(
+                  user: user1,
+                )));
       }
-      await user.updateProfile(displayName: _displayName.text);
-      final user1 = _auth.currentUser;
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => MainPage(
-                user: user1,
-              )));
-    } else {
-      _isSuccess = false;
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Error"),
+          content: Text(
+              "That email has already been registered. Please use a different email"),
+          actions: <Widget>[
+            FlatButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
     }
   }
 }
