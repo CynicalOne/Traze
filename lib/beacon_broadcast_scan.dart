@@ -254,10 +254,6 @@ class _MyAppState extends State<BeaconScan> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => APIHome()));
               }),
-              CustomListTile(Icons.wifi, 'Heatmap', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TrazeMap()));
-              }),
               CustomListTile(Icons.check, 'Self Screening', () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LandingPage()));
