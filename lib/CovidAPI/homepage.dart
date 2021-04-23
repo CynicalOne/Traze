@@ -12,7 +12,6 @@ import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/beacon_broadcast_2.dart';
 import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_heat_map.dart';
 
 import '../traze_input_test.dart';

@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../beacon_broadcast_2.dart';
 import '../../beacon_broadcast_scan.dart';
-import '../../traze_about_covid.dart';
+
 import '../../traze_appointment.dart';
 import '../../traze_heat_map.dart';
 import '../../traze_input_test.dart';

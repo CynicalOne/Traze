@@ -6,7 +6,6 @@ import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/quiz_pages/quiz_page.dart';
 import 'package:traze/traze_status.dart';
 
-import '../traze_about_covid.dart';
 import '../traze_appointment.dart';
 import '../traze_bluetooth.dart';
 import '../traze_heat_map.dart';

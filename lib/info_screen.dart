@@ -1,6 +1,6 @@
 import 'package:traze/constant.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_about_covid.dart';
+
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_broadcast.dart';

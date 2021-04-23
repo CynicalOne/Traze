@@ -3,7 +3,6 @@ import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
 import 'dart:io' show Platform;
 
-import 'package:traze/traze_about_covid.dart';
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
