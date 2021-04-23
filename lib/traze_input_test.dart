@@ -8,9 +8,9 @@ import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_broadcast.dart';
 import 'package:traze/traze_heat_map.dart';
-import 'package:traze/traze_login.dart';
+
 import 'package:traze/traze_positive_scan.dart';
-import 'package:traze/traze_screening.dart';
+
 import 'package:traze/traze_status.dart';
 import 'CovidAPI/homepage.dart';
 import 'Persistence/database.dart';
