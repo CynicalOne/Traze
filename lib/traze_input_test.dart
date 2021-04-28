@@ -4,10 +4,9 @@ import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/thank_you_page.dart';
 
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_appointment.dart';
+
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_broadcast.dart';
-import 'package:traze/traze_heat_map.dart';
 
 import 'package:traze/traze_positive_scan.dart';
 
@@ -106,10 +105,9 @@ class TestID extends StatelessWidget {
                           print('\n');
                           */
 
-
-                          FirestoreDatabaseService.instance.addPositiveUuids(); // add uuids to positive uuid cloud database
+                          FirestoreDatabaseService.instance
+                              .addPositiveUuids(); // add uuids to positive uuid cloud database
                           print('done adding positive uuids to firestore');
-
                         },
                         color: Colors.orange,
                         textColor: Colors.white,
