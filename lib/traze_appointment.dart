@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_about_covid.dart';
+
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_broadcast.dart';
 import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
-import 'package:traze/traze_login.dart';
+
 import 'package:traze/traze_positive_scan.dart';
-import 'package:traze/traze_screening.dart';
 import 'package:traze/traze_status.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:traze/uuid_scan_2.dart';

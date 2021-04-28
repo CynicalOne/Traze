@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
 import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_about_covid.dart';
+
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_broadcast.dart';

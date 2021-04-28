@@ -7,7 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../beacon_broadcast_2.dart';
 import '../../beacon_broadcast_scan.dart';
-import '../../traze_about_covid.dart';
+
 import '../../traze_appointment.dart';
 import '../../traze_heat_map.dart';
 import '../../traze_input_test.dart';
@@ -77,10 +77,6 @@ class _MainPageState extends State<MainPage> {
             CustomListTile(Icons.person, 'About Covid', () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => APIHome()));
-            }),
-            CustomListTile(Icons.wifi, 'Heatmap', () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => TrazeMap()));
             }),
             CustomListTile(Icons.check, 'Self Screening', () {
               Navigator.push(context,

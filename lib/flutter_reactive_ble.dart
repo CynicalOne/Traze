@@ -11,6 +11,6 @@ export 'src/model/qualified_characteristic.dart';
 export 'src/model/result.dart';
 export 'src/model/scan_mode.dart';
 export 'src/model/uuid.dart';
-export 'src/reactive_ble.dart';
+
 export 'src/rx_ext/repeater.dart';
 export 'src/rx_ext/serial_disposable.dart';

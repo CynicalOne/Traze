@@ -9,7 +9,7 @@ import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/Persistence/database_cloud.dart';
 import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_about_covid.dart';
+
 import 'package:traze/traze_appointment.dart';
 import 'package:traze/traze_heat_map.dart';
 import 'package:traze/traze_input_test.dart';
@@ -253,10 +253,6 @@ class _MyAppState extends State<BeaconScan> {
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => APIHome()));
-              }),
-              CustomListTile(Icons.wifi, 'Heatmap', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => TrazeMap()));
               }),
               CustomListTile(Icons.check, 'Self Screening', () {
                 Navigator.push(context,

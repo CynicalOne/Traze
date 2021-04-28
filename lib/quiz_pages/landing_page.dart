@@ -6,7 +6,6 @@ import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/quiz_pages/quiz_page.dart';
 import 'package:traze/traze_status.dart';
 
-import '../traze_about_covid.dart';
 import '../traze_appointment.dart';
 import '../traze_bluetooth.dart';
 import '../traze_heat_map.dart';
@@ -92,10 +91,6 @@ class LandingPage extends StatelessWidget {
             CustomListTile(Icons.person, 'About Covid', () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => APIHome()));
-            }),
-            CustomListTile(Icons.wifi, 'Heatmap', () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => TrazeMap()));
             }),
             CustomListTile(Icons.check, 'Self Screening', () {
               Navigator.push(context,
