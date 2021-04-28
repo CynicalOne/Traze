@@ -8,8 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../beacon_broadcast_2.dart';
 import '../../beacon_broadcast_scan.dart';
 
-import '../../traze_appointment.dart';
-import '../../traze_heat_map.dart';
 import '../../traze_input_test.dart';
 import '../../traze_status.dart';
 
@@ -152,8 +150,24 @@ class _MainPageState extends State<MainPage> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10.0))),
                         child: Text(
-                          'Schedule Appointment',
-                          style: TextStyle(fontSize: 20),
+                          'Schedule Test Appointment',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 250,
+                      child: RaisedButton(
+                        //link to appointment url when pressed
+                        onPressed: _launchURL2,
+                        color: Colors.orange,
+                        textColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                        child: Text(
+                          'Schedule Vaccine Appointment',
+                          style: TextStyle(fontSize: 15),
                         ),
                       ),
                     ),
@@ -222,6 +236,15 @@ class CustomListTile extends StatelessWidget {
 _launchURL() async {
   const url =
       'https://www.hhs.gov/coronavirus/community-based-testing-sites/index.html';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
+
+_launchURL2() async {
+  const url = 'https://myturn.ca.gov';
   if (await canLaunch(url)) {
     await launch(url);
   } else {
