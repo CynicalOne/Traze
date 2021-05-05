@@ -84,11 +84,7 @@ class _MainPageState extends State<MainPage> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => BeaconScan()));
             }),
-            CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BroadcastTwo()));
-            }),
-            CustomListTile(Icons.clear, 'Positive Scan Message', () {
+            CustomListTile(Icons.clear, 'Scan Status', () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => ContactStatus()));
             }),

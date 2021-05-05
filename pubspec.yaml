@@ -47,6 +47,7 @@ dependencies:
   http: ^0.12.2
   dynamic_theme: ^1.0.1
   pie_chart: ^4.0.1
+  flutter_local_notifications: ^4.0.1+2
 
 
   # The following adds the Cupertino Icons font to your application.
