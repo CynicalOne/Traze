@@ -19,9 +19,6 @@ import 'CovidAPI/homepage.dart';
 import 'beacon_broadcast_2.dart';
 import 'package:traze/Persistence/database.dart';
 
-import 'package:traze/uuid_scan_2.dart';
-import 'package:traze/Persistence/database.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(BeaconScan());
@@ -29,6 +26,7 @@ Future<void> main() async {
 
 class BeaconScan extends StatefulWidget {
   @override
+  static var positive = false;
   _MyAppState createState() => _MyAppState();
 }
 
@@ -39,7 +37,6 @@ class _MyAppState extends State<BeaconScan> {
   var isRunning = false;
   bool isStopped = false; //global
   List<String> UUID = [];
-  //static var positive = false;
 
   final Random _random = Random();
   static const majorId = 0;
@@ -170,9 +167,13 @@ class _MyAppState extends State<BeaconScan> {
       await FirestoreDatabaseService.instance.deleteOldPositiveUuids();
     });
 
-    const duration2 = const Duration(seconds: 2);
+    const duration2 = const Duration(seconds: 20);
     new Timer.periodic(duration2, (Timer t) async {
-      //positive = await DatabaseComparison.instance.foundMatch();
+      BeaconScan.positive = await DatabaseComparison.instance.foundMatch();
+      print('inside my timer');
+      print('BeaconScan.positive:');
+      print(BeaconScan.positive);
+      print('done with timer');
     });
 
     print('Starting UUID broadcast');

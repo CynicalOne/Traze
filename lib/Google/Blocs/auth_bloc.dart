@@ -3,6 +3,9 @@ import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/Google/Screens/regestration.dart';
 import 'package:flutter/material.dart';
 
+import 'package:traze/beacon_broadcast_scan.dart';
+import 'package:traze/Persistence/database_comparison.dart';
+
 class FirebaseAuthDemo extends StatefulWidget {
   @override
   _FirebaseAuthDemoState createState() => _FirebaseAuthDemoState();
@@ -129,6 +132,9 @@ class _FirebaseAuthDemoState extends State<FirebaseAuthDemo> {
                       width: 1.8,
                     ),
                     onPressed: () async {
+                      print('on login page, positive:');
+                      print(BeaconScan.positive);
+                      BeaconScan.positive = await DatabaseComparison.instance.foundMatch();
                       if (_formKey.currentState.validate()) {
                         _signInWithEmailAndPassword();
                       }
