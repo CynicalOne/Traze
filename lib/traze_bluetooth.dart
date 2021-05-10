@@ -7,9 +7,6 @@ import 'package:traze/src/ble/ble_status_monitor.dart';
 import 'package:traze/src/ui/ble_status_screen.dart';
 import 'package:traze/src/ui/device_list.dart';
 import 'package:provider/provider.dart';
-import 'package:traze/traze_about_covid.dart';
-import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_home.dart';
 
 const _themeColor = Colors.lightGreen;
 

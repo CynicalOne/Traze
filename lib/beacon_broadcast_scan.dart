@@ -5,23 +5,22 @@ import 'package:beacon_broadcast/beacon_broadcast.dart';
 import 'dart:math';
 import 'package:beacons_plugin/beacons_plugin.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/Google/Screens/home.dart';
 import 'package:traze/Persistence/database_cloud.dart';
 import 'package:traze/Persistence/database_comparison.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_about_covid.dart';
-import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_home.dart';
+
 import 'package:traze/traze_input_test.dart';
 import 'package:traze/traze_positive_scan.dart';
 import 'package:traze/traze_status.dart';
 import 'package:traze/uuid_scan_2.dart';
 
+import 'CovidAPI/homepage.dart';
 import 'beacon_broadcast_2.dart';
 import 'package:traze/Persistence/database.dart';
 
 import 'package:traze/uuid_scan_2.dart';
 import 'package:traze/Persistence/database.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -176,7 +175,6 @@ class _MyAppState extends State<BeaconScan> {
       //positive = await DatabaseComparison.instance.foundMatch();
     });
 
-
     print('Starting UUID broadcast');
     const time3 = const Duration(seconds: 900); //15 min we change uuid
     new Timer.periodic(time3, (Timer t) async {
@@ -246,17 +244,13 @@ class _MyAppState extends State<BeaconScan> {
                       ],
                     ),
                   )),
+              CustomListTile(Icons.account_circle, 'Profile', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MainPage()));
+              }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutCovid()));
-              }),
-              CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Appointment()));
-              }),
-              CustomListTile(Icons.wifi, 'Heatmap', () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home()));
+                    MaterialPageRoute(builder: (context) => APIHome()));
               }),
               CustomListTile(Icons.check, 'Self Screening', () {
                 Navigator.push(context,
@@ -266,11 +260,7 @@ class _MyAppState extends State<BeaconScan> {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => BeaconScan()));
               }),
-              CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => BroadcastTwo()));
-              }),
-              CustomListTile(Icons.clear, 'Positive Scan Message', () {
+              CustomListTile(Icons.clear, 'Scan Status', () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => ContactStatus()));
               }),

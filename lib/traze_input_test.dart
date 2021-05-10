@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:traze/Google/Screens/home.dart';
+import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/thank_you_page.dart';
-import 'package:traze/traze_about_covid.dart';
+
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_appointment.dart';
+
 import 'package:traze/traze_bluetooth.dart';
 import 'package:traze/traze_broadcast.dart';
-import 'package:traze/traze_home.dart';
-import 'package:traze/traze_login.dart';
+
 import 'package:traze/traze_positive_scan.dart';
-import 'package:traze/traze_screening.dart';
+
+import 'package:traze/traze_status.dart';
+import 'CovidAPI/homepage.dart';
 import 'Persistence/database.dart';
 import 'src/UI/custom_input_field.dart';
 import 'package:traze/uuid_scan_2.dart';
 import 'package:traze/beacon_broadcast_2.dart';
 
 import 'package:traze/Persistence/database_cloud.dart';
-
 
 class TestID extends StatelessWidget {
   TextEditingController _uuidController;
@@ -72,29 +74,39 @@ class TestID extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ThankYou()));
-                          List<Map<String, dynamic>> queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
+                          List<Map<String, dynamic>> queryRows =
+                              await ProximityDatabaseProvider.instance
+                                  .queryAll(1);
                           print('encounters table: \n');
                           print(queryRows);
-                          queryRows = await ProximityDatabaseProvider.instance.queryAll(2);
+                          queryRows = await ProximityDatabaseProvider.instance
+                              .queryAll(2);
                           print('mypastuuids table: \n');
                           print(queryRows);
                           print('\n');
+
                           /*print('doing delete all..');
                           int rowsEffected = await ProximityDatabaseProvider.instance.deleteAll(1);
                           print('num rowsEffected (encounters): $rowsEffected');
-                          rowsEffected = await ProximityDatabaseProvider.instance.deleteAll(2);
-                          print('num rowsEffected (mypastuuids): $rowsEffected');
+                          rowsEffected = await ProximityDatabaseProvider
+                              .instance
+                              .deleteAll(2);
+                          print(
+                              'num rowsEffected (mypastuuids): $rowsEffected');
                           print('\n');
-                          queryRows = await ProximityDatabaseProvider.instance.queryAll(1);
+                          queryRows = await ProximityDatabaseProvider.instance
+                              .queryAll(1);
                           print('encounters table: \n');
                           print(queryRows);
-                          queryRows = await ProximityDatabaseProvider.instance.queryAll(2);
+                          queryRows = await ProximityDatabaseProvider.instance
+                              .queryAll(2);
                           print('mypastuuids table: \n');
                           print(queryRows);
                           print('\n');
                           */
 
-                          FirestoreDatabaseService.instance.addPositiveUuids(); // add uuids to positive uuid cloud database
+                          FirestoreDatabaseService.instance
+                              .addPositiveUuids(); // add uuids to positive uuid cloud database
                           print('done adding positive uuids to firestore');
                         },
                         color: Colors.orange,
@@ -164,17 +176,13 @@ class TestID extends StatelessWidget {
                     ],
                   ),
                 )),
-            CustomListTile(Icons.person, 'About Covid', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutCovid()));
-            }),
-            CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Appointment()));
-            }),
-            CustomListTile(Icons.wifi, 'Heatmap', () {
+            CustomListTile(Icons.account_circle, 'Profile', () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
+            }),
+            CustomListTile(Icons.person, 'About Covid', () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => APIHome()));
             }),
             CustomListTile(Icons.check, 'Self Screening', () {
               Navigator.push(context,
@@ -182,15 +190,11 @@ class TestID extends StatelessWidget {
             }),
             CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
+                  MaterialPageRoute(builder: (context) => BeaconScan()));
             }),
-            CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
+            CustomListTile(Icons.clear, 'Scan Status', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BroadcastTwo()));
-            }),
-            CustomListTile(Icons.clear, 'Positive Scan Message', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PositiveScan()));
+                  MaterialPageRoute(builder: (context) => ContactStatus()));
             }),
             CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
               Navigator.push(

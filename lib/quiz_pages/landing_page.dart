@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:traze/CovidAPI/homepage.dart';
+import 'package:traze/Google/Screens/home.dart';
+import 'package:traze/beacon_broadcast_scan.dart';
 
 import 'package:traze/quiz_pages/quiz_page.dart';
+import 'package:traze/traze_status.dart';
 
-import '../traze_about_covid.dart';
-import '../traze_appointment.dart';
 import '../traze_bluetooth.dart';
-import '../traze_home.dart';
+
 import '../traze_input_test.dart';
 import '../traze_positive_scan.dart';
 import 'package:traze/uuid_scan_2.dart';
@@ -81,17 +83,13 @@ class LandingPage extends StatelessWidget {
                     ],
                   ),
                 )),
-            CustomListTile(Icons.person, 'About Covid', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutCovid()));
-            }),
-            CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => Appointment()));
-            }),
-            CustomListTile(Icons.wifi, 'Heatmap', () {
+            CustomListTile(Icons.account_circle, 'Profile', () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Home()));
+                  context, MaterialPageRoute(builder: (context) => MainPage()));
+            }),
+            CustomListTile(Icons.person, 'About Covid', () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => APIHome()));
             }),
             CustomListTile(Icons.check, 'Self Screening', () {
               Navigator.push(context,
@@ -99,15 +97,11 @@ class LandingPage extends StatelessWidget {
             }),
             CustomListTile(Icons.bluetooth, 'Scan for Devices', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => FlutterBlueApp()));
+                  MaterialPageRoute(builder: (context) => BeaconScan()));
             }),
-            CustomListTile(Icons.airplay_rounded, 'Broadcast', () {
+            CustomListTile(Icons.clear, 'Scan Status', () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BroadcastTwo()));
-            }),
-            CustomListTile(Icons.clear, 'Positive Scan Message', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PositiveScan()));
+                  MaterialPageRoute(builder: (context) => ContactStatus()));
             }),
             CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
               Navigator.push(

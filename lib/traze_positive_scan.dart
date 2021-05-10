@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'package:traze/traze_about_covid.dart';
-import 'package:traze/traze_appointment.dart';
-import 'package:traze/traze_home.dart';
-import 'package:traze/traze_input_test.dart';
 
+import 'package:traze/traze_input_test.dart';
+import 'package:traze/traze_status.dart';
+
+import 'CovidAPI/homepage.dart';
+import 'Google/Screens/home.dart';
 import 'beacon_broadcast_2.dart';
 import 'beacon_broadcast_scan.dart';
 
@@ -52,17 +53,13 @@ class PositiveScan extends StatelessWidget {
                       ],
                     ),
                   )),
+              CustomListTile(Icons.account_circle, 'Profile', () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MainPage()));
+              }),
               CustomListTile(Icons.person, 'About Covid', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AboutCovid()));
-              }),
-              CustomListTile(Icons.account_circle, 'Make an Appointment', () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Appointment()));
-              }),
-              CustomListTile(Icons.wifi, 'Heatmap', () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Home()));
+                    MaterialPageRoute(builder: (context) => APIHome()));
               }),
               CustomListTile(Icons.check, 'Self Screening', () {
                 Navigator.push(context,
@@ -78,7 +75,7 @@ class PositiveScan extends StatelessWidget {
               }),
               CustomListTile(Icons.clear, 'Positive Scan Message', () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => PositiveScan()));
+                    MaterialPageRoute(builder: (context) => ContactStatus()));
               }),
               CustomListTile(Icons.assignment_ind_outlined, 'Your Test ID', () {
                 Navigator.push(

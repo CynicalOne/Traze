@@ -1,60 +1,61 @@
+import 'dart:convert';
+
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:traze/CovidAPI/datasorce.dart';
+import 'package:traze/CovidAPI/pages/countyPage.dart';
+import 'package:traze/CovidAPI/panels/infoPanel.dart';
+import 'package:traze/CovidAPI/panels/mosteffectedcountries.dart';
+import 'package:traze/CovidAPI/panels/worldwidepanel.dart';
+import 'package:http/http.dart' as http;
 import 'package:traze/Google/Screens/home.dart';
+import 'package:traze/beacon_broadcast_2.dart';
+import 'package:traze/beacon_broadcast_scan.dart';
 import 'package:traze/quiz_pages/landing_page.dart';
-import 'dart:io' show Platform;
 
-import 'package:traze/traze_input_test.dart';
+import '../traze_input_test.dart';
+import '../traze_status.dart';
 
-import 'CovidAPI/homepage.dart';
-import 'beacon_broadcast_2.dart';
-import 'beacon_broadcast_scan.dart';
+class APIHome extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
 
-class ContactStatus extends StatelessWidget {
-  Widget Status() {
-    if //change condition to whatever makes it positive
-        (Platform.isAndroid) {
-      return Center(
-        child: new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              'You have been in contact with somebody who has tested positive for Covid 19. Push the button below to make an appointment to get tested.',
-              textAlign: TextAlign.center,
-              style: new TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 25.0,
-              ),
-            ),
-            new IconButton(
-              icon: new Icon(Icons.arrow_right),
-              color: Colors.white,
-              iconSize: 50.0,
-              onPressed: () {},
-            )
-          ],
-        ),
-      );
-    } else if //change condition to whatever makes it negative
-        (Platform.isIOS) {
-      return Container(
-          width: 150.00,
-          padding: EdgeInsets.fromLTRB(40, 40, 40, 40),
-          color: Colors.white,
-          child: Text('You are Negative for covid 19',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, color: Colors.white)));
-    }
+class _HomePageState extends State<APIHome> {
+  Map worldData;
+  fetchWorldWideData() async {
+    http.Response response = await http.get('https://corona.lmao.ninja/v2/all');
+    setState(() {
+      worldData = json.decode(response.body);
+    });
+  }
+
+  List countryData;
+  fetchCountryData() async {
+    http.Response response =
+        await http.get('https://corona.lmao.ninja/v2/countries?sort=cases');
+    setState(() {
+      countryData = json.decode(response.body);
+    });
+  }
+
+  Future fetchData() async {
+    fetchWorldWideData();
+    fetchCountryData();
+    print('fetchData called');
+  }
+
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-      backgroundColor: color(),
-      body: Center(child: Status()),
+    return Scaffold(
       appBar: AppBar(
-        title: Text('Your Contact Status'),
+        title: Text('About Covid'),
         backgroundColor: Colors.deepOrangeAccent,
       ),
       drawer: Drawer(
@@ -118,17 +119,81 @@ class ContactStatus extends StatelessWidget {
           ],
         ),
       ),
-    ));
-  }
-
-  color() {
-    if //change condition to whatever makes it positive
-        (Platform.isAndroid) {
-      return Colors.red;
-    } else if //change condition to whatever makes it negative
-        (Platform.isIOS) {
-      return Colors.blueAccent;
-    }
+      body: RefreshIndicator(
+        onRefresh: fetchData,
+        child: SingleChildScrollView(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Worldwide',
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CountryPage()));
+                    },
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: primaryBlack,
+                            borderRadius: BorderRadius.circular(15)),
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Regional',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+            worldData == null
+                ? CircularProgressIndicator()
+                : WorldwidePanel(
+                    worldData: worldData,
+                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                'Most affected Countries',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            countryData == null
+                ? Container()
+                : MostAffectedPanel(
+                    countryData: countryData,
+                  ),
+            InfoPanel(),
+            SizedBox(
+              height: 20,
+            ),
+            Center(
+                child: Text(
+              'WE ARE TOGETHER IN THE FIGHT',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            )),
+            SizedBox(
+              height: 50,
+            )
+          ],
+        )),
+      ),
+    );
   }
 }
 
